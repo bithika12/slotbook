@@ -8555,11 +8555,14 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   }
 }
 
+.no-box-shadow {
+  box-shadow: none;
+}
+
 body {
-  background: #f6f6f6;
   padding: 0;
   margin: 0;
-  font-family: 'Oxygen', sans-serif;
+  font-family: 'Oxygen',sans-serif;
   font-weight: 300;
 }
 
@@ -8569,6 +8572,11 @@ body {
 
 .title.m-b-md img {
   width: 150px;
+}
+
+nav
+.top-navbar {
+  margin-right: 2rem;
 }
 
 /*# sourceMappingURL=app.min.css.map */
