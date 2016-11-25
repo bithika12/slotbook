@@ -1,9 +1,15 @@
-
-// Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
-
 // Variables
 @import "variables";
-
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+body{
+	background: $body-bg;
+	padding: 0;
+	margin: 0;
+	font-family: 'Oxygen', sans-serif;
+	font-weight: 300;
+}
+.title.m-b-md{
+	margin-top: 100px;
+	img{
+		width: 150px;
+	}
+}
