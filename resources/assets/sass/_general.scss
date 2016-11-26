@@ -8,16 +8,34 @@
 	font-size:3rem !important;
 }
 .margin-top-2x{
-	margin-top: 2rem;
+	margin-top: 2rem !important;
 }
 .margin-top-4x{
-	margin-top: 4rem;
+	margin-top: 4rem !important; 
 }
 .margin-top-x{
-	margin-top: 1rem;
+	margin-top: 1rem !important;
+}
+.margin-bottom-2x{
+	margin-bottom: 2rem !important;
+}
+.margin-bottom-4x{
+	margin-bottom: 4rem !important; 
+}
+.margin-bottom-x{
+	margin-bottom: 1rem !important;
+}
+.border-blue{
+	border: 2px solid $light-blue;
 }
 hr{
 	border: 1px solid $body-bg;
+}
+.border-x{
+	border: 1px solid $border;
+}
+.border-2x{
+	border: 2px solid $border;
 }
 h4.title{
 	font-weight: 300 !important
@@ -28,12 +46,18 @@ h4.title{
 .right{
 	float:right;
 }
-main.container{ 
-	.row{
-		margin-left: auto !important;
-		margin-right: auto !important;
-	}
-	.heading{
-		border-bottom: 1px solid $body-bg;
-	}
+.overflow{
+	overflow: hidden;
+}
+.clear{
+	clear: both;
+}
+.full-width{
+	width: 100%;
+}
+.auto{
+	margin: 0 auto;
+}
+.pointer{
+	cursor: pointer;
 }

@@ -8568,19 +8568,43 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 }
 
 .margin-top-2x {
-  margin-top: 2rem;
+  margin-top: 2rem !important;
 }
 
 .margin-top-4x {
-  margin-top: 4rem;
+  margin-top: 4rem !important;
 }
 
 .margin-top-x {
-  margin-top: 1rem;
+  margin-top: 1rem !important;
+}
+
+.margin-bottom-2x {
+  margin-bottom: 2rem !important;
+}
+
+.margin-bottom-4x {
+  margin-bottom: 4rem !important;
+}
+
+.margin-bottom-x {
+  margin-bottom: 1rem !important;
+}
+
+.border-blue {
+  border: 2px solid #29b6f6;
 }
 
 hr {
   border: 1px solid #f6f6f6;
+}
+
+.border-x {
+  border: 1px solid #eceff1;
+}
+
+.border-2x {
+  border: 2px solid #eceff1;
 }
 
 h4.title {
@@ -8595,13 +8619,24 @@ h4.title {
   float: right;
 }
 
-main.container .row {
-  margin-left: auto !important;
-  margin-right: auto !important;
+.overflow {
+  overflow: hidden;
 }
 
-main.container .heading {
-  border-bottom: 1px solid #f6f6f6;
+.clear {
+  clear: both;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.auto {
+  margin: 0 auto;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 body {
@@ -8613,6 +8648,15 @@ body {
 main.container {
   width: 90%;
   margin-top: 2rem;
+}
+
+main.container .row {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+main.container .heading {
+  border-bottom: 1px solid #f6f6f6;
 }
 
 .title.m-b-md {
@@ -8635,12 +8679,32 @@ nav .top-navbar a {
   padding: 20px 40px;
 }
 
-.view-slots .row {
-  margin-bottom: 0 !important;
+.view-slots h5.title {
+  margin-top: 0;
 }
 
-.view-slots h5.title {
+.view-slots .hero--title {
   margin: 15px 20px;
+  margin-top: 0;
+}
+
+.view-slots .slot-wrapper {
+  width: 90%;
+}
+
+.view-slots .slot-wrapper .slot-info {
+  width: 18%;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.view-slots .slot-wrapper .slot-info .slot-box {
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.view-slots .slot-wrapper .slot-details {
+  border-radius: 10px 10px 0 0;
 }
 
 /*# sourceMappingURL=app.min.css.map */

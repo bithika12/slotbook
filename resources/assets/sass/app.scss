@@ -9,6 +9,13 @@ body{
 main.container{
 	width: 90%;
 	margin-top: 2rem;
+	.row{
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+	.heading{
+		border-bottom: 1px solid $body-bg;
+	}
 }
 .title.m-b-md{
 	margin-top: 100px;
@@ -24,12 +31,29 @@ nav .top-navbar{
 }
 
 //related to view slots
+
 .view-slots{
 	padding: 20px 40px;
-	.row{
-		margin-bottom: 0 !important;
-	}
 	h5.title{
+		margin-top: 0;
+	}
+	.hero--title{
 		margin: 15px 20px;
+		margin-top:0;
+	}
+	.slot-wrapper{
+		width: 90%;
+		.slot-info{
+			width: 18%;
+			margin-left: 1%;
+			margin-right: 1%;
+			.slot-box{
+				padding: 0;
+				margin: 0.5rem 0;
+			}
+		}
+		.slot-details{
+			border-radius: 10px 10px 0 0;
+		}
 	}
 }
