@@ -26,7 +26,10 @@
 	margin-bottom: 1rem !important;
 }
 .border-blue{
-	border: 2px solid $light-blue;
+	border: 3px solid $light-blue;
+}
+.orange-border{
+	border: 3px solid $orange !important;
 }
 hr{
 	border: 1px solid $body-bg;
@@ -60,4 +63,34 @@ h4.title{
 }
 .pointer{
 	cursor: pointer;
+}
+.absolute{
+	position: absolute;
+}
+.relative{
+	position: relative;
+}
+.padding-x{
+	padding: 1rem;
+}
+.float{
+	float: none !important;
+}
+.card-space{
+	padding: 20px 40px !important;
+}
+.margin-top-off{
+	margin-top: 0 !important;
+}
+nav i, 
+nav [class^="mdi-"], 
+nav [class*="mdi-"], 
+nav i.material-icons{
+	font-size: 50px;
+}
+.margin-left-x{
+	margin-left: 1rem !important;
+}
+.margin-left-0-5x{
+	margin-left: 0.5rem !important;
 }

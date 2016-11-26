@@ -8,6 +8,7 @@ body{
 }
 main.container{
 	width: 90%;
+	padding: 20px 40px;
 	margin-top: 2rem;
 	.row{
 		margin-left: auto !important;
@@ -18,22 +19,24 @@ main.container{
 	}
 }
 .title.m-b-md{
-	margin-top: 100px;
+	margin-top: 70px;
 	img{
 		width: 150px;
 	}
 }
-nav .top-navbar{
-	margin-right: 2rem;
-	a{
-		text-transform: uppercase;
+nav{
+	.brand-logo{
+		margin-left: 3rem;
+	} 
+	.top-navbar{
+		margin-right: 2rem;
+		a{
+			text-transform: uppercase;
+		}
 	}
 }
-
 //related to view slots
-
-.view-slots{
-	padding: 20px 40px;
+.view-slot{
 	h5.title{
 		margin-top: 0;
 	}
@@ -50,10 +53,56 @@ nav .top-navbar{
 			.slot-box{
 				padding: 0;
 				margin: 0.5rem 0;
+				&:hover{
+					color: black;
+				}
 			}
 		}
 		.slot-details{
 			border-radius: 10px 10px 0 0;
+			padding: 20px 40px;
+			.slot-box{
+				padding: 10px 0;
+				i.prior-check{
+					margin-left: 100px;
+					margin-top: -5px;
+				}
+			}
+			.left-origin{
+				margin-left: 6.3% !important;
+			}
 		}
 	}
+}
+
+//list slot
+.list-slot{
+	.mod-action{
+		padding: 5px 10px;
+		font-weight: bolder;
+		font-size: 12px;
+		i{
+			top: 3px;
+		}
+	}
+}
+
+//datepicker,timepicker style
+.wickedpicker__title{
+	color: #fff;
+}
+.picker__date-display,
+.wickedpicker__title{
+	background-color: $blue;
+}
+.picker__weekday-display,
+.picker__day--selected, 
+.picker__day--selected:hover, 
+.picker--focused .picker__day--selected{
+	background-color: $blue-dark;
+}
+.picker__close, 
+.picker__today,
+.picker__day.picker__day--today{
+	color: $blue;
 }

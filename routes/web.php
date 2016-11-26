@@ -12,12 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-Route::get('/task/new', 'TaskController@index');
-Route::get('/slot/view', 'SlotController@viewSlots');
-Route::post('/task/save', 'TaskController@saveTask');
+Route::group(['middleware' => ['auth']], function () {
+	Route::get('/home', 'HomeController@index');
+	Route::get('/slot/new', 'SlotController@index');
+	Route::get('/slot/list', 'SlotController@showSlotList');
+	Route::post('/slot/save', 'SlotController@saveSlot');
+});
+
+Route::get('/slot/view', 'SlotController@viewSlot');
