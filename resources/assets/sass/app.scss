@@ -5,7 +5,10 @@ body{
 	padding: 0;
 	margin: 0;
 	font-family: 'Oxygen',sans-serif;
-	font-weight: 300;
+}
+main.container{
+	width: 90%;
+	margin-top: 2rem;
 }
 .title.m-b-md{
 	margin-top: 100px;
@@ -13,7 +16,20 @@ body{
 		width: 150px;
 	}
 }
-nav
-	.top-navbar{
-		margin-right: 2rem;
+nav .top-navbar{
+	margin-right: 2rem;
+	a{
+		text-transform: uppercase;
+	}
+}
+
+//related to view slots
+.view-slots{
+	padding: 20px 40px;
+	.row{
+		margin-bottom: 0 !important;
+	}
+	h5.title{
+		margin: 15px 20px;
+	}
 }

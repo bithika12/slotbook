@@ -8559,11 +8559,60 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   box-shadow: none;
 }
 
+.size-2x {
+  font-size: 2rem !important;
+}
+
+.size-3x {
+  font-size: 3rem !important;
+}
+
+.margin-top-2x {
+  margin-top: 2rem;
+}
+
+.margin-top-4x {
+  margin-top: 4rem;
+}
+
+.margin-top-x {
+  margin-top: 1rem;
+}
+
+hr {
+  border: 1px solid #f6f6f6;
+}
+
+h4.title {
+  font-weight: 300 !important;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+main.container .row {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+main.container .heading {
+  border-bottom: 1px solid #f6f6f6;
+}
+
 body {
   padding: 0;
   margin: 0;
   font-family: 'Oxygen',sans-serif;
-  font-weight: 300;
+}
+
+main.container {
+  width: 90%;
+  margin-top: 2rem;
 }
 
 .title.m-b-md {
@@ -8574,9 +8623,24 @@ body {
   width: 150px;
 }
 
-nav
-.top-navbar {
+nav .top-navbar {
   margin-right: 2rem;
+}
+
+nav .top-navbar a {
+  text-transform: uppercase;
+}
+
+.view-slots {
+  padding: 20px 40px;
+}
+
+.view-slots .row {
+  margin-bottom: 0 !important;
+}
+
+.view-slots h5.title {
+  margin: 15px 20px;
 }
 
 /*# sourceMappingURL=app.min.css.map */

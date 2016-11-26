@@ -19,5 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/task/new', 'TaskController@index');
-Route::get('/task/view', 'TaskController@viewTasks');
+Route::get('/slot/view', 'SlotController@viewSlots');
 Route::post('/task/save', 'TaskController@saveTask');
