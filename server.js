@@ -1,5 +1,5 @@
-var socket  = require( './public/node_modules/socket.io' );
-var express = require('./public/node_modules/express');
+var socket  = require( './node_modules/socket.io' );
+var express = require('./node_modules/express');
 var app     = express();
 var server  = require('http').createServer(app);
 var io      = socket.listen( server );

@@ -16,7 +16,7 @@
 		</div>
 		<div class="row">
 			<div class="grey-text left-align margin-top-4x overflow">
-				<a class="btn-floating btn-large waves-effect waves-light blue lighten-1 left">
+				<a class="btn-floating btn-large waves-effect waves-light grey lighten-1 left">
 					<i class="small material-icons clear full-width">today</i>
 				</a>
 				<div class="left hero--title">
@@ -26,45 +26,19 @@
 			</div>
 
 			<div class="grid calendar--item center-align overflow row slot-wrapper auto margin-top-2x margin-bottom-4x">
-				<div class="col s12 m2 border-x slot-info pointer">
-					<div class="card-panel no-box-shadow white blue-grey-text text-lighten-3 slot-box">
-						<i class="small material-icons clear full-width">today</i>
-						<span class="blue-grey-text text-lighten-1 size-x">25th
-						</span>
-					</div>
-				</div>
 
-				<div class="col s12 m2 border-x slot-info pointer">
-					<div class="card-panel no-box-shadow white blue-grey-text text-lighten-3 slot-box">
-						<i class="small material-icons clear full-width">today</i>
-						<span class="blue-grey-text text-lighten-1 size-x">25th
-						</span>
-					</div>
-				</div>
-
-				<div class="col s12 m2 slot-info blue lighten-1 ">
-					<div class="card-panel no-box-shadow white-text blue lighten-1 slot-box">
-						<i class="small material-icons clear full-width">today</i>
-						<span class="white-text size-x">26th
-						</span>
-					</div>
-				</div>
-
-				<div class="col s12 m2 border-x slot-info pointer">
-					<div class="card-panel no-box-shadow white blue-grey-text text-lighten-3 slot-box">
-						<i class="small material-icons clear full-width">today</i>
-						<span class="blue-grey-text text-lighten-1  size-x">27th
-						</span>
-					</div>
-				</div>
-
-				<div class="col s12 m2 border-x slot-info pointer">
-					<div class="card-panel no-box-shadow white blue-grey-text text-lighten-3 slot-box">
-						<i class="small material-icons clear full-width">today</i>
-						<span class="blue-grey-text text-lighten-1 size-x">28th
-						</span>
-					</div>
-				</div>
+				@foreach($calendar_dates as $key)
+					<a class="col s12 m2 border-x slot-info @if($key['status']) blue lighten-1 @else white pointer @endif" 
+						data-value="{{$key['date_value']}}">
+						<div class="card-panel no-box-shadow @if($key['status']) white-text blue lighten-1 @else white blue-grey-text text-lighten-3 @endif slot-box">
+							<i class="small material-icons clear full-width">today</i>
+							<span class="@if($key['status']) white-text @else blue-grey-text @endif size-x">
+								{{ $key['wk_day'] }} </span>
+							<br/>
+							<span class="@if($key['status']) white-text @else blue-grey-text @endif size-x">{{ $key['day'] }}</span>
+						</div>
+					</a>
+				@endforeach
 				
 				<!--Display slots-->
 				<div class="col s12 m12 border-x slot-details white margin-top-2x">
@@ -75,30 +49,36 @@
 						</i>
 						<i class="medium material-icons blue-text text-lighten-1">query_builder</i>
 						<p class="slot-time-range blue-grey-text">
-							<b>Duration - 45 minutes</b><br/>
-							Technology Department
-							<br/>
 							<span class="black-text">12:00 AM - 02:00 PM</span>
+							<br/>
+							<span class="grey-text text-darken-3">
+							45 minutes</span>
+							<br/>
+							Technology Department
 						</p>
 					</div>
 
 					<div class="card-panel col s12 m3 offset-m1 left-origin border-blue white no-box-shadow slot-box">
 						<i class="medium material-icons blue-text text-lighten-1">query_builder</i>
 						<p class="slot-time-range blue-grey-text">
-							<b>Duration - 45 minutes</b><br/>
-							Diya Project Department
+							<span class="black-text">12:00 AM - 02:00 PM</span>
 							<br/>
-							<span class="black-text">03:00 AM - 04:00 PM</span>
+							<span class="grey-text text-darken-3">
+							45 minutes</span>
+							<br/>
+							Technology Department
 						</p>
 					</div>
 
 					<div class="card-panel col s12 m3 offset-m1 border-blue white no-box-shadow slot-box left-origin">
 						<i class="medium material-icons blue-text text-lighten-1">query_builder</i>
 						<p class="slot-time-range blue-grey-text">
-							<b>Duration - 45 minutes</b><br/>
-							SAVE Project Department
+							<span class="black-text">12:00 AM - 02:00 PM</span>
 							<br/>
-							<span class="black-text">04:00 AM - 05:00 PM</span>
+							<span class="grey-text text-darken-3">
+							45 minutes</span>
+							<br/>
+							Technology Department
 						</p>
 					</div>
 

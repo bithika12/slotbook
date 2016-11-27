@@ -28,6 +28,18 @@ nav{
 	.brand-logo{
 		margin-left: 3rem;
 	} 
+	span.notify{
+		width: 20px;
+		height: 20px;
+		right: 165px;
+		top: 20px;
+		i{
+			font-size: 12px;
+			top: -22px;
+			right: -6px;
+			font-style: normal;
+		}
+	}
 	.top-navbar{
 		margin-right: 2rem;
 		a{

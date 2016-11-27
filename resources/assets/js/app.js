@@ -8,4 +8,7 @@ $(document).ready(function(){
 
 	//timepicker call
   	$('.timepicker').wickedpicker();
+
+  	//Event Calendar
+  	
 });

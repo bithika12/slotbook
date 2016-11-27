@@ -5,9 +5,12 @@
       </a>
       <ul class="right hide-on-med-and-down top-navbar">
        @if(Auth::check())
+       <span class="notify red accent-1 radius absolute">
+        <i class="count radius relative"><b>5</b></i>
+       </span>
        <li class="center-align">
         <a href="#!">
-          <i class="size-2x large material-icons blue-text text-lighten-1">language</i>
+          <i class="size-2x large material-icons blue-text text-lighten-1">add_alert</i>
         </a>
       </li>
       <li class="center-align">

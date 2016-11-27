@@ -3,7 +3,7 @@
 @section('content')
 <main class="container book-slot margin-bottom-4x center-align">
     <div class="title m-b-md">
-        <img src="{{URL::asset('images/logo.png')}}"/>
+        <img class="box-shadow radius" src="{{URL::asset('images/logo.png')}}"/>
         <h3 class="center-align">Welcome to Slot Booking App</h3>
         <hr/>
         <h6 class="grey-text text-darken-1">

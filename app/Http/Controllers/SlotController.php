@@ -8,61 +8,68 @@ use Input;
 use Validator;
 use Redirect;
 
-class SlotController extends Controller
-{
+class SlotController extends Controller {
 
-    /*
-    *   To display Slot Creation Form
-    */
-    public function index(){
-        
-    	return view('slots.new');
-    }
+	/*
+	 *   To display Slot Creation Form
+	 */
+	public function index() {
 
-    /*
-    *   To display List of Slots
-    */
-    public function viewSlot(){
-    	
-    	return view('slots.view');
-    }
+		return view('slots.new');
+	}
 
-    /*
-    *   To save a new slot
-    */
-    public function saveSlot(Request $request){
+	/*
+	 *   To display List of Slots
+	 */
+	public function viewSlot() {
 
-        $title = trim($request->input('title'));
-        $desc = trim($request->input('desc'));
-
-    	$file = array('file' => Input::file('file'));
-        $file_size = filesize(Input::file('file'));
-
-        $task_data = array(
-            "title"=>$title,
-            "description"=>$desc,
-            "data"=>$file,
-            "created_by"=> Auth::user()->id,
-            "updated_at"=> strtotime(date("Y-m-d H:i:s")),
-        );
-        if (!is_null($file)) {
-            if($size > 2097152){
-                return Redirect::to('task/new')->with('danger','Uploaded file size exceeds');
+		$calendar_dates = array();
+		for ($i = 2; $i >= -2; $i--) {
+			$today = date('D jS F Y');
+			$previous_day = date('l jS F Y', strtotime(str_replace('-', '/', $today) . "-" . $i . " days"));
+            $calendar_dates[$i]['wk_day'] = date('D', strtotime($previous_day));
+            $calendar_dates[$i]['day'] = date('F j, Y', strtotime($previous_day));
+            $calendar_dates[$i]['date_value'] = date('Y-m-d', strtotime(str_replace('-', '/', $today) . "+" . $i . " days"));
+            
+            if($calendar_dates[$i]['wk_day'] == date('D')){
+                $calendar_dates[$i]['status'] = TRUE;
             }
-        }
-        else{
-            DB::table('tasks')->insert(array($task_data));
-            return Redirect::to('task/view')->with('success','Task Created Successfully');
-        }
+            else{
+                $calendar_dates[$i]['status'] = FALSE;
+            }
+		}
+		return view('slots.view',compact('calendar_dates',$calendar_dates));
+	}
 
-    }
+	/*
+	 *   To save a new slot
+	 */
+	public function saveSlot(Request $request) {
 
+		$title = trim($request -> input('title'));
+		$desc = trim($request -> input('desc'));
 
-    /*
-    *   To show a list of slots
-    */
-    public function showSlotList(){
+		$file = array('file' => Input::file('file'));
+		$file_size = filesize(Input::file('file'));
 
-        return view('slots.list');
-    }
+		$task_data = array("title" => $title, "description" => $desc, "data" => $file, "created_by" => Auth::user() -> id, "updated_at" => strtotime(date("Y-m-d H:i:s")), );
+		if (!is_null($file)) {
+			if ($size > 2097152) {
+				return Redirect::to('task/new') -> with('danger', 'Uploaded file size exceeds');
+			}
+		} else {
+			DB::table('tasks') -> insert(array($task_data));
+			return Redirect::to('task/view') -> with('success', 'Task Created Successfully');
+		}
+
+	}
+
+	/*
+	 *   To show a list of slots
+	 */
+	public function showSlotList() {
+
+		return view('slots.list');
+	}
+
 }

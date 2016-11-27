@@ -4,6 +4,9 @@
 .size-2x{
 	font-size: 2rem !important;
 }
+.radius{
+	border-radius: 50%;
+}
 .size-3x{
 	font-size:3rem !important;
 }
@@ -93,4 +96,7 @@ nav i.material-icons{
 }
 .margin-left-0-5x{
 	margin-left: 0.5rem !important;
+}
+.box-shadow{
+	box-shadow: 13px 13px 50px -10px $off-dark;
 }
