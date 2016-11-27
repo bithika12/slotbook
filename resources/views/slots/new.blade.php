@@ -36,7 +36,7 @@
         <div class="row">
           <div class="input-field col s12 margin-top-off margin-bottom-2x">
             <input type="checkbox" id="slot-prior" name="slot-prior"/>
-            <label for="slot-prior" class="blue-text text-darken-5">
+            <label for="slot-prior" class="red-text text-darken-1">
               Important? Mark for prior basis (Admin Approval Required).
               </label>
           </div>

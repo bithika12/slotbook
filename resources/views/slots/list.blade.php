@@ -10,9 +10,13 @@
 			<li class="collection-item avatar">
 				<i class="material-icons circle grey lighten-1">today</i>
 				<span class="title black-text slot-details">26th October | 08:00 PM - 12:00 AM</span>
+				
+				<!--Only for upcoming request-->
 				<a class="red-text text-accent-3 mod-action" href="#!">
-					<i class="material-icons tiny relative">close</i> Cancel Request
+					<i class="material-icons tiny relative">close</i> Cancel Slot Request
 				</a>
+
+
 				<p class="blue-grey-text text-darken-4">Material icons are beautifully crafted, delightful, and easy to use in your web
 					<br><br/>
 					<a class="blue accent-3 white-text mod-action" href="#!">
@@ -31,9 +35,14 @@
 			</li>
 			<li class="collection-item avatar">
 				<i class="material-icons circle grey lighten-1">today</i>
-				<span class="title black-text slot-details">26th October | 08:00 PM - 12:00 AM 
-					<i class="relative material-icons green-text text-accent-4">done</i>
-				</span>
+				<span class="title black-text slot-details">26th October | 08:00 PM - 12:00 AM </span>
+
+				<!--Only for admin role-->
+				<a class="orange-text text-accent-5 mod-action" href="#!">
+					<i class="material-icons tiny relative">warning</i> Not Approved yet
+				</a>
+
+
 				<p class="blue-grey-text text-darken-4">Material icons are beautifully crafted, delightful, and easy to use in your web
 					<br><br/>
 					<a class="blue accent-3 white-text mod-action" href="#!">
