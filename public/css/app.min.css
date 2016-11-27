@@ -8779,6 +8779,26 @@ nav .top-navbar a {
   top: 3px;
 }
 
+.list-slot .avatar .slot-details i {
+  top: 5px;
+  left: 5px;
+}
+
+.list-slot .slot-add {
+  bottom: 3rem;
+  right: 4rem;
+}
+
+.list-slot .slot-add a {
+  height: 70px;
+  width: 70px;
+}
+
+.list-slot .slot-add a i {
+  font-size: 2.5em;
+  line-height: 70px;
+}
+
 .wickedpicker__title {
   color: #fff;
 }
