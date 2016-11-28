@@ -38,8 +38,9 @@
 				<span class="title black-text slot-details">26th October | 08:00 PM - 12:00 AM </span>
 
 				<!--Only for admin role-->
-				<a class="orange-text text-accent-5 mod-action" href="#!">
-					<i class="material-icons tiny relative">warning</i> Not Approved yet
+				<a class="orange-text text-darken-2 mod-action" href="#!">
+					<i class="material-icons tiny relative">warning</i>
+					Need Approval
 				</a>
 
 
@@ -99,7 +100,7 @@
 		</ul>
 	</div>
 	<div class="fixed-action-btn horizontal slot-add">
-		<a class="btn-floating btn-large amber accent-3 z-depth-3" href="{{URL('slot/new')}}">
+		<a class="btn-floating btn-large amber z-depth-3" href="{{URL('slot/new')}}">
 			<i class="large material-icons">add</i>
 		</a>
 	</div>

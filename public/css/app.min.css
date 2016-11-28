@@ -8664,7 +8664,7 @@ h4.title {
 }
 
 .card-space {
-  padding: 20px 40px !important;
+  padding: 10px 30px !important;
 }
 
 .margin-top-off {
@@ -8850,6 +8850,11 @@ nav .top-navbar a {
 
 .book-slot p.range-field {
   margin-top: 2.8rem;
+}
+
+.book-slot span.js-irs-0 {
+  margin-top: 2rem;
+  margin-left: 3rem;
 }
 
 .list-slot .mod-action {

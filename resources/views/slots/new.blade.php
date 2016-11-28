@@ -10,7 +10,7 @@
 			<form name="slot-book" role="form" action="{{ url('/slot/save') }}" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
 				<div class="row">
-					<div class="input-field col s6">
+					<div class="input-field col s12">
 						<i class="material-icons prefix grey-text text-lighten-2">today</i>
 						<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="{{date("F j, Y") }}">
 						<label for="slot_date">Select Date</label>
@@ -20,12 +20,12 @@
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
 						<input type="text" id="slot_from_time" name="slot_from_time" class="timepicker"/>
-						<label for="slot_from_time">Time Range From</label>
+						<label for="slot_from_time">Select Time From</label>
 					</div>
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
 						<input type="text" id="slot_to_time" name="slot_to_time" class="timepicker"/>
-						<label for="slot_to_time">Time Range To</label>
+						<label for="slot_to_time">Select Time To</label>
 					</div>
 
 				</div>
@@ -37,7 +37,9 @@
 						<label for="description">Give A Description</label>
 					</div>
 				
-					<div class="input-field col s6 margin-top-off">
+					<div class="input-field col s6">
+						<i class="material-icons prefix grey-text text-lighten-2">person_pin</i>
+						<label for="description">Possible Attendees (Approx no.)</label>
 						<input type="text" id="join-range" name="join-range" value="" />
 					</div>
 				</div>
@@ -45,11 +47,11 @@
 				<div class="row">
 					<div class="input-field col s12 margin-top-off margin-bottom-2x">
 						<input type="checkbox" id="slot-prior" name="slot-prior"/>
-						<label for="slot-prior" class="red-text text-darken-1"> Important? Mark for prior basis (Admin Approval Required). </label>
+						<label for="slot-prior" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
 					</div>
 				</div>
 
-				<button class="waves-effect waves-light btn-large green accent-4 ">
+				<button class="waves-effect waves-light btn-large green accent-4 margin-bottom-x">
 					<i class="material-icons left">input</i>
 					Request Booking
 				</button>

@@ -10,6 +10,7 @@ $(document).ready(function() {
 	var options = {
 		//now: 'hh::mm', //hh:mm 24 hour format only, defaults to current time
 		twentyFour : false //Display 24 hour format, defaults to false
+		title : 'Choose Slot Time'
 	};
 	$('.timepicker').wickedpicker(options);
 
@@ -17,24 +18,13 @@ $(document).ready(function() {
 	converttimeformat(time);
 
 	$("#join-range").ionRangeSlider({
-    type: "single",
-    min: 0,
-    max: 100,
-    from: 50,
-    keyboard: true,
-    onStart: function (data) {
-        console.log("onStart");
-    },
-    onChange: function (data) {
-        console.log("onChange");
-    },
-    onFinish: function (data) {
-        console.log("onFinish");
-    },
-    onUpdate: function (data) {
-        console.log("onUpdate");
-    }
-});
+	    type: "single",
+	    min: 0,
+	    max: 20,
+	    grid: true,
+	    from: 2,
+	    keyboard: true
+	});
 });
 
 function converttimeformat(time) {
