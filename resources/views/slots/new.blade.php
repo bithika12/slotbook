@@ -10,17 +10,30 @@
       <form name="slot-book" role="form" action="{{URL('slot/save')}}" method="post" enctype="multipart/form-data">
         {{CSRF_FIELD()}}
         <div class="row">
-          
+
           <div class="input-field col s6">
             <i class="material-icons prefix grey-text text-lighten-2">today</i>
-            <input id="slot_date" type="date" class="datepicker pointer">
+            <input id="slot_date" type="date" name="slot_date" class="datepicker pointer">
             <label for="slot_date">Select Date</label>
           </div>
 
           <div class="input-field col s6">
+            <i class="material-icons prefix grey-text text-lighten-2">rate_review</i>
+            <input type="text" id="approx_joinee" name="approx_joinee" class="materialize-text"/>
+            <label for="approx_joinee">Approx Joinee</label>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
             <i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
-            <input type="text" id="slot_time" name="timepicker" class="timepicker"/>
-            <label for="slot_time">Time Range</label>
+            <input type="text" id="slot_from_time" name="slot_from_time" class="timepicker"/>
+            <label for="slot_from_time">Time Range From</label>
+          </div>
+          <div class="input-field col s6">
+            <i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
+            <input type="text" id="slot_to_time" name="slot_to_time" class="timepicker"/>
+            <label for="slot_to_time">Time Range To</label>
           </div>
 
         </div>
@@ -28,7 +41,7 @@
         <div class="row">
           <div class="input-field col s12">
             <i class="material-icons prefix grey-text text-lighten-2">rate_review</i>
-            <textarea id="icon_prefix2" class="materialize-textarea" length="50"></textarea>
+            <textarea id="icon_prefix2" name="desc" class="materialize-textarea" length="50"></textarea>
             <label for="icon_prefix2">Give A Description</label>
           </div>
         </div>
