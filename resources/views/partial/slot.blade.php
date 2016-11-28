@@ -6,8 +6,8 @@
     $("#request_btn").click(function(e){
 
       e.preventDefault();
-      var get_cal_from_time = converttimeformat($("#slot_from_time").val());
-      var get_cal_to_time = converttimeformat($("#slot_to_time").val());
+      $get_cal_from_time = converttimeformat($("#slot_from_time").val());
+      $get_cal_to_time = converttimeformat($("#slot_to_time").val());
       //console.log(get_cal_from_time,get_cal_to_time);
       $.ajax({
         type: "POST",
@@ -15,7 +15,7 @@
         data: {
           '_token': $("input[name='_token']").val(),
           'slot_date' : $("input[name='slot_date']").val(),
-          'slot_from_time' : get_cal_from_time,
+          'slot_from_time' : $get_cal_from_time,
           'slot_to_time' : $get_cal_to_time,
           'description' : $("input[name='description']").val(),
           'prior_status' : $("input[name='prior_status']").val(),
@@ -23,7 +23,12 @@
         },
         dataType : "json",
         success : function(json) {
-          alert(json);
+          if(!json){
+          	alert('Sorry');
+          }
+          else{
+          	location.reload();
+          }         
         }
       });
     });

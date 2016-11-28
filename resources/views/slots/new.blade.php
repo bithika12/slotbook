@@ -46,8 +46,8 @@
 				
 				<div class="row">
 					<div class="input-field col s12 margin-top-off margin-bottom-2x">
-						<input type="checkbox" id="prior-status" name="prior-status"/>
-						<label for="prior-status" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
+						<input type="checkbox" id="prior_status" name="prior_status"/>
+						<label for="prior_status" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
 					</div>
 				</div>
 
