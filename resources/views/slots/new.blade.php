@@ -38,10 +38,7 @@
 					</div>
 				
 					<div class="input-field col s6 margin-top-off">
-						<label for="slot_date">Number of joinees</label>
-						<p class="range-field margin-top-3x">
-							<input type="range" id="no_of_joinee" name="no_of_joinee" min="0" max="20" />
-						</p>
+						<input type="text" id="join-range" name="join-range" value="" />
 					</div>
 				</div>
 				
