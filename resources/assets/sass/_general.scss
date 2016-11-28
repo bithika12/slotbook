@@ -85,6 +85,9 @@ h4.title{
 .margin-top-off{
 	margin-top: 0 !important;
 }
+.margin-bottom-off{
+  margin-bottom: 0 !important;
+}
 nav i, 
 nav [class^="mdi-"], 
 nav [class*="mdi-"], 
@@ -99,4 +102,51 @@ nav i.material-icons{
 }
 .box-shadow{
 	box-shadow: 13px 13px 50px -10px $off-dark;
+}
+[type=checkbox]:checked+label:before{
+  border-right: 2px solid $green;
+  border-bottom: 2px solid $green;
+}
+[type=radio].with-gap:checked+label:after,
+[type=radio].with-gap:checked+label:before,
+[type=radio]:checked+label:after,
+[type=radio].with-gap:checked + label:after,
+[type=radio].with-gap:checked + label:before,
+[type=radio]:checked + label:after{
+  border: 2px solid $blue;
+  width: 20px;
+  height: 20px;
+}
+[type=radio].with-gap:checked+label:after,
+[type=radio]:checked+label:after,
+input[type=range]+.thumb{
+  background-color: $blue;
+}
+.input-field label{
+  color: $off-dark;
+}
+.input-field label.active,
+.input-field i.active,
+input:not([type]):focus:not([readonly]),
+input[type=text]:focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label,
+input[type=password]:focus:not([readonly]) + label, 
+input[type=email]:focus:not([readonly]) + label, 
+input[type=url]:focus:not([readonly]) + label, 
+input[type=time]:focus:not([readonly]) + label, 
+input[type=date]:focus:not([readonly]) + label, 
+input[type=datetime]:focus:not([readonly]) + label, 
+input[type=datetime-local]:focus:not([readonly]) + label, 
+input[type=tel]:focus:not([readonly]) + label, 
+input[type=number]:focus:not([readonly]) + label, 
+input[type=search]:focus:not([readonly]) + label,
+input:not([type]):focus:not([readonly]) + label{
+   color: $blue;
+}
+input[type=text]:focus:not([readonly]),
+input:not([type]):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]){
+  color: $off-dark;
+  border-bottom: 1px solid $blue;
+  box-shadow: 0 1px 0 0 $blue;
 }
