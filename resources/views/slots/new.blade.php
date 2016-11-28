@@ -7,7 +7,7 @@
 			<div class="heading row">
 				<h3 class="left-align title left col-s8 grey-text text-darken-2">Book A Slot</h3>
 			</div>
-			<form name="slot-book" role="form" action="{{URL('slot/save')}}" method="post" enctype="multipart/form-data">
+			<form name="slot-book" role="form" action="" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
 				<div class="row">
 					<div class="input-field col s6">
@@ -40,7 +40,7 @@
 					<div class="input-field col s6 margin-top-off">
 						<label for="slot_date">Number of joinees</label>
 						<p class="range-field margin-top-3x">
-							<input type="range" id="test5" min="0" max="20" />
+							<input type="range" id="no_of_joinee" name="no_of_joinee" min="0" max="20" />
 						</p>
 					</div>
 				</div>
@@ -52,7 +52,7 @@
 					</div>
 				</div>
 
-				<button class="waves-effect waves-light btn-large green accent-4 ">
+				<button class="waves-effect waves-light btn-large green accent-4 "id="request_btn">
 					<i class="material-icons left">input</i>
 					Request Booking
 				</button>
@@ -61,4 +61,5 @@
 
 	</div>
 </main>
+@include('partial.slot')
 @endsection

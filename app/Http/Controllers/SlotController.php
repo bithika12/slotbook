@@ -45,46 +45,34 @@ class SlotController extends Controller {
     *   To save a new slot
     */
     public function saveSlot(Request $request){
-
-        /*$title = trim($request->input('title'));
-        $desc = trim($request->input('desc'));
-
-    	$file = array('file' => Input::file('file'));
-        $file_size = filesize(Input::file('file'));
-
-        $task_data = array(
-            "title"=>$title,
-            "description"=>$desc,
-            "data"=>$file,
-            "created_by"=> Auth::user()->id,
-            "updated_at"=> strtotime(date("Y-m-d H:i:s")),
-        );
-        if (!is_null($file)) {
-            if($size > 2097152){
-                return Redirect::to('task/new')->with('danger','Uploaded file size exceeds');
-            }
-        }
-        else{
-            DB::table('booking')->insert(array($task_data));
-            return Redirect::to('task/view')->with('success','Task Created Successfully');
-        }*/
         $slot_date = trim($request->input('slot_date'));
-        $approx_joinee = trim($request->input('approx_joinee'));
+        $slot_datemod=date('Y-m-d', strtotime($slot_date));
+        $no_of_joinee = trim($request->input('no_of_joinee'));
         $slot_from_time =  trim($request->input('slot_from_time'));
         $slot_to_time =  trim($request->input('slot_to_time'));
         $desc =  trim($request->input('desc'));
 
-        $booking_data = array(
-            "slot_date"=>'2016-11-27',
-            "no_of_joinee"=>$approx_joinee,
-            "slot_fromtime"=>'10:42:00',
-            "slot_totime"=>'11:42:00',
+         $booking_data = array(
+            "slot_date"=> $slot_datemod,
+            "no_of_joinee"=> $no_of_joinee,
+            "slot_fromtime"=> $slot_from_time,
+            "slot_totime"=> $slot_to_time,
             "booking_desc"=>$desc,
-            "user_id"=> Auth::user()->id,
-            //"updated_at"=> strtotime(date("Y-m-d H:i:s")),
+            "created_by"=> Auth::user()->id,
+           
         );
-        DB::table('booking')->insert(array($booking_data));
-        return Redirect::to('slot/view')->with('success','Slot Booked Successfully');
+        //DB::table('slots')->insert(array($booking_data));
+		
+	   $slot_id = DB::table('slots')->insertGetId($booking_data);
+	   
+	     $trans_data = array(
+            "booking_id"=> $slot_id,
+            "created_by"=> Auth::user()->id,
+           
+           
+        );
+        DB::table('slots_trans')->insert(array($trans_data));
+        //return Redirect::to('slot/view')->with('success','Slot Booked Successfully');
     }
 
 	/*

@@ -32,5 +32,5 @@ function converttimeformat(time) {
 		hours = "0" + hours;
 	if (mnts < 10)
 		minutes = "0" + minutes;
-	console.log(hours + ":" + minutes);
+	//console.log(hours + ":" + minutes);
 }
