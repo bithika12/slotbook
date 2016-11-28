@@ -37,41 +37,34 @@ class SlotController extends Controller {
             else{
                 $calendar_dates[$i]['status'] = FALSE;
             }
-		}
-		return view('slots.view',compact('calendar_dates',$calendar_dates));
-	}
+        }
+        return view('slots.view',compact('calendar_dates',$calendar_dates));
+    }
 
 	/*
     *   To save a new slot
     */
     public function saveSlot(Request $request){
-        $slot_date = trim($request->input('slot_date'));
-        $slot_datemod=date('Y-m-d', strtotime($slot_date));
-        $no_of_joinee = trim($request->input('no_of_joinee'));
-        $slot_from_time =  trim($request->input('slot_from_time'));
-        $slot_to_time =  trim($request->input('slot_to_time'));
-        $desc =  trim($request->input('desc'));
 
-         $booking_data = array(
-            "slot_date"=> $slot_datemod,
-            "no_of_joinee"=> $no_of_joinee,
-            "slot_fromtime"=> $slot_from_time,
-            "slot_totime"=> $slot_to_time,
-            "booking_desc"=>$desc,
+        $booking_data = array(
+            "slot_date"=> date('Y-m-d', strtotime($trim($request->input('slot_date')))),
+            "no_of_joinee"=> trim($request->input('no_of_joinee')),
+            "slot_fromtime"=> trim($request->input('slot_from_time')),
+            "slot_totime"=> trim($request->input('slot_to_time')),
+            "booking_desc"=>trim($request->input('desc')),
+            "prior_status"=>trim($request->input('prior_status')),
             "created_by"=> Auth::user()->id,
-           
-        );
-        //DB::table('slots')->insert(array($booking_data));
-		
-	   $slot_id = DB::table('slots')->insertGetId($booking_data);
-	   
-	     $trans_data = array(
+            
+            );
+        
+        $slot_id = DB::table('slots')->insertGetId($booking_data);
+        $trans_data = array(
             "slot_id"=> $slot_id,
             "created_by"=> Auth::user()->id,
             "status"=> 1
-         );
+            );
+        
         DB::table('slots_trans')->insert(array($trans_data));
-        //return Redirect::to('slot/view')->with('success','Slot Booked Successfully');
     }
 
 	/*

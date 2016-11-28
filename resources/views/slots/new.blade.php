@@ -40,18 +40,18 @@
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">person_pin</i>
 						<label for="description">Possible Attendees (Approx no.)</label>
-						<input type="text" id="join-range" name="join-range" value="" />
+						<input type="text" id="no_of_joinee" name="no_of_joinee" value="" />
 					</div>
 				</div>
 				
 				<div class="row">
 					<div class="input-field col s12 margin-top-off margin-bottom-2x">
-						<input type="checkbox" id="slot-prior" name="slot-prior"/>
-						<label for="slot-prior" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
+						<input type="checkbox" id="prior-status" name="prior-status"/>
+						<label for="prior-status" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
 					</div>
 				</div>
 
-				<button class="waves-effect waves-light btn-large green accent-4 margin-bottom-x">
+				<button class="waves-effect waves-light btn-large green accent-4 margin-bottom-x" id="request_btn">
 					<i class="material-icons left">input</i>
 					Request Booking
 				</button>
