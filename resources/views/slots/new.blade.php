@@ -7,7 +7,7 @@
 			<div class="heading row">
 				<h3 class="left-align title left col-s8 grey-text text-darken-2">Book A Slot</h3>
 			</div>
-			<form name="slot-book" role="form" action="" method="post" enctype="multipart/form-data">
+			<form name="slot-book" role="form" action="{{ url('/slot/save') }}" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
 				<div class="row">
 					<div class="input-field col s6">
@@ -52,7 +52,7 @@
 					</div>
 				</div>
 
-				<button class="waves-effect waves-light btn-large green accent-4 "id="request_btn">
+				<button class="waves-effect waves-light btn-large green accent-4 ">
 					<i class="material-icons left">input</i>
 					Request Booking
 				</button>

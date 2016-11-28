@@ -66,11 +66,10 @@ class SlotController extends Controller {
 	   $slot_id = DB::table('slots')->insertGetId($booking_data);
 	   
 	     $trans_data = array(
-            "booking_id"=> $slot_id,
+            "slot_id"=> $slot_id,
             "created_by"=> Auth::user()->id,
-           
-           
-        );
+            "status"=> 1
+         );
         DB::table('slots_trans')->insert(array($trans_data));
         //return Redirect::to('slot/view')->with('success','Slot Booked Successfully');
     }
