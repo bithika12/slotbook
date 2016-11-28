@@ -9,7 +9,7 @@ $(document).ready(function() {
 	//timepicker call
 	var options = {
 		//now: 'hh::mm', //hh:mm 24 hour format only, defaults to current time
-		twentyFour : false,  //Display 24 hour format, defaults to false
+		twentyFour : false //Display 24 hour format, defaults to false
 	};
 	$('.timepicker').wickedpicker(options);
 
