@@ -90,6 +90,8 @@ class SlotController extends Controller {
 					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
 					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
            -> get();
+           $slots=$slots->toArray();
+           //dd($slots);die;
 				}
 return view('slots.list', compact('slots'));
 }
@@ -97,11 +99,12 @@ return view('slots.list', compact('slots'));
  *   To destroy a list of slots
  */
 			public function destroy($id) {
-				$slot = Slot::find(Input::get('id'));
+                echo "pp";die;
+				/*$slot = Slot::find(Input::get('id'));
 				if ($slot) {
 					$slot -> delete();
 					return Redirect::to('/slot');
-				}
+				}*/
 			}
 
 
