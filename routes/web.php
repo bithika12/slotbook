@@ -19,6 +19,15 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('/home', 'HomeController@index');
+	/*
+	|--------------------------------------------------------------------------
+	| slots
+	|--------------------------------------------------------------------------
+	|
+	| Here is where user can see their slots time.
+	/user can able to delete edit their slots.
+
+	*/
 	Route::get('/slot/new', 'SlotController@index');
 	Route::get('/slot/list', 'SlotController@showSlotList');
 	Route::post('/slot/save', 'SlotController@saveSlot');

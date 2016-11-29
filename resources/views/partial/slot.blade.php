@@ -10,7 +10,8 @@
           'slot_from_time' : $("input[name='slot_from_time']").val(),
           'slot_to_time' : $("input[name='slot_to_time']").val(),
           'description' : $("input[name='description']").val(),
-          'no_of_joinee' : $("input[name='no_of_joinee']").val()
+          'no_of_joinee' : $("input[name='join-rang']").val(),
+          'slot_prior' : $("input[name='slot_prior']").val()
         },
         dataType : "json",
         success : function(json) {

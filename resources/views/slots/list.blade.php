@@ -10,7 +10,7 @@
 			<li class="collection-item avatar">
 				<i class="material-icons circle grey lighten-1">today</i>
 				<span class="title black-text slot-details">26th October | 08:00 PM - 12:00 AM</span>
-				
+
 				<!--Only for upcoming request-->
 				<a class="red-text text-accent-3 mod-action" href="#!">
 					<i class="material-icons tiny relative">close</i> Cancel Slot Request
@@ -89,7 +89,7 @@
 					<a class="blue accent-3 white-text mod-action" href="#!">
 						<i class="material-icons tiny relative">edit</i>Change
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action" href="#!">
+					<a class="blue accent-3 white-text margin-left-0-5x mod-action" href="{{url('/slot/destroy')}}">
 						<i class="material-icons tiny relative">delete</i> Trash
 					</a>
 					<a class="blue accent-3 white-text margin-left-0-5x mod-action" href="#!">

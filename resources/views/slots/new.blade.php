@@ -7,7 +7,7 @@
 			<div class="heading row">
 				<h3 class="left-align title left col-s8 grey-text text-darken-2">Book A Slot</h3>
 			</div>
-			<form name="slot-book" role="form" action="{{ url('/slot/save') }}" method="post" enctype="multipart/form-data">
+			<form name="slot-book" role="form" action="" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
 				<div class="row">
 					<div class="input-field col s12">
@@ -36,22 +36,22 @@
 						<textarea id="description" name="description" class="materialize-textarea" length="50"></textarea>
 						<label for="description">Give A Description</label>
 					</div>
-				
+
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">person_pin</i>
 						<label for="description">Possible Attendees (Approx no.)</label>
-						<input type="text" id="join-range" name="join-range" value="" />
+						<input type="text" id="join-range" name="join-rang" value="" />
 					</div>
 				</div>
-				
+
 				<div class="row">
 					<div class="input-field col s12 margin-top-off margin-bottom-2x">
-						<input type="checkbox" id="slot-prior" name="slot-prior"/>
+						<input type="checkbox" id="slot_prior" name="slot_prior" value="1"/>
 						<label for="slot-prior" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
 					</div>
 				</div>
 
-				<button class="waves-effect waves-light btn-large green accent-4 margin-bottom-x">
+				<button class="waves-effect waves-light btn-large green accent-4 margin-bottom-x" id="request_btn">
 					<i class="material-icons left">input</i>
 					Request Booking
 				</button>

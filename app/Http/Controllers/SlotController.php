@@ -7,6 +7,7 @@ use Auth;
 use Input;
 use Validator;
 use Redirect;
+use App\Slot;
 
 class SlotController extends Controller {
 
@@ -30,7 +31,7 @@ class SlotController extends Controller {
             $calendar_dates[$i]['wk_day'] = date('D', strtotime($previous_day));
             $calendar_dates[$i]['day'] = date('F j, Y', strtotime($previous_day));
             $calendar_dates[$i]['date_value'] = date('Y-m-d', strtotime(str_replace('-', '/', $today) . "+" . $i . " days"));
-            
+
             if($calendar_dates[$i]['wk_day'] == date('D')){
                 $calendar_dates[$i]['status'] = TRUE;
             }
@@ -51,6 +52,7 @@ class SlotController extends Controller {
         $slot_from_time =  trim($request->input('slot_from_time'));
         $slot_to_time =  trim($request->input('slot_to_time'));
         $desc =  trim($request->input('desc'));
+				$slot_prior=trim($request->input('slot_prior'));
 
          $booking_data = array(
             "slot_date"=> $slot_datemod,
@@ -58,13 +60,14 @@ class SlotController extends Controller {
             "slot_fromtime"=> $slot_from_time,
             "slot_totime"=> $slot_to_time,
             "booking_desc"=>$desc,
+						"prior_status"=>$slot_prior,
             "created_by"=> Auth::user()->id,
-           
+
         );
         //DB::table('slots')->insert(array($booking_data));
-		
+
 	   $slot_id = DB::table('slots')->insertGetId($booking_data);
-	   
+
 	     $trans_data = array(
             "slot_id"=> $slot_id,
             "created_by"=> Auth::user()->id,
@@ -78,8 +81,28 @@ class SlotController extends Controller {
 	 *   To show a list of slots
 	 */
 	public function showSlotList() {
+		if (Auth::user() -> role_id == 1) {
+         $slots = Slot::all();
+		} else if (Auth::user() -> role_id == 0) {
+          $slots = Slot::where('slots.created_by', Auth::user() -> id)
+				   ->where('slots.status','!=','7')
+					 ->join('status', 'slots.status', '=', 'status.id')
+					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
+					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
+           -> get();
+				}
+return view('slots.list', compact('slots'));
+}
+/*
+ *   To destroy a list of slots
+ */
+			public function destroy($id) {
+				$slot = Slot::find(Input::get('id'));
+				if ($slot) {
+					$slot -> delete();
+					return Redirect::to('/slot');
+				}
+			}
 
-		return view('slots.list');
-	}
 
 }
