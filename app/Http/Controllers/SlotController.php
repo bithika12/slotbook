@@ -56,10 +56,12 @@ class SlotController extends Controller {
 		
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
-		if($prior_status == "on"){
+        if($prior_status == "true"){
+           
 			$prior_status = TRUE;
+
 		}else{
-			$prior_status = FALSE;
+			 $prior_status=intval($prior_status);
 		}
 		$count_records = DB::table('slots as s') 
 				-> where('s.slot_date', $slot_date) 
