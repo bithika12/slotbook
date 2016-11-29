@@ -14,7 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('css/app.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('vendor/ion-rangeSlider/css/ion.rangeSlider.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('vendor/ion-rangeSlider/css/ion.rangeSlider.skinHTML5.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('vendor/sweetalert/dist/sweetalert.css') }}">
 	<script type="text/javascript" src="{{ URL::asset('js/vendor.min.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('vendor/sweetalert/dist/sweetalert.min.js') }}"></script>
 	<script type="text/javascript" src="{{ URL('node_modules/socket.io-client/dist/socket.io.min.js') }}"></script>
 	<title>@yield('title')</title>
 </head>

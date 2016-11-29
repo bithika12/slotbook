@@ -49,6 +49,11 @@ class SlotController extends Controller {
 
 		$start_time = trim($request->input('slot_from_time'));
 		$end_time = trim($request->input('slot_to_time'));
+		
+		//12 hours format
+		$start_time_12  = date("g:i a", strtotime($start_time));
+		$end_time_12  = date("g:i a", strtotime($end_time));
+		
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
 		if($prior_status == "on"){
@@ -56,7 +61,10 @@ class SlotController extends Controller {
 		}else{
 			$prior_status = FALSE;
 		}
-		$count_records = DB::table('slots as s') -> where('s.slot_date', $slot_date) -> where('s.status', 2) -> where(function($q) use ($start_time, $end_time) {
+		$count_records = DB::table('slots as s') 
+				-> where('s.slot_date', $slot_date) 
+				-> where('s.status', 2) 
+				-> where(function($q) use ($start_time, $end_time) {
 			$q -> where(function($query) use ($start_time, $end_time) {
 				$query -> whereBetween('s.slot_fromtime', array($start_time, $end_time)) -> orWhereBetween('s.slot_totime', array($start_time, $end_time));
 			}) -> orWhere(function($query) use ($start_time, $end_time) {
@@ -64,12 +72,12 @@ class SlotController extends Controller {
 			});
 		}) -> count();
 		if ($count_records >= 1) {
-			$flag = false;
+			$arr['status'] = false;
 		} else {
 			$interval = strtotime($end_time) - strtotime($start_time);
 			$abs_time_interval = (abs($interval) / 3600) * 60;
 			if ($interval <= 0 || $abs_time_interval > 450) {
-				$flag = false;
+				$arr['status'] = false;
 			} else {
 				$booking_data = array(
 								"slot_date" => $slot_date,
@@ -84,10 +92,14 @@ class SlotController extends Controller {
 				$slot_id = DB::table('slots')->insertGetId($booking_data);
 				$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 1);
 				DB::table('slots_trans') -> insert(array($trans_data));
-				$flag = TRUE;
+				$arr['status'] = TRUE;
 			}
+			$arr['start_time'] = $start_time_12;
+			$arr['end_time'] = $end_time_12;
+			$arr['duration'] = $abs_time_interval;
+			$arr['department'] = Auth::user()->department;
 		}
-		return Response::json($flag);
+		return Response::json($arr);
 	}
 
 /*
