@@ -51,11 +51,15 @@ class SlotController extends Controller {
 		$end_time = trim($request->input('slot_to_time'));
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
-		if($prior_status == "on"){
+        //echo $prior_status;die;
+		if($prior_status == "true"){
+           
 			$prior_status = TRUE;
+
 		}else{
-			$prior_status = FALSE;
+			 $prior_status=intval($prior_status);
 		}
+       
 		$count_records = DB::table('slots as s') -> where('s.slot_date', $slot_date) -> where('s.status', 2) -> where(function($q) use ($start_time, $end_time) {
 			$q -> where(function($query) use ($start_time, $end_time) {
 				$query -> whereBetween('s.slot_fromtime', array($start_time, $end_time)) -> orWhereBetween('s.slot_totime', array($start_time, $end_time));
@@ -89,6 +93,19 @@ class SlotController extends Controller {
 		}
 		return Response::json($flag);
 	}
+
+   
+    public function booleanToString($bool){
+    if (is_bool($bool) === true) {
+        if($bool == true){ 
+            return "true";  
+        } else { 
+            return "false";
+        } 
+    } else { 
+        return NULL;
+    }
+}
 
 /*
 	 *   To show a list of slots

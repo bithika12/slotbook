@@ -17,11 +17,12 @@
           'slot_from_time' : $get_cal_from_time,
           'slot_to_time' : $get_cal_to_time,
           'description' : $("textarea[name='description']").val(),
-          'prior_status' : $("input[name='prior_status']").val(),
+          'prior_status' : $("#prior_status").is(':checked'),
           'no_of_joinee' : $("input[name='no_of_joinee']").val()
         },
         dataType : "json",
         success : function(json) {
+          
           if(!json){
           	alert('Sorry');
           }
