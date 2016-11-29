@@ -6,7 +6,7 @@
 		<h3 class="left-align title left col-s8">My Slots - List View</h3>
 	</div>
 	<div class="row left-align">
-		<ul class="collection">
+		<ul class="collection" id="list_slots">
 		   @if(!empty($slots))
 		    @foreach($slots as $slot)
 			<li class="collection-item avatar">

@@ -56,6 +56,7 @@ class SlotController extends Controller {
 		
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
+		
         if($prior_status == "true"){
            
 			$prior_status = TRUE;
@@ -100,6 +101,8 @@ class SlotController extends Controller {
 			$arr['end_time'] = $end_time_12;
 			$arr['duration'] = $abs_time_interval;
 			$arr['department'] = Auth::user()->department;
+			$arr['slot_date'] = $request -> input('slot_date');
+			$arr['prior_status'] = $prior_status;
 		}
 		return Response::json($arr);
 	}

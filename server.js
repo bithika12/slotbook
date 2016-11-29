@@ -15,7 +15,9 @@ socket.on('new_slot', function(data) {
     	start_time: data.start_time,
     	end_time: data.end_time,
     	department: data.department,
-    	duration: data.duration
+    	duration: data.duration,
+    	slot_date : data.slot_date,
+		prior_status : data.prior_status
     });
   });
 });
