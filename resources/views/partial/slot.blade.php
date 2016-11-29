@@ -8,7 +8,6 @@
       e.preventDefault();
       $get_cal_from_time = converttimeformat($("#slot_from_time").val());
       $get_cal_to_time = converttimeformat($("#slot_to_time").val());
-      //console.log(get_cal_from_time,get_cal_to_time);
       $.ajax({
         type: "POST",
         url: {!! json_encode(url('/slot/save')) !!},
@@ -17,7 +16,7 @@
           'slot_date' : $("input[name='slot_date']").val(),
           'slot_from_time' : $get_cal_from_time,
           'slot_to_time' : $get_cal_to_time,
-          'description' : $("input[name='description']").val(),
+          'description' : $("textarea[name='description']").val(),
           'prior_status' : $("input[name='prior_status']").val(),
           'no_of_joinee' : $("input[name='no_of_joinee']").val()
         },

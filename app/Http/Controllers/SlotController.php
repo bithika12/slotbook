@@ -49,14 +49,12 @@ class SlotController extends Controller {
 		$start_time = trim($request->input('slot_from_time'));
 		$end_time = trim($request->input('slot_to_time'));
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
-		
 		$prior_status = $request->input('prior_status');
 		if($prior_status == "on"){
 			$prior_status = TRUE;
 		}else{
 			$prior_status = FALSE;
 		}
-
 		$count_records = DB::table('slots as s') -> where('s.slot_date', $slot_date) -> where('s.status', 2) -> where(function($q) use ($start_time, $end_time) {
 			$q -> where(function($query) use ($start_time, $end_time) {
 				$query -> whereBetween('s.slot_fromtime', array($start_time, $end_time)) -> orWhereBetween('s.slot_totime', array($start_time, $end_time));
@@ -64,7 +62,6 @@ class SlotController extends Controller {
 				$query -> where('s.slot_fromtime', '<=', $start_time) -> where('s.slot_totime', '>=', $end_time);
 			});
 		}) -> count();
-
 		if ($count_records >= 1) {
 			$flag = false;
 		} else {
@@ -79,7 +76,7 @@ class SlotController extends Controller {
 								"slot_fromtime" => $start_time, 
 								"slot_totime" => $end_time, 
 								"slot_duration" => $abs_time_interval, 
-								"booking_desc" => trim($request -> input('desc')), 
+								"slot_desc" => $request -> input('description'), 
 								"prior_status" => $prior_status, 
 								"created_by" => Auth::user()->id
 				);
