@@ -7,7 +7,7 @@
 			<div class="heading row">
 				<h3 class="left-align title left col-s8 grey-text text-darken-2">Book A Slot</h3>
 			</div>
-			<form name="slot-book" role="form" action="{{ url('/slot/save') }}" method="post" enctype="multipart/form-data">
+			<form name="slot-book" role="form" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
 				<div class="row">
 					<div class="input-field col s12">
@@ -36,14 +36,14 @@
 						<textarea id="description" name="description" class="materialize-textarea" length="50"></textarea>
 						<label for="description">Give A Description</label>
 					</div>
-				
+
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">person_pin</i>
 						<label for="description">Possible Attendees (Approx no.)</label>
 						<input type="text" id="no_of_joinee" name="no_of_joinee" value="" />
 					</div>
 				</div>
-				
+
 				<div class="row">
 					<div class="input-field col s12 margin-top-off margin-bottom-2x">
 						<input type="checkbox" id="prior_status" name="prior_status"/>

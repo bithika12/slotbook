@@ -7,6 +7,7 @@ use Auth;
 use Input;
 use Validator;
 use Redirect;
+use App\Slot;
 use Response;
 
 class SlotController extends Controller {
@@ -89,12 +90,34 @@ class SlotController extends Controller {
 		return Response::json($flag);
 	}
 
-	/*
+/*
 	 *   To show a list of slots
 	 */
 	public function showSlotList() {
-
-		return view('slots.list');
-	}
+		if (Auth::user() -> role_id == 1) {
+         $slots = Slot::all();
+		} else if (Auth::user() -> role_id == 0) {
+          $slots = Slot::where('slots.created_by', Auth::user() -> id)
+				   ->where('slots.status','!=','7')
+					 ->join('status', 'slots.status', '=', 'status.id')
+					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
+					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
+           -> get();
+           $slots=$slots->toArray();
+           //dd($slots);die;
+				}
+return view('slots.list', compact('slots'));
+}
+/*
+ *   To destroy a list of slots
+ */
+			public function destroy($id) {
+                echo "pp";die;
+				/*$slot = Slot::find(Input::get('id'));
+				if ($slot) {
+					$slot -> delete();
+					return Redirect::to('/slot');
+				}*/
+			}
 
 }
