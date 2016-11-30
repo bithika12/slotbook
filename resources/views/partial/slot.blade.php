@@ -9,6 +9,7 @@
 				$get_cal_from_time = converttimeformat($("#slot_from_time").val());
 				$get_cal_to_time = converttimeformat($("#slot_to_time").val());
 				$chk_bx=$('#prior_status').is(':checked');
+				
 				$.ajax({
 				type: "POST",
 				url: {!! json_encode(url('/slot/save')) !!}, data: {
@@ -18,6 +19,7 @@
 					'slot_to_time' : $get_cal_to_time,
 					'description' : $("textarea[name='description']").val(),
 					'prior_status' : $('#prior_status').is(':checked'),
+					'hid_slot_id' : $('#hid_slot_id').val(),
 					'no_of_joinee' :
 					$("input[name='no_of_joinee']").val()
 				}, dataType : "json",

@@ -41,6 +41,14 @@ class SlotController extends Controller {
 				$calendar_dates[$i]['status'] = FALSE;
 			}
 		}
+		$today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
+				     ->join('status', 'slots.status', '=', 'status.id')
+					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
+					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
+           -> get();
+           $today_slots=$today_slots->toArray();
+           //dd($today_slots);die;
+		
 		return view('slots.view', compact('calendar_dates', $calendar_dates));
 	}
 
@@ -58,6 +66,8 @@ class SlotController extends Controller {
 
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
+
+		$hid_slot_id=trim($request->input('hid_slot_id'));
 
         if($prior_status == "true"){
 
@@ -84,6 +94,7 @@ class SlotController extends Controller {
 			if ($interval <= 0 || $abs_time_interval > 450) {
 				$arr['status'] = false;
 			} else {
+
 				$booking_data = array(
 								"slot_date" => $slot_date,
 								"no_of_joinee" => trim($request -> input('no_of_joinee')),
@@ -94,7 +105,17 @@ class SlotController extends Controller {
 								"prior_status" => $prior_status,
 								"created_by" => Auth::user()->id
 				);
+
+				if(empty($hid_slot_id)){
 				$slot_id = DB::table('slots')->insertGetId($booking_data);
+			    }
+			    else
+			    {
+			    	DB::table('slots')
+		            ->where('id', $hid_slot_id)
+		            ->update($booking_data);
+			    	$slot_id=$hid_slot_id;
+			    }
 				$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 1);
 				DB::table('slots_trans') -> insert(array($trans_data));
 				$arr['status'] = TRUE;

@@ -12,13 +12,7 @@
 				<div class="row">
 					<div class="input-field col s12">
 						<i class="material-icons prefix grey-text text-lighten-2">today</i>
-						<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="
-						@if(isset($slotToUpdate))
-						{{date("F j, Y",strtotime($slotToUpdate->slot_date))}}
-			       @else
-						{{date("F j, Y") }}
-						@endif
-						">
+						<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="{{ isset($slotToUpdate) ? date('F j, Y',strtotime($slotToUpdate->slot_date)) : date('F j, Y') }}">
 						<label for="slot_date">Select Date</label>
 					</div>
 				</div>
@@ -39,30 +33,30 @@
 				<div class="row">
 					<div class="input-field col s12">
 						<i class="material-icons prefix grey-text text-lighten-2">rate_review</i>
-						<textarea id="description" name="description" class="materialize-textarea" length="50">
-							@if(isset($slotToUpdate))
-								{{$slotToUpdate->slot_desc}}
-					      @endif
-							</textarea>
+						<textarea id="description" name="description" class="materialize-textarea" length="50">{{ isset($slotToUpdate) ? $slotToUpdate->slot_desc : '' }}</textarea>
 						<label for="description">Give A Description</label>
 					</div>
 
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">person_pin</i>
 						<label for="description">Possible Attendees (Approx no.)</label>
-						<input type="text" id="no_of_joinee" name="no_of_joinee" value="@if(isset($slotToUpdate))
-								{{$slotToUpdate->no_of_joinee}}
-					      @endif" />
+						<input type="text" id="no_of_joinee" name="no_of_joinee" value="
+						{{ isset($slotToUpdate) ? $slotToUpdate->no_of_joinee : '' }}" />
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="input-field col s12 margin-top-off margin-bottom-2x">
-						<input type="checkbox" id="prior_status" name="prior_status">
+						<input type="checkbox" id="prior_status" @if(isset($slotToUpdate) && 
+						$slotToUpdate->prior_status==1)
+						checked
+						@endif
+						name="prior_status">
 						<label for="prior_status" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
 					</div>
 				</div>
-
+                <input type="hidden" name="hid_slot_id" id="hid_slot_id" value="
+                {{ isset($slotToUpdate) ? $slotToUpdate->id : '' }}">
 				<button class="waves-effect waves-light btn-large green accent-4 margin-bottom-x" id="request_btn">
 					<i class="material-icons left">input</i>
 					Request Booking
