@@ -21,7 +21,7 @@
                     <label for="password">Enter Password</label>
                 </div>
             </div>
-            <button class="waves-effect full-width waves-light btn green accent-4 ">
+            <button class="waves-effect full-width waves-light btn green accent-4 margin-bottom-x">
                 GET STARTED</button>
             </form>
         </div>

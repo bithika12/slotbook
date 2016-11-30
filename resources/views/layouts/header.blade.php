@@ -11,6 +11,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Oxygen:300,400" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('vendor/wickedpicker/stylesheets/wickedpicker.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('vendor/animate/animate.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('css/app.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('vendor/ion-rangeSlider/css/ion.rangeSlider.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('vendor/ion-rangeSlider/css/ion.rangeSlider.skinHTML5.css') }}">

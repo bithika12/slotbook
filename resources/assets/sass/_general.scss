@@ -4,6 +4,9 @@
 .size-2x{
 	font-size: 2rem !important;
 }
+.hidden{
+	display: none;
+}
 .radius{
 	border-radius: 50%;
 }
@@ -80,13 +83,16 @@ h4.title{
 	float: none !important;
 }
 .card-space{
-	padding: 10px 30px !important;
+	padding: 20px !important;
 }
 .margin-top-off{
 	margin-top: 0 !important;
 }
 .margin-bottom-off{
   margin-bottom: 0 !important;
+}
+.fixed{
+	position: fixed;
 }
 nav i, 
 nav [class^="mdi-"], 
@@ -149,4 +155,22 @@ textarea.materialize-textarea:focus:not([readonly]){
   color: $off-dark;
   border-bottom: 1px solid $blue;
   box-shadow: 0 1px 0 0 $blue;
+}
+.fixed-message{
+	bottom: 0;
+	padding-left: 25px;
+	z-index: 2;
+	i{
+		top: 5px;
+	}
+}
+.preloader{
+	position: fixed; 
+	left: 0; 
+	top: 0; 
+	z-index: 999; 
+	width: 100%; 
+	height: 100%; 
+	overflow: visible; 
+	background: url('http://visual.ly/sites/all/themes/visually2/media/images/preloader.gif') no-repeat center center;
 }

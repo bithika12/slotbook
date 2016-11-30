@@ -33,7 +33,7 @@ class SlotController extends Controller {
 			$previous_day = date('l jS F Y', strtotime(str_replace('-', '/', $today) . "-" . $i . " days"));
 			$calendar_dates[$i]['wk_day'] = date('D', strtotime($previous_day));
 			$calendar_dates[$i]['day'] = date('F j, Y', strtotime($previous_day));
-			$calendar_dates[$i]['date_value'] = date('Y-m-d', strtotime(str_replace('-', '/', $today) . "+" . $i . " days"));
+			$calendar_dates[$i]['date_value'] = date('Y-m-d', strtotime(str_replace('-', '/', $today) . "-" . $i . " days"));
 
 			if ($calendar_dates[$i]['wk_day'] == date('D')) {
 				$calendar_dates[$i]['status'] = TRUE;

@@ -24,23 +24,23 @@
 				</a>
 
                 @elseif($slot['status']=='1')
-                <a class="orange-text text-darken-2 mod-action" href="#!">
+                <a class="orange-text mod-action" href="#!">
 					<i class="material-icons tiny relative">warning</i>
 					Need Approval
 				</a>
                  @endif
 				<p class="blue-grey-text text-darken-4">{!! $slot["slot_desc"] !!}
 					<br><br/>
-					<a class="blue accent-3 white-text mod-action modify link" href="{{ url('/slot_edit', $slot['id']) }}">
+					<a class="light-blue white-text mod-action modify link" href="{{ url('/slot_edit', $slot['id']) }}">
 						<i class="material-icons tiny relative">edit</i>Change
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action link trash" href="{{ url('/delete', $slot['id']) }}" data-method="delete" name="delete_item">
+					<a class="light-blue white-text margin-left-0-5x mod-action link trash" href="{{ url('/delete', $slot['id']) }}" data-method="delete" name="delete_item">
 							<i class="material-icons tiny relative">delete</i> Trash
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action link repeat" href="{{ url('/slot_repeat', $slot['id']) }}">
+					<a class="light-blue white-text margin-left-0-5x mod-action link repeat" href="{{ url('/slot_repeat', $slot['id']) }}">
 						<i class="material-icons tiny relative">loop</i> Repeat
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action link swap" href="#!">
+					<a class="light-blue white-text margin-left-0-5x mod-action link swap" href="#!">
 						<i class="material-icons tiny relative">compare_arrows</i> Swap Request
 					</a>
 				</p>
@@ -57,7 +57,7 @@
 				<span class="title black-text slot-details">26th October | 08:00 PM - 12:00 AM </span>
 
 				<!--Only for admin role-->
-				<a class="orange-text text-darken-2 mod-action" href="#!">
+				<a class="orange-text mod-action" href="#!">
 					<i class="material-icons tiny relative">warning</i>
 					Need Approval
 				</a>
@@ -65,13 +65,13 @@
 
 				<p class="blue-grey-text text-darken-4">Material icons are beautifully crafted, delightful, and easy to use in your web
 					<br><br/>
-					<a class="blue accent-3 white-text mod-action modify link" href="#!">
+					<a class="light-blue white-text mod-action modify link" href="#!">
 						<i class="material-icons tiny relative">edit</i>Change
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action trash link" href="#!">
+					<a class="light-blue white-text margin-left-0-5x mod-action trash link" href="#!">
 						<i class="material-icons tiny relative">delete</i> Trash
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action repeat link" href="#!">
+					<a class="light-blue white-text margin-left-0-5x mod-action repeat link" href="#!">
 						<i class="material-icons tiny relative">loop</i> Repeat
 					</a>
 				</p>
@@ -83,13 +83,13 @@
 				</span>
 				<p class="blue-grey-text text-darken-4">Material icons are beautifully crafted, delightful, and easy to use in your web
 					<br><br/>
-					<a class="blue accent-3 white-text mod-action modify link" href="#!">
+					<a class="light-blue white-text mod-action modify link" href="#!">
 						<i class="material-icons tiny relative">edit</i>Change
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action trash link" href="#!">
+					<a class="light-blue white-text margin-left-0-5x mod-action trash link" href="#!">
 						<i class="material-icons tiny relative">delete</i> Trash
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action repeat link" href="#!">
+					<a class="light-blue white-text margin-left-0-5x mod-action repeat link" href="#!">
 						<i class="material-icons tiny relative">loop</i> Repeat
 					</a>
 				</p>
@@ -98,11 +98,10 @@
 					<i class="material-icons red-text tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on prior basis">error</i>
 				</a>
 			</li>
-
 		</ul>
 	</div>
 	<div class="fixed-action-btn horizontal slot-add">
-		<a class="btn-floating btn-large amber z-depth-3" href="{{URL('slot/new')}}">
+		<a class="btn-floating btn-large amber accent-3 z-depth-3" href="{{URL('slot/new')}}">
 			<i class="large material-icons">add</i>
 		</a>
 	</div>
