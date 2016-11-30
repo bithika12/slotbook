@@ -11,7 +11,11 @@
 		    @foreach($slots as $slot)
 			<li class="collection-item avatar">
 				<i class="material-icons circle grey lighten-1">today</i>
-				<span class="title black-text slot-details">{!! date("jS F", strtotime($slot["slot_date"])) !!} | {!! $slot["slot_fromtime"] !!} - {!! $slot["slot_totime"] !!}</span>
+				<span class="title black-text slot-details">{!! date("jS F", strtotime($slot["slot_date"])) !!} | {!! $slot["slot_fromtime"] !!} - {!! $slot["slot_totime"] !!}
+				@if($slot['status']=='2')
+				<i class="relative material-icons green-text text-accent-4">done</i>
+				@endif
+			</span>
 
 				<!--Only for upcoming request-->
 				@if($slot['status']=='4')
@@ -27,19 +31,24 @@
                  @endif
 				<p class="blue-grey-text text-darken-4">{!! $slot["slot_desc"] !!}
 					<br><br/>
-					<a class="blue accent-3 white-text mod-action modify link" href="#!">
+					<a class="blue accent-3 white-text mod-action modify link" href="{{ url('/slot_edit', $slot['id']) }}">
 						<i class="material-icons tiny relative">edit</i>Change
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action link trash" href="{{ url('slot/destroy', $slot['id']) }}" data-method="delete" name="delete_item">
+					<a class="blue accent-3 white-text margin-left-0-5x mod-action link trash" href="{{ url('/delete', $slot['id']) }}" data-method="delete" name="delete_item">
 							<i class="material-icons tiny relative">delete</i> Trash
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action link repeat" href="#!">
+					<a class="blue accent-3 white-text margin-left-0-5x mod-action link repeat" href="{{ url('/slot_repeat', $slot['id']) }}">
 						<i class="material-icons tiny relative">loop</i> Repeat
 					</a>
 					<a class="blue accent-3 white-text margin-left-0-5x mod-action link swap" href="#!">
 						<i class="material-icons tiny relative">compare_arrows</i> Swap Request
 					</a>
 				</p>
+				@if($slot['prior_status']=='1')
+				<a href="#!" class="secondary-content">
+					<i class="material-icons red-text tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on prior basis">error</i>
+				</a>
+				@endif
 			</li>
 			@endforeach
 			@endif

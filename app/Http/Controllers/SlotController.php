@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
-use Input;
+//use Input;
 use Validator;
-use Redirect;
+//use Redirect;
 use App\Slot;
 use Response;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 
 class SlotController extends Controller {
 
@@ -49,24 +51,24 @@ class SlotController extends Controller {
 
 		$start_time = trim($request->input('slot_from_time'));
 		$end_time = trim($request->input('slot_to_time'));
-		
+
 		//12 hours format
 		$start_time_12  = date("g:i a", strtotime($start_time));
 		$end_time_12  = date("g:i a", strtotime($end_time));
-		
+
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
-		
+
         if($prior_status == "true"){
-           
+
 			$prior_status = TRUE;
 
 		}else{
 			 $prior_status=intval($prior_status);
 		}
-		$count_records = DB::table('slots as s') 
-				-> where('s.slot_date', $slot_date) 
-				-> where('s.status', 2) 
+		$count_records = DB::table('slots as s')
+				-> where('s.slot_date', $slot_date)
+				-> where('s.status', 2)
 				-> where(function($q) use ($start_time, $end_time) {
 			$q -> where(function($query) use ($start_time, $end_time) {
 				$query -> whereBetween('s.slot_fromtime', array($start_time, $end_time)) -> orWhereBetween('s.slot_totime', array($start_time, $end_time));
@@ -84,12 +86,12 @@ class SlotController extends Controller {
 			} else {
 				$booking_data = array(
 								"slot_date" => $slot_date,
-								"no_of_joinee" => trim($request -> input('no_of_joinee')), 
-								"slot_fromtime" => $start_time, 
-								"slot_totime" => $end_time, 
-								"slot_duration" => $abs_time_interval, 
-								"slot_desc" => $request -> input('description'), 
-								"prior_status" => $prior_status, 
+								"no_of_joinee" => trim($request -> input('no_of_joinee')),
+								"slot_fromtime" => $start_time,
+								"slot_totime" => $end_time,
+								"slot_duration" => $abs_time_interval,
+								"slot_desc" => $request -> input('description'),
+								"prior_status" => $prior_status,
 								"created_by" => Auth::user()->id
 				);
 				$slot_id = DB::table('slots')->insertGetId($booking_data);
@@ -129,12 +131,27 @@ return view('slots.list', compact('slots'));
  *   To destroy a list of slots
  */
 			public function destroy($id) {
-                echo "pp";die;
-				/*$slot = Slot::find(Input::get('id'));
-				if ($slot) {
-					$slot -> delete();
-					return Redirect::to('/slot');
-				}*/
+        $slot = Slot::find($id);
+		    $slot->status = '7';
+		    $slot->save();
+		    return Redirect::to('/slot/list');
+
 			}
+			/*
+			 *   To edit a slot
+			 */
+			public function edit($id)
+	    {
+		    $slot = Slot::find($id);
+	        return view('slots.new')->with('slotToUpdate', $slot);
+	    }
+			/*
+			 *   To repeat a slot
+			 */
+			public function repeat($id)
+	    {
+		    $slot = Slot::find($id);
+	        return view('slots.new')->with('slotToUpdate', $slot);
+	    }
 
 }

@@ -12,14 +12,20 @@
 				<div class="row">
 					<div class="input-field col s12">
 						<i class="material-icons prefix grey-text text-lighten-2">today</i>
-						<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="{{date("F j, Y") }}">
+						<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="
+						@if(isset($slotToUpdate))
+						{{date("F j, Y",strtotime($slotToUpdate->slot_date))}}
+			       @else
+						{{date("F j, Y") }}
+						@endif
+						">
 						<label for="slot_date">Select Date</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
-						<input type="text" id="slot_from_time" name="slot_from_time" class="timepicker"/>
+						<input type="text" id="slot_from_time" value="hh" name="slot_from_time" class="timepicker"/>
 						<label for="slot_from_time">Select Time From</label>
 					</div>
 					<div class="input-field col s6">
@@ -33,20 +39,26 @@
 				<div class="row">
 					<div class="input-field col s12">
 						<i class="material-icons prefix grey-text text-lighten-2">rate_review</i>
-						<textarea id="description" name="description" class="materialize-textarea" length="50"></textarea>
+						<textarea id="description" name="description" class="materialize-textarea" length="50">
+							@if(isset($slotToUpdate))
+								{{$slotToUpdate->slot_desc}}
+					      @endif
+							</textarea>
 						<label for="description">Give A Description</label>
 					</div>
 
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">person_pin</i>
 						<label for="description">Possible Attendees (Approx no.)</label>
-						<input type="text" id="no_of_joinee" name="no_of_joinee" value="" />
+						<input type="text" id="no_of_joinee" name="no_of_joinee" value="@if(isset($slotToUpdate))
+								{{$slotToUpdate->no_of_joinee}}
+					      @endif" />
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="input-field col s12 margin-top-off margin-bottom-2x">
-						<input type="checkbox" id="prior_status" name="prior_status"/>
+						<input type="checkbox" id="prior_status" name="prior_status">
 						<label for="prior_status" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
 					</div>
 				</div>
