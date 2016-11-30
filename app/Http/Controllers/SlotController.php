@@ -33,7 +33,7 @@ class SlotController extends Controller {
 			$previous_day = date('l jS F Y', strtotime(str_replace('-', '/', $today) . "-" . $i . " days"));
 			$calendar_dates[$i]['wk_day'] = date('D', strtotime($previous_day));
 			$calendar_dates[$i]['day'] = date('F j, Y', strtotime($previous_day));
-			$calendar_dates[$i]['date_value'] = date('Y-m-d', strtotime(str_replace('-', '/', $today) . "+" . $i . " days"));
+			$calendar_dates[$i]['date_value'] = date('Y-m-d', strtotime(str_replace('-', '/', $today) . "-" . $i . " days"));
 
 			if ($calendar_dates[$i]['wk_day'] == date('D')) {
 				$calendar_dates[$i]['status'] = TRUE;
@@ -41,15 +41,17 @@ class SlotController extends Controller {
 				$calendar_dates[$i]['status'] = FALSE;
 			}
 		}
-		$today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
+		 
+		 $today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
+		             ->where('slots.status','2')
 				     ->join('status', 'slots.status', '=', 'status.id')
 					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
 					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
            -> get();
-           $today_slots=$today_slots->toArray();
+          $today_slots=$today_slots->toArray();
            //dd($today_slots);die;
 		
-		return view('slots.view', compact('calendar_dates', $calendar_dates));
+		return view('slots.view', compact('calendar_dates', $calendar_dates,'today_slots'));
 	}
 
 	/*
@@ -152,7 +154,8 @@ return view('slots.list', compact('slots'));
  *   To destroy a list of slots
  */
 			public function destroy($id) {
-        $slot = Slot::find($id);
+		    $id=base64_decode(urldecode($id));		
+            $slot = Slot::find($id);
 		    $slot->status = '7';
 		    $slot->save();
 		    return Redirect::to('/slot/list');
@@ -163,6 +166,8 @@ return view('slots.list', compact('slots'));
 			 */
 			public function edit($id)
 	    {
+
+	    	$id=base64_decode(urldecode($id));
 		    $slot = Slot::find($id);
 	        return view('slots.new')->with('slotToUpdate', $slot);
 	    }
@@ -171,8 +176,26 @@ return view('slots.list', compact('slots'));
 			 */
 			public function repeat($id)
 	    {
+	    	$id=base64_decode(urldecode($id));
 		    $slot = Slot::find($id);
 	        return view('slots.new')->with('slotToUpdate', $slot);
+	    }
+
+	    public function fetch(Request $request){
+        $slot_date = $request->input('slot_date');
+
+        $today_slots = Slot::where('slots.slot_date', $slot_date)
+		             ->where('slots.status','2')
+				     ->join('status', 'slots.status', '=', 'status.id')
+					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
+					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
+           -> get();
+          //$today_slots=$today_slots->toArray();
+          $today_slots=json_encode($today_slots);
+          $today_slots['slot_fromtime'] = strtoupper(date("g:i a", strtotime($today_slots['slot_fromtime'])));
+          $today_slots['slot_totime'] = strtoupper(date("g:i a", strtotime($today_slots['slot_totime'])));
+          return Response::json($today_slots);
+
 	    }
 
 }

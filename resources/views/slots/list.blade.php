@@ -31,13 +31,13 @@
                  @endif
 				<p class="blue-grey-text text-darken-4">{!! $slot["slot_desc"] !!}
 					<br><br/>
-					<a class="blue accent-3 white-text mod-action modify link" href="{{ url('/slot_edit', $slot['id']) }}">
+					<a class="blue accent-3 white-text mod-action modify link" href="{{ url('/slot/edit', base64_encode(urlencode($slot['id']))) }}">
 						<i class="material-icons tiny relative">edit</i>Change
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action link trash" href="{{ url('/delete', $slot['id']) }}" data-method="delete" name="delete_item">
+					<a class="blue accent-3 white-text margin-left-0-5x mod-action link trash" href="{{ url('/delete', base64_encode(urlencode($slot['id']))) }}" data-method="delete" name="delete_item">
 							<i class="material-icons tiny relative">delete</i> Trash
 					</a>
-					<a class="blue accent-3 white-text margin-left-0-5x mod-action link repeat" href="{{ url('/slot_repeat', $slot['id']) }}">
+					<a class="blue accent-3 white-text margin-left-0-5x mod-action link repeat" href="{{ url('/slot/repeat',base64_encode(urlencode($slot['id']))) }}">
 						<i class="material-icons tiny relative">loop</i> Repeat
 					</a>
 					<a class="blue accent-3 white-text margin-left-0-5x mod-action link swap" href="#!">

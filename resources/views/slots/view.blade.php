@@ -42,21 +42,31 @@
 				
 				<!--Display slots-->
 				<div class="col s12 m12 border-x slot-details white margin-top-2x" id="slot-details">
-
-					<div class="card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin">				
+                     @if(isset($today_slots) && count($today_slots)>0)
+                     @foreach($today_slots as $slotval)
+					<div class="card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin">	
+					    @if($slotval['prior_status']==1)			
 						<i class="small material-icons red-text text-lighten-1 prior-check absolute tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on prior basis">
 						error
 						</i>
+						@endif
 						<i class="medium material-icons blue-text text-lighten-1">query_builder</i>
 						<p class="slot-time-range blue-grey-text">
-							<span class="black-text">12:00 AM - 02:00 PM</span>
+							<span class="black-text">{{strtoupper(date("g:i a", strtotime($slotval['slot_fromtime'])))}} - {{strtoupper(date("g:i a", strtotime($slotval['slot_totime'])))}}</span>
 							<br/>
 							<span class="grey-text text-darken-3">
-							45 minutes</span>
+							{{$slotval['slot_duration']}} minutes</span>
 							<br/>
-							Technology Department
+							
 						</p>
 					</div>
+					@endforeach
+					@else
+					<div class="card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin">
+					No Available Slots
+					</div>
+
+					@endif
 					
 
 				</div>
