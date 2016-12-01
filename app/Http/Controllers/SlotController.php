@@ -133,22 +133,23 @@ class SlotController extends Controller {
 	 *   To show a list of slots
 	 */
 	public function showSlotList() {
-		if (Auth::user() -> role_id == 1) {
+
+		if (Auth::user() -> role == 1) {
                     $slots = Slot::where('slots.status','!=','7')
+                     ->join('users', 'slots.created_by', '=', 'users.id')
 				     ->join('status', 'slots.status', '=', 'status.id')
-					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
-					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
+					 ->select('slots.*','status.short_name','users.department')
            -> get();
            
-		} else if (Auth::user() -> role_id == 0) {
+		} else if (Auth::user() -> role == 0) {
           $slots = Slot::where('slots.created_by', Auth::user() -> id)
 				   ->where('slots.status','!=','7')
 					 ->join('status', 'slots.status', '=', 'status.id')
-					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
-					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
+					 ->select('slots.*', 'status.short_name')
            -> get();
           }
            $slots=$slots->toArray();
+           //dd($slots);
 return view('slots.list', compact('slots'));
 }
 /*
@@ -170,6 +171,7 @@ return view('slots.list', compact('slots'));
 
 	    	$id=base64_decode(urldecode($id));
 		    $slot = Slot::find($id);
+		    //dd($slot);
 	        return view('slots.new')->with('slotToUpdate', $slot);
 	    }
 			/*
@@ -181,6 +183,9 @@ return view('slots.list', compact('slots'));
 		    $slot = Slot::find($id);
 	        return view('slots.new')->with('slotToUpdate', $slot);
 	    }
+	          /*
+			 *   Load datewise data through ajax
+			 */
 
 	    public function load(Request $request){
         $slot_date = $request->input('slot_date');
@@ -192,8 +197,54 @@ return view('slots.list', compact('slots'));
            -> get();
           $today_slots=$today_slots->toArray();
           $today_slots1=json_encode($today_slots);
-           return Response::json($today_slots1);
+          return Response::json($today_slots1);
 
 	    }
+	    
+
+	 /*
+	 *   To slot status approve update 
+	 */
+	   public function approve(Request $request) {
+
+		$slot_id = trim($request->input('hid_slot_id'));
+		$start_time = trim($request->input('slot_from_time'));
+		$end_time = trim($request->input('slot_to_time'));
+
+		//12 hours format
+		$start_time_12  = strtoupper(date("g:i a", strtotime($start_time)));
+		$end_time_12  = strtoupper(date("g:i a", strtotime($end_time)));
+
+		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
+		$prior_status = $request->input('prior_status');
+
+		$hid_slot_id=trim($request->input('hid_slot_id'));
+		$department=trim($request->input('department'));
+
+			$interval = strtotime($end_time) - strtotime($start_time);
+			$abs_time_interval = (abs($interval) / 3600) * 60;
+			if ($interval <= 0 || $abs_time_interval > 450) {
+				$arr['status'] = false;
+			} else {
+                    DB::table('slots')
+				   ->where('id', $hid_slot_id)
+				   ->update(['status' => 2,'updated_by' =>Auth::user()->id]);
+		            /*
+		            *slot trans table insert
+		            */
+		            $trans_data = array("slot_id" => $hid_slot_id, "created_by" => Auth::user() -> id, "status" => 2);
+				 DB::table('slots_trans') -> insert(array($trans_data));
+
+				$arr['status'] = TRUE;
+			}
+			$arr['start_time'] = $start_time_12;
+			$arr['end_time'] = $end_time_12;
+			$arr['duration'] = $abs_time_interval;
+			$arr['department'] = $department;
+			$arr['slot_date'] = $request -> input('slot_date');
+			$arr['prior_status'] = $prior_status;
+		
+		return Response::json($arr);
+	}
 
 }

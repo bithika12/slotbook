@@ -47,7 +47,9 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e){
-            
+          if ($e instanceof \Illuminate\Auth\AuthenticationException){
+           return redirect('/login');
+       }  
         if ($e instanceof TokenMismatchException) {
             // redirect to form an example of how i handle mine
             return redirect($request->fullUrl())->with(
