@@ -44,14 +44,11 @@ class SlotController extends Controller {
 		 
 		 $today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
 		             ->where('slots.status','2')
-				     ->join('status', 'slots.status', '=', 'status.id')
-					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
-					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
-           -> get();
+		             ->join('users', 'slots.created_by', 'users.id')
+				     ->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h:%i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h:%i %p") as slot_totime'),'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
+          -> get();
           $today_slots=$today_slots->toArray();
-           //dd($today_slots);die;
-		
-		return view('slots.view', compact('calendar_dates', $calendar_dates,'today_slots'));
+          return view('slots.view', compact('calendar_dates', $calendar_dates,'today_slots'));
 	}
 
 	/*
@@ -137,7 +134,12 @@ class SlotController extends Controller {
 	 */
 	public function showSlotList() {
 		if (Auth::user() -> role_id == 1) {
-         $slots = Slot::all();
+                    $slots = Slot::where('slots.status','!=','7')
+				     ->join('status', 'slots.status', '=', 'status.id')
+					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
+					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
+           -> get();
+           
 		} else if (Auth::user() -> role_id == 0) {
           $slots = Slot::where('slots.created_by', Auth::user() -> id)
 				   ->where('slots.status','!=','7')
@@ -145,9 +147,8 @@ class SlotController extends Controller {
 					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
 					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
            -> get();
+          }
            $slots=$slots->toArray();
-           //dd($slots);die;
-				}
 return view('slots.list', compact('slots'));
 }
 /*
@@ -184,21 +185,14 @@ return view('slots.list', compact('slots'));
 	    public function load(Request $request){
         $slot_date = $request->input('slot_date');
 
-        $today_slots = Slot::where('slots.slot_date', '2016-11-30 ')
+        $today_slots = Slot::where('slots.slot_date', $slot_date)
 		             ->where('slots.status','2')
-				     ->select('slots.slot_fromtime','slots.slot_totime','slots.slot_duration','slots.prior_status','slots.status','slots.id')
+		             ->join('users', 'slots.created_by', 'users.id')
+				     ->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h:%i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h:%i %p") as slot_totime'),'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
            -> get();
           $today_slots=$today_slots->toArray();
-          //dd($today_slots);
-          foreach($today_slots as $val){
-          $arr['slot_totime']=strtoupper(date("g:i a", strtotime($val['slot_totime'])));
-          }
-          dd($arr);
-
-          $today_slots1=json_encode($today_slots1);
-          //dd($today_slots1);
-          
-          return Response::json($today_slots1);
+          $today_slots1=json_encode($today_slots);
+           return Response::json($today_slots1);
 
 	    }
 

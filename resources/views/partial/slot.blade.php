@@ -122,38 +122,55 @@
     'slot_date' : $(this).attr("data-value")
 	},
 	dataType : "json",
-	success : function(json) {
-		console.log(json);
+	beforeSend: function(data) {
+       			$('.preloader').fadeIn("slow");
+                $("a.slot-info").removeClass("light-blue");
+       			$("a.slot-info .slot-box").removeClass("light-blue white-text");
+       			$("a.slot-info .slot-box span").removeClass("light-blue white-text");
+       			
+       			$("a.slot-info").addClass("white");
+       			$("a.slot-info .slot-box").addClass("white blue-grey-text text-lighten-3");
+       			$("a.slot-info .slot-box span").addClass("white blue-grey-text");
+       			
+       			$(this).addClass("light-blue white-text");
+       		},
 
-		var getParse = JSON.parse(json);
-
-           
+	     success : function(json) {
+		  console.log(json);
+		   $('.preloader').fadeOut("slow");
+           var getParse = JSON.parse(json);
             var ar=getParse[0];
+            console.log(getParse.length);
             
-
+              $("#slot-details").empty();
+              if(getParse.length >0){
               for (var i = 0; i < getParse.length; i++) {
               var slot_fromtime=getParse[i]['slot_fromtime'];
               var slot_totime=getParse[i]['slot_totime'];
 
              var duration=getParse[i]['slot_duration'];
              var prior_status=getParse[i]['prior_status'];
-             var timefrom=convertTime('14:38:00');
-             console.log(timefrom);
-
-		$("#slot-details").html("<div class='card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin'>"
+             var department=getParse[i]['department'];
+             
+		$("#slot-details").append("<div class='card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin'>"
 		  	 + 
             (prior_status  == 1 ? "<i class='small material-icons red-text text-lighten-1 prior-check absolute tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on prior basis'>error</i>" : "") +
 		  	"<i class='medium material-icons blue-text text-lighten-1'>query_builder</i><p class='slot-time-range blue-grey-text'><span class='black-text'>" 
-			+ timefrom + 
+			+ slot_fromtime + 
 			"-" 
 			+ slot_totime + 
 			"</span><br/><span class='grey-text text-darken-3'>" 
 			+ duration + 
 			"</span><br/>" 
-			+ duration + 
+			+ department + 
 			"</p></div>");
 	}
-       
+}
+	else
+	{
+		$("#slot-details").append("No Data Available");
+	}
+
         }
 
 		});
