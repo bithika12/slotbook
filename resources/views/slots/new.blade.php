@@ -10,11 +10,13 @@
 			<form name="slot-book" role="form" action="" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
 				<input type="hidden" name="slot_status" value="@if(isset($slotToUpdate))0 @else 1 @endif">
-
+				<input type="hidden" name="slot_fromtime" value="@if(isset($slotToUpdate->slot_fromtime)){{strtoupper(date("g:i a", strtotime($slotToUpdate->slot_fromtime)))}}@endif">
+				<input type="hidden" name="slot_totime" value="@if(isset($slotToUpdate->slot_totime)){{strtoupper(date("g:i a", strtotime($slotToUpdate->slot_totime)))}}@endif">
+				
 				<div class="row">
 					<div class="input-field col s12">
 						<i class="material-icons prefix grey-text text-lighten-2">today</i>
-						<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="{{ isset($slotToUpdate) ? date('F j, Y',strtotime($slotToUpdate->slot_date)) : date('F j, Y') }}">
+						<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="{{ isset($slotToUpdate) ? date('j F, Y',strtotime($slotToUpdate->slot_date)) : date('j F, Y') }}">
 						<label for="slot_date">Select Date</label>
 					</div>
 				</div>
@@ -22,7 +24,7 @@
 				<div class="row">
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
-						<input type="text" id="slot_from_time" value="hh" name="slot_from_time" class="timepicker" value=""/>
+						<input type="text" id="slot_from_time" value="hh" name="slot_from_time" class="timepicker"/>
 						<label for="slot_from_time">Select Time From</label>
 					</div>
 					<div class="input-field col s6">

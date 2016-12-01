@@ -2,8 +2,8 @@ $(document).ready(function() {
 
 	//datepicker call
 	$('.datepicker').pickadate({
-		selectMonths : true, // Creates a dropdown to control month
-		selectYears : 15 // Creates a dropdown of 15 years to control year
+		min: new Date(),
+		max: 2
 	});
 	
 	//page-loader
@@ -11,10 +11,25 @@ $(document).ready(function() {
 
 
 	//timepicker call
-	var slot_status = $("input[name='slot_status']").val();
+	$('.timepicker').wickedpicker();
 	
-	$('.timepicker').wickedpicker(options);
-
+	//checking slot time value
+	var slot_status = parseInt($("input[name='slot_status']").val());
+	if(!slot_status){
+		$('.timepicker').val('');
+		$("input[name='slot_status']").val();
+		$("input[name='slot_from_time']").val($("input[name='slot_fromtime']").val());
+		$("input[name='slot_to_time']").val($("input[name='slot_totime']").val());
+		var options = {
+        	clearable: true, //Make the picker's input clearable (has clickable "x")
+    	};
+		$('.timepicker').wickedpicker(options);
+	}
+	else{
+		$('.timepicker').wickedpicker();
+	}
+	
+	//range value
 	$("#no_of_joinee").ionRangeSlider({
 	    type: "single",
 	    min: 0,
