@@ -30,7 +30,7 @@
 		<div class="grid calendar--item center-align overflow row slot-wrapper auto margin-top-2x margin-bottom-4x">
 
 			@foreach($calendar_dates as $key)
-			<a class="col s12 m2 border-x slot-info @if($key['status']) active @else white pointer @endif" 
+			<a class="col s12 m2 border-x slot-info @if($key['status']) light-blue @else white pointer @endif" 
 			data-value="{{$key['date_value']}}">
 			<div class="card-panel no-box-shadow @if($key['status']) white-text light-blue @else white blue-grey-text text-lighten-3 @endif slot-box">
 				<i class="small material-icons clear full-width">today</i>

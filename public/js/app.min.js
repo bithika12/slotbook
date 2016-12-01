@@ -6,10 +6,6 @@ $(document).ready(function() {
 		max: 2
 	});
 	
-	//page-loader
-	$(".preloader").delay(1000).fadeOut("slow");	
-
-
 	//timepicker call
 	$('.timepicker').wickedpicker();
 	

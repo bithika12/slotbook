@@ -2,7 +2,7 @@
 <div class="success ajax-response no-display center-align white-text animated red accent-1"></div>
 <div class="error ajax-response no-display center-align white-text animated red accent-4"></div>
 
-<div class="preloader grey lighten-5"></div>
+<div class="preloader grey lighten-5 hidden"></div>
 
 @if (Session::has('success'))
 <div class="success fixed-message fixed success-message center-align white-text animated slideInDown green accent-4 full-width">

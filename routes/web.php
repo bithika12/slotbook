@@ -32,7 +32,6 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/slot/list', 'SlotController@showSlotList');
 	Route::post('/slot/save', 'SlotController@saveSlot');
 	Route::post('/slot/approve', 'SlotController@approve');
-	Route::get('/slot/load', 'SlotController@load');
 
 	//Route::post('/slot/destroy//{id}', 'SlotController@saveSlot/{id}');
 	Route::get('delete/{id}', 'SlotController@destroy');
@@ -41,4 +40,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
+Route::get('/slot/load', 'SlotController@load');
 Route::get('/slot/view', 'SlotController@viewSlot');

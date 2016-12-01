@@ -183,29 +183,25 @@ return view('slots.list', compact('slots'));
 		    $slot = Slot::find($id);
 	        return view('slots.new')->with('slotToUpdate', $slot);
 	    }
-	          /*
-			 *   Load datewise data through ajax
-			 */
-
+	    /*
+		*   Load datewise data through ajax
+		*/
 	    public function load(Request $request){
-        $slot_date = $request->input('slot_date');
-
-        $today_slots = Slot::where('slots.slot_date', $slot_date)
-		             ->where('slots.status','2')
-		             ->join('users', 'slots.created_by', 'users.id')
-				     ->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h:%i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h:%i %p") as slot_totime'),'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
-           -> get();
-          $today_slots=$today_slots->toArray();
-          $today_slots1=json_encode($today_slots);
-          return Response::json($today_slots1);
-
+	        $slot_date = $request->input('slot_date');
+	        $today_slots = Slot::where('slots.slot_date', $slot_date)
+			             ->where('slots.status','2')
+			             ->join('users', 'slots.created_by', 'users.id')
+					     ->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h:%i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h:%i %p") as slot_totime'),'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
+	           -> get();
+	        $today_slots=$today_slots->toArray();
+	        $today_slots1=json_encode($today_slots);
+        	return Response::json($today_slots1);
 	    }
-	    
 
 	 /*
 	 *   To slot status approve update 
 	 */
-	   public function approve(Request $request) {
+	 public function approve(Request $request) {
 
 		$slot_id = trim($request->input('hid_slot_id'));
 		$start_time = trim($request->input('slot_from_time'));

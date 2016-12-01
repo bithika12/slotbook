@@ -65,10 +65,19 @@ nav{
 			.slot-box{
 				padding: 0;
 				margin: 0.5rem 0;
-				&:hover{
-					color: black;
-				}
 			}
+		}
+		.slot-info.active{
+		  background: $blue !important;
+		  color: $white !important;
+		  .slot-box{
+		    background: $blue !important;
+        color: $white !important;
+		    span{
+		      background: $blue !important;
+          color: $white !important;
+		    }
+		  } 
 		}
 		.slot-details{
 			border-radius: 10px 10px 0 0;
@@ -85,6 +94,7 @@ nav{
 			}
 		}
 	}
+	
 }
 
 //book slot

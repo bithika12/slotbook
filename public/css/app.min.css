@@ -8778,11 +8778,12 @@ textarea.materialize-textarea:focus:not([readonly]) {
   position: fixed;
   left: 0;
   top: 0;
+  opacity: 0.9;
   z-index: 999;
   width: 100%;
   height: 100%;
   overflow: visible;
-  background: url("http://visual.ly/sites/all/themes/visually2/media/images/preloader.gif") no-repeat center center;
+  background: url("../images/loading.gif") no-repeat center center;
 }
 
 body {
@@ -8864,8 +8865,19 @@ nav .top-navbar a {
   margin: 0.5rem 0;
 }
 
-.view-slot .slot-wrapper .slot-info .slot-box:hover {
-  color: black;
+.view-slot .slot-wrapper .slot-info.active {
+  background: #03A9F4 !important;
+  color: #fff !important;
+}
+
+.view-slot .slot-wrapper .slot-info.active .slot-box {
+  background: #03A9F4 !important;
+  color: #fff !important;
+}
+
+.view-slot .slot-wrapper .slot-info.active .slot-box span {
+  background: #03A9F4 !important;
+  color: #fff !important;
 }
 
 .view-slot .slot-wrapper .slot-details {
