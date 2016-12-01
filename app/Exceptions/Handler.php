@@ -37,6 +37,7 @@ class Handler extends ExceptionHandler
     public function report(Exception $e)
     {
         parent::report($e);
+		$message = $e->getMessage();
     }
 
     /**
@@ -47,7 +48,7 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e){
-            
+        
         if ($e instanceof TokenMismatchException) {
             // redirect to form an example of how i handle mine
             return redirect($request->fullUrl())->with(

@@ -9,6 +9,8 @@
 			</div>
 			<form name="slot-book" role="form" action="" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
+				<input type="hidden" name="slot_status" value="@if(isset($slotToUpdate))0 @else 1 @endif">
+
 				<div class="row">
 					<div class="input-field col s12">
 						<i class="material-icons prefix grey-text text-lighten-2">today</i>
@@ -16,10 +18,11 @@
 						<label for="slot_date">Select Date</label>
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="input-field col s6">
 						<i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
-						<input type="text" id="slot_from_time" value="hh" name="slot_from_time" class="timepicker"/>
+						<input type="text" id="slot_from_time" value="hh" name="slot_from_time" class="timepicker" value=""/>
 						<label for="slot_from_time">Select Time From</label>
 					</div>
 					<div class="input-field col s6">

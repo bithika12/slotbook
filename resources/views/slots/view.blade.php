@@ -4,10 +4,12 @@
 <main class="container white z-depth-1 center-align view-slot margin-bottom-4x">
 	<div class="row heading">
 		<h3 class="left-align title left col-s8">View  Booking Slots</h3>
-		<a class="z-depth-1 margin-top-x waves-effect waves-light btn right col-s4 green accent-4 add-btn" href="{{URL('slot/new')}}">
-			<i class="material-icons left">launch</i>
-			Book A Slot
-		</a>
+		@if(Auth::check())
+			<a class="z-depth-1 margin-top-x waves-effect waves-light btn right col-s4 green accent-4 add-btn" href="{{URL('slot/new')}}">
+				<i class="material-icons left">launch</i>
+				Book A Slot
+			</a>
+		@endif
 	</div>
 	<div class="row">
 		<p class="left-align grey-text text-darken-1">
