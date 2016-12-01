@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/slot/new', 'SlotController@index');
 	Route::get('/slot/list', 'SlotController@showSlotList');
 	Route::post('/slot/save', 'SlotController@saveSlot');
-	Route::get('/slot/load', 'SlotController@fetch');
+	Route::get('/slot/load', 'SlotController@load');
 
 	//Route::post('/slot/destroy//{id}', 'SlotController@saveSlot/{id}');
 	Route::get('delete/{id}', 'SlotController@destroy');

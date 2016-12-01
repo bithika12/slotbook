@@ -11,7 +11,7 @@
 		    @foreach($slots as $slot)
 			<li class="collection-item avatar">
 				<i class="material-icons circle grey lighten-1">today</i>
-				<span class="title black-text slot-details">{!! date("jS F", strtotime($slot["slot_date"])) !!} | {!! $slot["slot_fromtime"] !!} - {!! $slot["slot_totime"] !!}
+				<span class="title black-text slot-details">{!! date("jS F", strtotime($slot["slot_date"])) !!} | {!! strtoupper(date("g:i a", strtotime($slot["slot_fromtime"]))) !!} - {!! strtoupper(date("g:i a", strtotime($slot["slot_totime"]))) !!}
 				@if($slot['status']=='2')
 				<i class="relative material-icons green-text text-accent-4">done</i>
 				@endif
