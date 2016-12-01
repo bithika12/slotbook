@@ -31,10 +31,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/slot/new', 'SlotController@index');
 	Route::get('/slot/list', 'SlotController@showSlotList');
 	Route::post('/slot/save', 'SlotController@saveSlot');
+	Route::get('/slot/load', 'SlotController@load');
+
 	//Route::post('/slot/destroy//{id}', 'SlotController@saveSlot/{id}');
 	Route::get('delete/{id}', 'SlotController@destroy');
-	Route::get('slot_edit/{id}', 'SlotController@edit');
-	Route::get('slot_repeat/{id}', 'SlotController@repeat');
+	Route::get('slot/edit/{id}', 'SlotController@edit');
+	Route::get('slot/repeat/{id}', 'SlotController@repeat');
 
 });
 

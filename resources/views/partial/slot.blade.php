@@ -50,10 +50,8 @@
 	});
 	var socket = io.connect('http://' + window.location.hostname + ':3000');
 	socket.on('new_slot', function(json) {
-		console.log(json);
-		//$("#slot-details").prepend('<tr><td>' + json.start_time + '</td><td>' + json.end_time + '</td><td>' + json.duration + '</td><td>' + json.department + '</td></tr>');
-
-		  $("#slot-details").prepend("<div class='card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin'>"
+		  $('.ajax-response.success').html("<b>New Slot Added");	
+		  $("#slot-details").append("<div class='card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin'>"
 		  	 + 
             (json.prior_status  == 1 ? "<i class='small material-icons red-text text-lighten-1 prior-check absolute tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on prior basis'>error</i>" : "") +
 		  	"<i class='medium material-icons blue-text text-lighten-1'>query_builder</i><p class='slot-time-range blue-grey-text'><span class='black-text'>" 
@@ -113,4 +111,82 @@
 			minutes = "0" + minutes;
 		return hours + ":" + minutes;
 	}
+
+		$("a.slot-info").click(function() {
+			alert($(this).attr("data-value"));
+
+			$.ajax({
+	type: "GET",
+	url: {!! json_encode(url('/slot/load')) !!},
+	data: {
+    'slot_date' : $(this).attr("data-value")
+	},
+	dataType : "json",
+	success : function(json) {
+		console.log(json);
+
+		var getParse = JSON.parse(json);
+
+           
+            var ar=getParse[0];
+            
+
+              for (var i = 0; i < getParse.length; i++) {
+              var slot_fromtime=getParse[i]['slot_fromtime'];
+              var slot_totime=getParse[i]['slot_totime'];
+
+             var duration=getParse[i]['slot_duration'];
+             var prior_status=getParse[i]['prior_status'];
+             var timefrom=convertTime('14:38:00');
+             console.log(timefrom);
+
+		$("#slot-details").html("<div class='card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin'>"
+		  	 + 
+            (prior_status  == 1 ? "<i class='small material-icons red-text text-lighten-1 prior-check absolute tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on prior basis'>error</i>" : "") +
+		  	"<i class='medium material-icons blue-text text-lighten-1'>query_builder</i><p class='slot-time-range blue-grey-text'><span class='black-text'>" 
+			+ timefrom + 
+			"-" 
+			+ slot_totime + 
+			"</span><br/><span class='grey-text text-darken-3'>" 
+			+ duration + 
+			"</span><br/>" 
+			+ duration + 
+			"</p></div>");
+	}
+       
+        }
+
+		});
+		});
+
+function convertTime(time) {
+
+    var hours = Number(time.match(/^(\d\d?)/)[1]);
+    var minutes = Number(time.match(/:(\d\d?)/)[1]);
+    var AMPM = time.match(/\s(.AM|PM)$/i)[1];
+
+    if (AMPM == 'PM' || AMPM == 'pm' && hours<12) 
+    {
+        hours = hours+12;
+    }
+    else if (AMPM == 'AM' || AMPM == "am" && hours==12)
+    {
+        hours = hours-12;
+    }
+
+    var sHours = hours.toString();
+    var sMinutes = minutes.toString();
+
+    if(hours<10)
+    {
+        sHours = "0" + sHours;
+    }
+    else if(minutes<10) {
+        sMinutes = "0" + sMinutes;
+    }
+
+    return sHours + ":" + sMinutes; 
+
+}
+
 </script>

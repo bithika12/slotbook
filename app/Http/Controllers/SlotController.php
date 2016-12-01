@@ -41,15 +41,17 @@ class SlotController extends Controller {
 				$calendar_dates[$i]['status'] = FALSE;
 			}
 		}
-		$today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
+		 
+		 $today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
+		             ->where('slots.status','2')
 				     ->join('status', 'slots.status', '=', 'status.id')
 					 ->join('slots_trans', 'slots.id', '=', 'slots_trans.slot_id')
 					 ->select('slots.*', 'slots_trans.comments', 'status.short_name')
            -> get();
-           $today_slots=$today_slots->toArray();
+          $today_slots=$today_slots->toArray();
            //dd($today_slots);die;
 		
-		return view('slots.view', compact('calendar_dates', $calendar_dates));
+		return view('slots.view', compact('calendar_dates', $calendar_dates,'today_slots'));
 	}
 
 	/*
@@ -152,7 +154,8 @@ return view('slots.list', compact('slots'));
  *   To destroy a list of slots
  */
 			public function destroy($id) {
-        $slot = Slot::find($id);
+		    $id=base64_decode(urldecode($id));		
+            $slot = Slot::find($id);
 		    $slot->status = '7';
 		    $slot->save();
 		    return Redirect::to('/slot/list');
@@ -163,6 +166,8 @@ return view('slots.list', compact('slots'));
 			 */
 			public function edit($id)
 	    {
+
+	    	$id=base64_decode(urldecode($id));
 		    $slot = Slot::find($id);
 	        return view('slots.new')->with('slotToUpdate', $slot);
 	    }
@@ -171,8 +176,30 @@ return view('slots.list', compact('slots'));
 			 */
 			public function repeat($id)
 	    {
+	    	$id=base64_decode(urldecode($id));
 		    $slot = Slot::find($id);
 	        return view('slots.new')->with('slotToUpdate', $slot);
+	    }
+
+	    public function load(Request $request){
+        $slot_date = $request->input('slot_date');
+
+        $today_slots = Slot::where('slots.slot_date', '2016-11-30 ')
+		             ->where('slots.status','2')
+				     ->select('slots.slot_fromtime','slots.slot_totime','slots.slot_duration','slots.prior_status','slots.status','slots.id')
+           -> get();
+          $today_slots=$today_slots->toArray();
+          //dd($today_slots);
+          foreach($today_slots as $val){
+          $arr['slot_totime']=strtoupper(date("g:i a", strtotime($val['slot_totime'])));
+          }
+          dd($arr);
+
+          $today_slots1=json_encode($today_slots1);
+          //dd($today_slots1);
+          
+          return Response::json($today_slots1);
+
 	    }
 
 }
