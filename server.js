@@ -20,4 +20,15 @@ socket.on('new_slot', function(data) {
 		prior_status : data.prior_status
     });
   });
+
+socket.on('approve_slot', function(data) {
+    io.sockets.emit( 'approve_slot', {
+      start_time: data.start_time,
+      end_time: data.end_time,
+      department: data.department,
+      duration: data.duration,
+      slot_date : data.slot_date,
+    prior_status : data.prior_status
+    });
+  });
 });

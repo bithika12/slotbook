@@ -30,7 +30,7 @@
 		<div class="grid calendar--item center-align overflow row slot-wrapper auto margin-top-2x margin-bottom-4x">
 
 			@foreach($calendar_dates as $key)
-			<a class="col s12 m2 border-x slot-info @if($key['status']) light-blue @else white pointer @endif" 
+			<a class="col s12 m2 border-x slot-info @if($key['status']) active @else white pointer @endif" 
 			data-value="{{$key['date_value']}}">
 			<div class="card-panel no-box-shadow @if($key['status']) white-text light-blue @else white blue-grey-text text-lighten-3 @endif slot-box">
 				<i class="small material-icons clear full-width">today</i>
@@ -44,20 +44,26 @@
 	
 			<!--Display slots-->
 			<div class="col s12 m12 border-x slot-details white margin-top-2x" id="slot-details">
+			    @if(!empty($today_slots))
+			    @foreach($today_slots as $slot)
 				<div class="card-panel col s12 m3 offset-m1 border-blue white no-box-shadow slot-box left-origin">				
 					<i class="small material-icons red-text text-lighten-1 prior-check absolute tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on prior basis">
 						error
 					</i>
 					<i class="medium material-icons light-blue-text">query_builder</i>
 					<p class="slot-time-range blue-grey-text">
-						<span class="black-text">12:00 AM - 02:00 PM</span>
+						<span class="black-text">{{$slot['slot_fromtime']}}- {{$slot['slot_totime']}}</span>
 						<br/>
 						<span class="grey-text text-darken-3">
-							45 minutes</span>
+							{{$slot['slot_duration']}} minutes</span>
 							<br/>
-							Technology Department
+							{{$slot['department']}}
 						</p>
 					</div>
+					@endforeach
+					@else
+					No Data Available
+					@endif
 				</div>
 			</div>
 		</div>

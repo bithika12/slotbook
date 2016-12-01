@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/slot/new', 'SlotController@index');
 	Route::get('/slot/list', 'SlotController@showSlotList');
 	Route::post('/slot/save', 'SlotController@saveSlot');
+	Route::post('/slot/approve', 'SlotController@approve');
 	Route::get('/slot/load', 'SlotController@load');
 
 	//Route::post('/slot/destroy//{id}', 'SlotController@saveSlot/{id}');
