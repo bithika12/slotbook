@@ -28,7 +28,7 @@
 					<br><br>
 					@if (Auth::user() -> role == 0)
 					<a class="light-blue white-text mod-action modify link" href="{{ url('/slot/edit', (base64_encode(urlencode($slot['id'])))) }}"> <i class="material-icons tiny relative">edit</i>Change </a>
-					<a class="light-blue white-text margin-left-0-5x mod-action link trash" href="{{ url('/delete', (base64_encode(urlencode($slot['id'])))) }}" data-method="delete" name="delete_item"> <i class="material-icons tiny relative">delete</i> Trash </a>
+					<a class="light-blue white-text margin-left-0-5x mod-action link trash" data-id="{{ base64_encode(urlencode($slot['id'])) }}" data-method="delete" name="delete_item"> <i class="material-icons tiny relative">delete</i> Trash </a>
 					<a class="light-blue white-text margin-left-0-5x mod-action link repeat" href="{{ url('/slot_repeat', (base64_encode(urlencode($slot['id'])))) }}"> <i class="material-icons tiny relative">loop</i> Repeat </a>
 					<a class="light-blue white-text margin-left-0-5x mod-action link swap" href="#!"> <i class="material-icons tiny relative">compare_arrows</i> Swap Request </a>
 					@elseif(Auth::user() -> role == 1)
@@ -50,6 +50,8 @@
 			<!--hidden value for realtime-->
 
 			@endforeach
+			@else
+			<h6 class="red-text text-accent-1 center-align">You have not created any slot yet.</h6>
 			@endif
 
 		</ul>

@@ -10,8 +10,8 @@
 			<form name="slot-book" role="form" action="" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
 				<input type="hidden" name="slot_status" value="@if(isset($slotToUpdate))0 @else 1 @endif">
-				<input type="hidden" name="slot_fromtime" value="@if(isset($slotToUpdate->slot_fromtime)){{strtoupper(date("g:i a", strtotime($slotToUpdate->slot_fromtime)))}}@endif">
-				<input type="hidden" name="slot_totime" value="@if(isset($slotToUpdate->slot_totime)){{strtoupper(date("g:i a", strtotime($slotToUpdate->slot_totime)))}}@endif">
+				<input type="hidden" name="slot_fromtime" value="@if(isset($slotToUpdate->slot_fromtime)){{strtoupper(date("g : i a", strtotime($slotToUpdate->slot_fromtime)))}}@endif">
+				<input type="hidden" name="slot_totime" value="@if(isset($slotToUpdate->slot_totime)){{strtoupper(date("g : i a", strtotime($slotToUpdate->slot_totime)))}}@endif">
 				
 				<div class="row">
 					<div class="input-field col s12">

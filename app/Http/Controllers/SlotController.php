@@ -60,8 +60,8 @@ class SlotController extends Controller {
 		$end_time = trim($request->input('slot_to_time'));
 
 		//12 hours format
-		$start_time_12  = date("g:i a", strtotime($start_time));
-		$end_time_12  = date("g:i a", strtotime($end_time));
+		$start_time_12  = date("g : i a", strtotime($start_time));
+		$end_time_12  = date("g : i a", strtotime($end_time));
 
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
