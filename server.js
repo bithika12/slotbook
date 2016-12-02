@@ -28,7 +28,11 @@ socket.on('approve_slot', function(data) {
       department: data.department,
       duration: data.duration,
       slot_date : data.slot_date,
-    prior_status : data.prior_status
+    prior_status : data.prior_status,
+    created_by : data.created_by,
+    status : data.status,
+    auth_user_id : data.auth_user_id,
+    auth_user_role : data.auth_user_role
     });
   });
 });

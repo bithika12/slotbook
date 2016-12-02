@@ -5,7 +5,11 @@
 	<div class="row">
 		<div class="white z-depth-1 col s12 m8 auto float card-space">
 			<div class="heading row">
+				@if($slotAction==1)
+				<h3 class="left-align title left col-s8 grey-text text-darken-2">Update A Slot</h3>
+				@else
 				<h3 class="left-align title left col-s8 grey-text text-darken-2">Book A Slot</h3>
+				@endif
 			</div>
 			<form name="slot-book" role="form" action="" method="post" enctype="multipart/form-data">
 				{{CSRF_FIELD()}}
@@ -46,7 +50,7 @@
 						<i class="material-icons prefix grey-text text-lighten-2">person_pin</i>
 						<label for="description">Possible Attendees (Approx no.)</label>
 						<input type="text" id="no_of_joinee" name="no_of_joinee" value="
-						{{ isset($slotToUpdate) ? $slotToUpdate->no_of_joinee : '' }}" />
+						{{ isset($slotToUpdate) ? $slotToUpdate->no_of_joinee :'1' }}" />
 					</div>
 				</div>
 

@@ -59,21 +59,15 @@ class SlotController extends Controller {
 
 		$start_time = trim($request->input('slot_from_time'));
 		$end_time = trim($request->input('slot_to_time'));
-
 		//12 hours format
 		$start_time_12  = date("g : i a", strtotime($start_time));
 		$end_time_12  = date("g : i a", strtotime($end_time));
-
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
-
 		$hid_slot_id=trim($request->input('hid_slot_id'));
 		$slot_action=trim($request->input('slot_action'));
-
         if($prior_status == "true"){
-
 			$prior_status = TRUE;
-
 		}else{
 			 $prior_status=intval($prior_status);
 		}
@@ -131,14 +125,12 @@ class SlotController extends Controller {
 		return Response::json($arr);
 	}
 
-/*
-	 *   To show a list of slots
-	 */
+	/*
+	*   To show a list of slots
+	*/
 	public function showSlotList() {
-
 		if (Auth::user() -> role == 1) {
-                    $slots = Slot::where('slots.status','!=','7')
-                     ->join('users', 'slots.created_by', '=', 'users.id')
+                    $slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 				     ->join('status', 'slots.status', '=', 'status.id')
 					 ->select('slots.*','status.short_name','users.department')
            -> get();
@@ -152,23 +144,20 @@ class SlotController extends Controller {
           }
            $slots=$slots->toArray();
            //dd($slots);
-return view('slots.list', compact('slots'));
+	return view('slots.list', compact('slots'));
 }
-/*
- *   To destroy a list of slots
- */
-			public function cancel(Request $request) {
+	/*
+	 *   To destroy a list of slots
+	*/
+	public function cancel(Request $request) {
 			$slot_id = trim($request->input('slot_id'));
 			$slot_comment=trim($request->input('comment'));
 			$slot = Slot::find($slot_id);
 		    $slot->status = '4';
 		    $slot->save();
-			
-			$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "stastus" => 4);
+			$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 4);
 			DB::table('slots_trans') -> insert(array($trans_data));
-		    return Redirect::to('/slot/list');
-
-			}
+		}
 			/*
 			 *   To edit a slot
 			 */
@@ -210,6 +199,10 @@ return view('slots.list', compact('slots'));
 		$slot_id = trim($request->input('hid_slot_id'));
 		$start_time = trim($request->input('slot_from_time'));
 		$end_time = trim($request->input('slot_to_time'));
+		$created_by= trim($request->input('created_by'));
+		
+		$auth_user_id= Auth::user() -> id;
+		$auth_user_role= Auth::user() -> role;
 
 		//12 hours format
 		$start_time_12  = strtoupper(date("g:i a", strtotime($start_time)));
@@ -241,8 +234,12 @@ return view('slots.list', compact('slots'));
 			$arr['end_time'] = $end_time_12;
 			$arr['duration'] = $abs_time_interval;
 			$arr['department'] = $department;
-			$arr['slot_date'] = $request -> input('slot_date');
+			$arr['slot_date'] = $slot_date;
 			$arr['prior_status'] = $prior_status;
+			$arr['created_by']   =$created_by;
+			$arr['status']   =2;
+			$arr['auth_user_id']   = $auth_user_id;
+			$arr['auth_user_role']   = $auth_user_role;
 		
 		return Response::json($arr);
 	}

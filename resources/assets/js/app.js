@@ -14,8 +14,8 @@ $(document).ready(function() {
 	if(!slot_status){
 		$('.timepicker').val('');
 		$("input[name='slot_status']").val();
-		$("input[name='slot_from_time']").val($("input[name='slot_fromtime']").val());
-		$("input[name='slot_to_time']").val($("input[name='slot_totime']").val());
+		$(".book-slot input[name='slot_from_time']").val($("input[name='slot_fromtime']").val());
+		$(".book-slot input[name='slot_to_time']").val($("input[name='slot_totime']").val());
 		var options = {
         	clearable: true, //Make the picker's input clearable (has clickable "x")
     	};

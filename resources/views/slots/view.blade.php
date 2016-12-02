@@ -52,7 +52,7 @@
 				</div>
 				@endforeach
 				@else
-				No Data Available
+				<b>No slot booking history found</b>
 				@endif
 			</div>
 		</div>
