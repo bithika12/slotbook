@@ -21,6 +21,7 @@ $(document).ready(function() {
 					'description' :  $("textarea[name='description']").val(),
 					'prior_status' : $('#prior_status').is(':checked'),
 					'hid_slot_id' :  $('#hid_slot_id').val(),
+					'slot_action' :  $('#slot_action').val(),
 					'no_of_joinee' : $("input[name='no_of_joinee']").val()
 				}, 
 				dataType : "json",
@@ -107,24 +108,44 @@ $(document).ready(function() {
 });
 	
 	//Delete Slot Booking
-		$("a.link.trash").click(function() {
-			swal({
-				title : "Are you sure?",
-				text : "You will not be able to recover this slot!",
-				type : "warning",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "Yes, delete it!",
-				cancelButtonText : "No, changed my mind!",
-				closeOnConfirm : false,
-				closeOnCancel : false
-			}, function(isConfirm) {
-			if (isConfirm) {
-				swal("Deleted!", "Your slot has been deleted.", "success");
-			} else {
-				swal("Cancelled", "Your imaginary file is safe :)", "error");
-				}
-			});
+		$("a.link.trash").click(function(e) {
+			e.preventDefault();
+	      	swal({
+				  title: "Are you sure to cancel?",
+				  text: "Give a comment to cancel",
+				  type: "input",
+				  showCancelButton: true,
+				  closeOnConfirm: false,
+				  animation: "slide-from-top",
+				  inputPlaceholder: "Write something"
+				},
+				function(inputValue){
+				  if (inputValue === false) return false;
+				  
+				  else if (inputValue === "") {
+				    swal.showInputError("You need to write something!");
+				    return false
+				  }
+				  else{
+				  	$.ajax({
+							type: "POST",
+							url: {!! json_encode(url('/slot/cancel')) !!}, 
+						    data: {
+							'_token': $("input[name='_token']").val(),
+							'slot_id' : $("#hid_slot_id").val(),
+							'comment' : inputValue
+			
+			               },
+					dataType : "json",
+					success : function(json) {
+						alert('json');
+		       
+		                  }
+					
+				         });
+                       }
+				   swal("Nice!", "You wrote: " + inputValue, "success");
+				});
 		});
 	});
 	

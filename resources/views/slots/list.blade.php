@@ -16,9 +16,13 @@
 					<i class="relative material-icons green-text text-accent-4">done</i> @endif </span>
 
 				<!--Only for upcoming request-->
+				@if($slot['status']=='1')
+				<a class="red-text text-accent-3 mod-action link trash" href="#!"> 
+					<i class="material-icons tiny relative">close</i> Cancel Request </a>
+				@endif
 				@if($slot['status']=='4')
-				<a class="red-text text-accent-3 mod-action" href="#!"> 
-					<i class="material-icons tiny relative">close</i> Cancel Slot Request </a>
+				<a class="red-text text-accent-3"> 
+					<i class="material-icons tiny relative">close</i> </a>
 				@endif
 				@if(Auth::user() -> role == 1 && $slot['status']!='2')
 				<a onclick="need_approv({{$slot['id']}});" class="orange-text mod-action" href="#!"> <i class="material-icons tiny relative">warning</i> Need Approval </a>
@@ -28,9 +32,8 @@
 					<br><br>
 					@if (Auth::user() -> role == 0)
 					<a class="light-blue white-text mod-action modify link" href="{{ url('/slot/edit', (base64_encode(urlencode($slot['id'])))) }}"> <i class="material-icons tiny relative">edit</i>Change </a>
-					<a class="light-blue white-text margin-left-0-5x mod-action link trash" data-id="{{ base64_encode(urlencode($slot['id'])) }}" data-method="delete" name="delete_item"> <i class="material-icons tiny relative">delete</i> Trash </a>
-					<a class="light-blue white-text margin-left-0-5x mod-action link repeat" href="{{ url('/slot_repeat', (base64_encode(urlencode($slot['id'])))) }}"> <i class="material-icons tiny relative">loop</i> Repeat </a>
-					<a class="light-blue white-text margin-left-0-5x mod-action link swap" href="#!"> <i class="material-icons tiny relative">compare_arrows</i> Swap Request </a>
+					<a class="light-blue white-text margin-left-0-5x mod-action link repeat" href="{{ url('/slot/repeat', (base64_encode(urlencode($slot['id'])))) }}"> <i class="material-icons tiny relative">loop</i> Repeat </a>
+					<!---<a class="light-blue white-text margin-left-0-5x mod-action link swap" href="#!"> <i class="material-icons tiny relative">compare_arrows</i> Swap Request </a>--->
 					@elseif(Auth::user() -> role == 1)
 						<span class="blue-grey lighten-5 small-font bolder">{{ !empty($slot['department']) ? $slot['department'] : '' }}</span>
 					@endif

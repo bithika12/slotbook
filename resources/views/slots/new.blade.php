@@ -62,10 +62,18 @@
 				</div>
                 <input type="hidden" name="hid_slot_id" id="hid_slot_id" value="
                 {{ isset($slotToUpdate) ? $slotToUpdate->id : '' }}">
+                <input type="hidden" id="slot_action" name="slot_action" value="{{$slotAction}}">
+                @if($slotAction==1)
+                <button class="waves-effect waves-light btn-large green accent-4 margin-bottom-x" id="request_btn">
+					<i class="material-icons left">input</i>
+					Update Booking
+				</button>
+				@else
 				<button class="waves-effect waves-light btn-large green accent-4 margin-bottom-x" id="request_btn">
 					<i class="material-icons left">input</i>
 					Request Booking
 				</button>
+				@endif
 			</form>
 		</div>
 

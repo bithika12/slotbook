@@ -18,8 +18,9 @@ class SlotController extends Controller {
 	 *   To display Slot Creation Form
 	 */
 	public function index() {
-
-		return view('slots.new');
+		
+        $slot_action=0;
+		return view('slots.new')->with('slotAction', $slot_action);
 	}
 
 	/*
@@ -67,6 +68,7 @@ class SlotController extends Controller {
 		$prior_status = $request->input('prior_status');
 
 		$hid_slot_id=trim($request->input('hid_slot_id'));
+		$slot_action=trim($request->input('slot_action'));
 
         if($prior_status == "true"){
 
@@ -105,10 +107,10 @@ class SlotController extends Controller {
 								"created_by" => Auth::user()->id
 				);
 
-				if(empty($hid_slot_id)){
+				if($slot_action==0 || $slot_action==2){
 				$slot_id = DB::table('slots')->insertGetId($booking_data);
 			    }
-			    else
+				elseif($slot_action==1) 
 			    {
 			    	DB::table('slots')
 		            ->where('id', $hid_slot_id)
@@ -155,33 +157,35 @@ return view('slots.list', compact('slots'));
 /*
  *   To destroy a list of slots
  */
-			public function destroy($id) {
-		    $id=base64_decode(urldecode($id));		
-            $slot = Slot::find($id);
-		    $slot->status = '7';
+			public function cancel(Request $request) {
+			$slot_id = trim($request->input('slot_id'));
+			$slot_comment=trim($request->input('comment'));
+			$slot = Slot::find($slot_id);
+		    $slot->status = '4';
 		    $slot->save();
+			
+			$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "stastus" => 4);
+			DB::table('slots_trans') -> insert(array($trans_data));
 		    return Redirect::to('/slot/list');
 
 			}
 			/*
 			 *   To edit a slot
 			 */
-			public function edit($id)
-	    {
-
-	    	$id=base64_decode(urldecode($id));
-		    $slot = Slot::find($id);
-		    //dd($slot);
-	        return view('slots.new')->with('slotToUpdate', $slot);
+			public function edit($id){
+	            $id=base64_decode(urldecode($id));
+			    $slot = Slot::find($id);
+			    $slot_action=1;
+		        return view('slots.new')->with('slotToUpdate', $slot)->with('slotAction', $slot_action);
 	    }
 			/*
 			 *   To repeat a slot
 			 */
-			public function repeat($id)
-	    {
-	    	$id=base64_decode(urldecode($id));
-		    $slot = Slot::find($id);
-	        return view('slots.new')->with('slotToUpdate', $slot);
+			public function repeat($id){
+		    	$id=base64_decode(urldecode($id));
+			    $slot = Slot::find($id);
+				$slot_action=2;
+		        return view('slots.new')->with('slotToUpdate', $slot)->with('slotAction', $slot_action);
 	    }
 	    /*
 		*   Load datewise data through ajax

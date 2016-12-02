@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('/slot/approve', 'SlotController@approve');
 
 	//Route::post('/slot/destroy//{id}', 'SlotController@saveSlot/{id}');
-	Route::get('delete/{id}', 'SlotController@destroy');
+	Route::post('/slot/cancel', 'SlotController@cancel');
 	Route::get('slot/edit/{id}', 'SlotController@edit');
 	Route::get('slot/repeat/{id}', 'SlotController@repeat');
 
