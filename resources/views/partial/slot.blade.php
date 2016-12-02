@@ -8,7 +8,7 @@ $(document).ready(function() {
 			e.preventDefault();
 			$get_cal_from_time = converttimeformat($("#slot_from_time").val());
 			$get_cal_to_time = converttimeformat($("#slot_to_time").val());
-			$chk_bx = $('#prior_status').prop('checked');
+			$chk_bx = $('#prior_status').prop('checked');			
 			$.ajax({
 				type: "POST",
 				url: {!! json_encode(url('/slot/save')) !!}, 
@@ -27,21 +27,22 @@ $(document).ready(function() {
 				success : function(json) {
 					if (!json.status) {
 						$(".fixed-message.error").removeClass("hidden").html("Error occured. Try at your end.");
-					} else {
-					var $toastContent = $('<span>Slot Request Submitted Successfully.</span>');
-					var socket = io.connect('http://' + window.location.hostname + ':3000');
-					socket.emit('new_slot', {
-					start_time : json.start_time,
-					end_time : json.end_time,
-					duration : json.duration,
-					department : json.department,
-					slot_date : json.slot_date,
-					prior_status : json.prior_status
-					});
-					Materialize.toast($toastContent, 5000);
-					setTimeout(function() {
-					window.location = {!! json_encode(url('/slot/list')) !!}
-					}, 1000);
+					} 
+					else {
+						var $toastContent = $('<span>Slot Request Submitted Successfully.</span>');
+						var socket = io.connect('http://' + window.location.hostname + ':3000');
+							socket.emit('new_slot', {
+							start_time : json.start_time,
+							end_time : json.end_time,
+							duration : json.duration,
+							department : json.department,
+							slot_date : json.slot_date,
+							prior_status : json.prior_status
+						});
+						swal("Success!", "Slot operation updated successfully!", "success");
+						setTimeout(function() {
+						window.location = {!! json_encode(url('/slot/view')) !!}
+						}, 2500);
 					}
 				} , error: function(xhr, status, error) {
 				alert(error);
@@ -119,10 +120,13 @@ $(document).ready(function() {
 			e.preventDefault();
 	      	swal({
 				  title: "Are you sure to cancel?",
-				  text: "Give a comment to cancel",
+				  text: "Give a comment to cancel the slot",
 				  type: "input",
 				  showCancelButton: true,
 				  closeOnConfirm: false,
+				  confirmButtonColor: "#DD6B55",
+				  cancelButtonText: "Get Back",
+				  confirmButtonText: "Cancel Slot !",
 				  animation: "slide-from-top",
 				  inputPlaceholder: "Write something"
 				},
