@@ -15,9 +15,9 @@
          <a class="waves-effect waves-light btn-large amber margin-left-x" href="{{URL('slot/list')}}">
          	<i class="material-icons left">assignment</i>
          	@if (Auth::user() -> role == 0)
-         	My Slot List
+         		My Slot List
          	@else
-         	All Slots Lists
+         		All Slots Lists
          	@endif
          </a>
         @endif

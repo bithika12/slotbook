@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -17,12 +19,22 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Show the application dashboard.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function index()
     {
         return redirect('/slot/view');
+    }
+	
+	/**
+    * View Account Summary
+    *
+    */
+	public function viewAccount()
+    {
+       $details = User::find(Auth::user()->id);
+	   return view('home');
     }
 }

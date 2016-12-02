@@ -14,10 +14,11 @@
         </a>
       </li> --}}
       <li class="center-align">
-        <a href="{{URL('account')}}">
+        <a href="{{URL('view/account')}}">
           <i class="size-2x material-icons light-blue-text">perm_identity</i>
         </a>
       </li>
+      <span class="name-title red accent-1 small-font">Hi, <b>{{Auth::user()->name}}</b></span>
       <li class="center-align">
         <a href="{{URL('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
           <i class="size-2x material-icons light-blue-text">power_settings_new</i>

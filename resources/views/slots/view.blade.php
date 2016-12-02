@@ -43,7 +43,7 @@
 					<i class="small material-icons red-text text-lighten-1 prior-check absolute tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on prior basis"> error </i>
 					<i class="medium material-icons light-blue-text">query_builder</i>
 					<p class="slot-time-range blue-grey-text">
-						<span class="black-text">{{$slot['slot_fromtime']}}- {{$slot['slot_totime']}}</span>
+						<span class="black-text">{{$slot['slot_fromtime']}} - {{$slot['slot_totime']}}</span>
 						<br/>
 						<span class="grey-text text-darken-3"> {{$slot['slot_duration']}} minutes</span>
 						<br/>

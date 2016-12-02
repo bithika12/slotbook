@@ -8923,8 +8923,8 @@ nav .top-navbar a {
 }
 
 .list-slot .avatar .slot-details i {
-  top: 5px;
-  left: 5px;
+  top: 2px;
+  left: 0;
 }
 
 .list-slot .slot-add {

@@ -28,15 +28,16 @@ Route::group(['middleware' => ['auth']], function () {
 	/user can able to delete edit their slots.
 
 	*/
+	Route::get('/view/account', 'HomeController@viewAccount');
 	Route::get('/slot/new', 'SlotController@index');
 	Route::get('/slot/list', 'SlotController@showSlotList');
-	Route::post('/slot/save', 'SlotController@saveSlot');
-	Route::post('/slot/approve', 'SlotController@approve');
-
-	//Route::post('/slot/destroy//{id}', 'SlotController@saveSlot/{id}');
-	Route::post('/slot/cancel', 'SlotController@cancel');
 	Route::get('slot/edit/{id}', 'SlotController@edit');
 	Route::get('slot/repeat/{id}', 'SlotController@repeat');
+	
+	Route::post('/slot/save', 'SlotController@saveSlot');
+	Route::post('/slot/approve', 'SlotController@approve');
+	Route::post('/slot/cancel', 'SlotController@cancel');
+	
 
 });
 

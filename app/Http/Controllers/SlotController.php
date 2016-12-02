@@ -16,7 +16,7 @@ class SlotController extends Controller {
 
 	/*
 	 *   To display Slot Creation Form
-	 */
+	*/
 	public function index() {
 		
         $slot_action=0;
@@ -46,7 +46,7 @@ class SlotController extends Controller {
 		 $today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
 		             ->where('slots.status','2')
 		             ->join('users', 'slots.created_by', 'users.id')
-				     ->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h:%i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h:%i %p") as slot_totime'),'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
+				     ->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
           -> get();
           $today_slots=$today_slots->toArray();
           return view('slots.view', compact('calendar_dates', $calendar_dates,'today_slots'));

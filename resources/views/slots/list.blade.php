@@ -18,7 +18,7 @@
 				<!--Only for upcoming request-->
 				@if($slot['status']=='1')
 				<a class="red-text text-accent-3 mod-action link cancel" href="#!"> 
-					<i class="material-icons tiny relative">close</i> Cancel Request </a>
+					<i class="material-icons tiny relative">warning</i> Cancel Request </a>
 				@endif
 				@if($slot['status']=='4')
 				<a class="red-text text-accent-3 mod-action"> 
@@ -63,7 +63,7 @@
 		</ul>
 	</div>
 	<div class="fixed-action-btn horizontal slot-add">
-		<a class="btn-floating btn-large amber accent-3 z-depth-3" href="{{URL('slot/new')}}"> <i class="large material-icons">add</i> </a>
+		<a class="btn-floating btn-large light-blue z-depth-3" href="{{URL('slot/new')}}"> <i class="large material-icons">add</i> </a>
 	</div>
 </main>
 @include('partial.slot')
