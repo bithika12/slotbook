@@ -1,5 +1,5 @@
 @include('layouts.header')
-<body class="grey lighten-5">
+<body class="blue-grey lighten-5">
 	@include('includes.message')
 	@include('includes.navbar')
 	@yield('content')

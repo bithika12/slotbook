@@ -8729,8 +8729,10 @@ nav i.material-icons {
 
 [type=radio].with-gap:checked + label:after,
 [type=radio]:checked + label:after,
-input[type=range] + .thumb {
+input[type=range] + .thumb,
+input[type="checkbox"].filled-in:checked + label:after {
   background-color: #03A9F4;
+  border: 0;
 }
 
 .input-field label {

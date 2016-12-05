@@ -132,8 +132,10 @@ nav i.material-icons{
 }
 [type=radio].with-gap:checked+label:after,
 [type=radio]:checked+label:after,
-input[type=range]+.thumb{
+input[type=range]+.thumb,
+input[type="checkbox"].filled-in:checked + label:after{
   background-color: $blue;
+  border: 0;
 }
 .input-field label{
   color: $off-dark;

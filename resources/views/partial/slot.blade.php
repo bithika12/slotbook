@@ -81,7 +81,7 @@ $(document).ready(function() {
 			$('.preloader').removeClass("hidden");
 		},
 		success : function(json) {
-			$('.preloader').addClass("hidden");
+			setTimeout(function() {$(".preloader").addClass("hidden");}, 500);
 			var getParse = JSON.parse(json);
 			var ar=getParse[0];
 			$("#slot-details").empty();
