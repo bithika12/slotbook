@@ -8708,7 +8708,7 @@ nav i.material-icons {
 }
 
 .box-shadow {
-  box-shadow: 13px 13px 50px -10px #666;
+  box-shadow: 0 40px 30px -30px #666;
 }
 
 [type=checkbox]:checked + label:before {

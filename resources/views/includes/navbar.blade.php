@@ -1,7 +1,7 @@
   <nav class="grey lighten-5 no-box-shadow">
     <div class="nav-wrapper">
-      <a href="{{URL('/')}}" class="brand-logo red-text">
-        <i class="material-icons light-blue-text">store</i>
+      <a href="{{URL('/')}}" class="brand-logo light-blue-text">
+        <i class="material-icons light-blue-text">home</i>
       </a>
       <ul class="right hide-on-med-and-down top-navbar">
        @if(Auth::check())
@@ -18,7 +18,7 @@
           <i class="size-2x material-icons light-blue-text">perm_identity</i>
         </a>
       </li>
-      <span class="name-title red accent-1 small-font">Hi, <b>{{Auth::user()->name}}</b></span>
+      <span class="name-title red accent-1 small-font">Hi, <b>{{Auth::user()->fname}}</b></span>
       <li class="center-align">
         <a href="{{URL('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
           <i class="size-2x material-icons light-blue-text">power_settings_new</i>

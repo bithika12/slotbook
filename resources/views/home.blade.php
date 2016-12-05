@@ -8,7 +8,7 @@
 			<li class="collection-item avatar">
 				<img src="{{URL('images/worker.png')}}" alt="" class="circle">
 				<span class="title grey-text">Yes, it's You</span>
-				<br>{{Auth::user()->name}}
+				<br>{{Auth::user()->fname}} {{Auth::user()->lname}}
 			</li>
 			<li class="collection-item avatar">
 				<i class="material-icons circle">email</i>

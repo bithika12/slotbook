@@ -3,9 +3,8 @@
 @section('content')
 <main class="container book-slot margin-bottom-4x center-align">
     <div class="title m-b-md">
-        <img class="box-shadow radius" src="{{URL::asset('images/logo.png')}}"/>
+        <img class="box-shadow" src="{{URL::asset('images/approve.png')}}"/>
         <h3 class="center-align">Welcome to Slot Booking App</h3>
-        <hr/>
         <h6 class="grey-text text-darken-1">
         Powered by Anudip Foundation | Collaboration with iMerit Technology Services</h6>
         <p class="margin-top-2x">
