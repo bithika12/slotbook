@@ -3,10 +3,11 @@
 @section('content')
 <main class="container row left-align list-slot margin-bottom-4x">
 
-	<div class="row heading white col s3 z-depth-1">
+	<div class="row heading white col s3 z-depth-2 margin-top-4x">
 		<h5 class="row title left-align title left col s12 grey-text text-darken-1">Filter Slots</h5>
 		<hr/>
-
+       <form action="{{url('/slot/list')}}" method="post" name="filter_frm" id="filter_frm">
+       {!! csrf_field() !!}
 		<div class="row left-align margin-bottom-off">
 			<div class="input-field col s12">
 				<i class="material-icons prefix grey-text text-lighten-2">today</i>
@@ -30,14 +31,15 @@
 
 		<div class="row margin-bottom-off">
 			<div class="input-field col s12 margin-top-off margin-bottom-2x">
-				<input type="checkbox" class="filled-in" id="prior_status" checked="checked" />
+				<input type="checkbox" class="filled-in" id="prior_status" name="prior_status" checked="checked" />
 				<label for="prior_status">Show only prior slots ?</label>
 			</div>
 		</div>
 
-		<button type="submit" class="waves-effect waves-light btn margin-bottom-x margin-top-x green accent-4">
+		<button type="submit" value="filter_btn" name="btn_sub" id="btn_sub" class="waves-effect waves-light btn margin-bottom-x margin-top-x green accent-4">
 			<i class="material-icons left">search</i>Filter Details
 		</button>
+		</form>
 	</div>
 
 	<div class="col s8 offset-s1">

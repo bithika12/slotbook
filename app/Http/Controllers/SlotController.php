@@ -128,7 +128,62 @@ class SlotController extends Controller {
 	/*
 	*   To show a list of slots
 	*/
-	public function showSlotList() {
+	public function showSlotList(Request $request) {
+		
+		if($request->input('btn_sub')){
+
+			
+			$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
+
+             if ($request->input('slot_from_time') != '') {
+			 	$slot_from_time=str_replace(' ', '', $request->input('slot_from_time'));
+			 	$start_time  = date("G:i", strtotime($slot_from_time));
+			 	}
+			 else{
+                 $start_time='';
+			 }
+             if ($request->input('slot_to_time') != '') {
+			 	$slot_to_time=$request->input('slot_to_time');
+			 	$slot_to_time=str_replace(' ', '', $request->input('slot_to_time'));
+			 	$end_time  = date("G:i", strtotime($slot_to_time));
+			  }
+			 else{
+                 $end_time='';
+			 }
+
+			 /* if ($request->input('prior_status') != '' && count($request->input('prior_status')) > 0) {
+			 	$prior_status=$request->input('slot_to_time');
+			 }
+			 else{
+                 $prior_status='';
+			 }*/
+			 if($slot_date!='' && $start_time!='' && $end_time!=''){
+			 	$whereData = 
+			      array(
+			 		 array('slots.slot_date',$slot_date) ,
+			 		 array('slots.slot_fromtime',$start_time),
+			 		 array('slots.slot_totime',$end_time)
+			 		 );
+               }
+			 elseif($slot_date!='' && $start_time=='' && $end_time!=''){
+			 	$whereData = array(array('slots.slot_date',$slot_date) , array('slots.slot_totime',$end_time)); 
+			 }
+			 elseif($slot_date!='' && $start_time!='' && $end_time==''){
+			 	$whereData = array(array('slots.slot_date',$slot_date) , array('slots.slot_fromtime',$start_time));
+              }
+			 elseif($slot_date!='' && $start_time=='' && $end_time==''){
+			 	$whereData = array(array('slots.slot_date',$slot_date));
+			  }
+			         $slots = Slot::where($whereData)
+				     ->join('status', 'slots.status', '=', 'status.id')
+					 ->select('slots.*', 'status.short_name')
+           -> get();
+           
+            $slots=$slots->toArray();
+            
+		
+	    }
+		 	else{
 		if (Auth::user() -> role == 1) {
                     $slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 				     ->join('status', 'slots.status', '=', 'status.id')
@@ -144,8 +199,23 @@ class SlotController extends Controller {
           }
            $slots=$slots->toArray();
            //dd($slots);
+       }
+       
 	return view('slots.list', compact('slots'));
 }
+
+
+
+public function showSlotList1(Request $request) {
+	    if($request->input('btn_sub'))
+	    {
+		echo $request->input('btn_sub');die;
+	}
+		
+		 
+       }
+	
+
 	/*
 	 *   To destroy a list of slots
 	*/
