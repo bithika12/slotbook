@@ -89,7 +89,7 @@
             <input type="hidden" name="hid_slot_id" id="hid_slot_id" value="{{$slot['id']}}">
 			@endforeach
 			@else
-			<h6 class="red-text text-accent-2 center-align">You have not created any slot yet.</h6>
+			<h6 class="blank-slot-info red-text text-accent-2 center-align">You have not created any slot yet.</h6>
 			@endif
 
 		</ul>
