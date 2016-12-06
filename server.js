@@ -12,12 +12,16 @@ server.listen(port, function () {
 io.on('connection', function (socket) {
 socket.on('new_slot', function(data) {
     io.sockets.emit( 'new_slot', {
-    	start_time: data.start_time,
-    	end_time: data.end_time,
-    	department: data.department,
-    	duration: data.duration,
-    	slot_date : data.slot_date,
-		prior_status : data.prior_status
+      start_time: data.start_time,
+      end_time: data.end_time,
+      department: data.department,
+      duration: data.duration,
+      slot_date : data.slot_date,
+      prior_status : data.prior_status,
+      created_by : data.created_by,
+      auth_user_id : data.auth_user_id,
+      auth_user_role : data.auth_user_role,
+      slot_desc : data.slot_desc
     });
   });
 
@@ -28,6 +32,7 @@ socket.on('approve_slot', function(data) {
       department: data.department,
       duration: data.duration,
       slot_date : data.slot_date,
+      slot_desc : data.slot_desc,
     prior_status : data.prior_status,
     created_by : data.created_by,
     status : data.status,

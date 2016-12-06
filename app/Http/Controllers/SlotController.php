@@ -8,6 +8,7 @@ use Auth;
 use Validator;
 //use Redirect;
 use App\Slot;
+use App\User;
 use Response;
 use Session;
 use Illuminate\Support\Facades\Input;
@@ -60,15 +61,21 @@ class SlotController extends Controller {
 
 		$start_time = trim($request->input('slot_from_time'));
 		$end_time = trim($request->input('slot_to_time'));
+		$slot_action=trim($request->input('slot_action'));
+
 		//12 hours format
 		$start_time_12  = date("g : i a", strtotime($start_time));
 		$end_time_12  = date("g : i a", strtotime($end_time));
 		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 		$prior_status = $request->input('prior_status');
+
 		$hid_slot_id=trim($request->input('hid_slot_id'));
 		$slot_action=trim($request->input('slot_action'));
+		$created_by=Auth::user() -> id;
         if($prior_status == "true"){
+
 			$prior_status = TRUE;
+
 		}else{
 			 $prior_status=intval($prior_status);
 		}
@@ -105,8 +112,10 @@ class SlotController extends Controller {
 				if($slot_action==0 || $slot_action==2){
 				$slot_id = DB::table('slots')->insertGetId($booking_data);
 			    }
-				elseif($slot_action==1) 
+				elseif($slot_action==1)
 			    {
+
+
 			    	DB::table('slots')
 		            ->where('id', $hid_slot_id)
 		            ->update($booking_data);
@@ -122,7 +131,13 @@ class SlotController extends Controller {
 			$arr['department'] = Auth::user()->department;
 			$arr['slot_date'] = $request -> input('slot_date');
 			$arr['prior_status'] = $prior_status;
+			$arr['auth_user_id'] = Auth::user() -> id;
+			$arr['auth_user_role'] = Auth::user() -> role;
+			$arr['slot_desc'] = $request -> input('description');
+			$arr['created_by']   =$created_by;
+
 		}
+
 		return Response::json($arr);
 	}
 
@@ -130,6 +145,9 @@ class SlotController extends Controller {
 	*   To show a list of slots
 	*/
 	public function showSlotList(Request $request) {
+	
+
+		$users = User::all();
 		
 		if($request->input('btn_sub')){
 
@@ -137,34 +155,23 @@ class SlotController extends Controller {
 			$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 			$slot_date_frm=$request -> input('slot_date');
 
-             if ($request->input('slot_from_time') != '') {
-			 	$slot_from_time=str_replace(' ', '', $request->input('slot_from_time'));
-			 	$start_time  = date("G:i", strtotime($slot_from_time));
-			 	$slot_from_frm=$request->input('slot_from_time');
+             if ($request->input('department') != '') {
+			 	
+			 	$department=$request->input('department');
 			 	}
 			 else{
-                 $start_time='';
-                 $slot_from_frm='';
-			 }
-             if ($request->input('slot_to_time') != '') {
-			 	$slot_to_time=$request->input('slot_to_time');
-			 	$slot_to_time=str_replace(' ', '', $request->input('slot_to_time'));
-			 	$end_time  = date("G:i", strtotime($slot_to_time));
-			 	$slot_to_frm=$request->input('slot_to_time');
-			  }
-			 else{
-                 $end_time='';
-                 $slot_to_frm='';
+                 $department='';
+                 
 			 }
              
              /////session create//////////////
              $session_array = array(
             'slot_date' => $slot_date_frm,
-            'slot_from_frm' => $slot_from_frm,
-            'slot_to_frm' => $slot_to_frm
+            'department' => $department
+            
             
         );
-             Session::put('filterArray', $session_array);
+             //Session::put('filterArray', $session_array);
              /////session create//////////////
 			 /* if ($request->input('prior_status') != '' && count($request->input('prior_status')) > 0) {
 			 	$prior_status=$request->input('slot_to_time');
@@ -173,7 +180,7 @@ class SlotController extends Controller {
                  $prior_status='';
 			 }*/
 			 
-			 if($slot_date!='' && $start_time!='' && $end_time!=''){
+			 /*if($slot_date!='' && $start_time!='' && $end_time!=''){
 				 	$whereData = 
 				      array(
 				 		 array('slots.slot_date',$slot_date) ,
@@ -189,21 +196,33 @@ class SlotController extends Controller {
               }
 			 elseif($slot_date!='' && $start_time=='' && $end_time==''){
 			 	$whereData = array(array('slots.slot_date',$slot_date));
-			  }
+			  }*/
+			 // echo $department;
+
 			        if (Auth::user() -> role == 1) {
-			         $slots = Slot::where($whereData)
+			        	//echo "adminpost";
+			         $slots = Slot::where('slots.slot_date',$slot_date)
+			          ->where('users.department',$department)
 				     ->join('status', 'slots.status', '=', 'status.id')
 				     ->join('users', 'slots.created_by', '=', 'users.id')
 					 ->select('slots.*', 'status.short_name')
-                    -> get();
+					 ->orderBy('slots.slot_date', 'desc')
+					 ->orderBy('slots.slot_fromtime', 'desc')
+					 -> get();
                 }
-                else if (Auth::user() -> role == 0) {
-                	  $slots = Slot::where($whereData)
-                	 ->where('slots.created_by',Auth::user() -> id)
-				     ->join('status', 'slots.status', '=', 'status.id')
+                   else if (Auth::user() -> role == 0) {
+                	// echo "userrolepost".Auth::user() -> id;
+                	  $slots = Slot::where('slots.slot_date',$slot_date)
+                	  ->where('slots.created_by',Auth::user() -> id)
+                	  ->orwhere('users.department',$department)
+                	 ->join('status', 'slots.status', '=', 'status.id')
 				     ->join('users', 'slots.created_by', '=', 'users.id')
 					 ->select('slots.*', 'status.short_name')
-                    -> get();
+					  ->orderBy('slots.slot_date', 'desc')
+					  ->orderBy('slots.slot_fromtime', 'desc')
+					  -> get();
+
+                    
 
                 }
            
@@ -212,24 +231,36 @@ class SlotController extends Controller {
 		
 	    }
 		 	else{
+
 		if (Auth::user() -> role == 1) {
+			     // echo "admin";
                     $slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 				     ->join('status', 'slots.status', '=', 'status.id')
 					 ->select('slots.*','status.short_name','users.department')
+					  ->orderBy('slots.slot_date', 'desc')
+					  ->orderBy('slots.slot_fromtime', 'desc')
+					  ->distinct()
            -> get();
            
 		} else if (Auth::user() -> role == 0) {
+			//echo "user";
           $slots = Slot::where('slots.created_by', Auth::user() -> id)
 				   ->where('slots.status','!=','7')
 					 ->join('status', 'slots.status', '=', 'status.id')
 					 ->select('slots.*', 'status.short_name')
+					  ->orderBy('slots.slot_date', 'desc')
+					   ->orderBy('slots.slot_fromtime', 'desc')
+					   ->distinct()
+					  
            -> get();
           }
            
        
        }
        $slots=$slots->toArray();
-	return view('slots.list', compact('slots'));
+       
+       //$request->Session()->forget('filterArray');
+	return view('slots.list', compact('slots','users','session_array'));
 }
 
 
@@ -292,25 +323,30 @@ public function showSlotList1(Request $request) {
 	 /*
 	 *   To slot status approve update 
 	 */
-	 public function approve(Request $request) {
+	public function approve(Request $request) {
 
 		$slot_id = trim($request->input('hid_slot_id'));
-		$start_time = trim($request->input('slot_from_time'));
-		$end_time = trim($request->input('slot_to_time'));
-		$created_by= trim($request->input('created_by'));
-		
+		$slot = Slot::find($slot_id);
+
+		$start_time = $slot->slot_fromtime;
+		$end_time = $slot->slot_totime;
+		$created_by= $slot->created_by;
+		$slot_desc = $slot->slot_desc;
+
 		$auth_user_id= Auth::user() -> id;
 		$auth_user_role= Auth::user() -> role;
 
-		//12 hours format
-		$start_time_12  = strtoupper(date("g:i a", strtotime($start_time)));
-		$end_time_12  = strtoupper(date("g:i a", strtotime($end_time)));
+		$slot_date=$slot->slot_date;
 
-		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
-		$prior_status = $request->input('prior_status');
+		//12 hours format
+		$start_time_12  = strtoupper(date("g : i a", strtotime($start_time)));
+		$end_time_12  = strtoupper(date("g : i a", strtotime($end_time)));
+
+		$slot_date = $slot_date;
+		$prior_status = $slot->prior_status;
 
 		$hid_slot_id=trim($request->input('hid_slot_id'));
-		$department=trim($request->input('department'));
+		$department=Auth::user() -> department;
 
 			$interval = strtotime($end_time) - strtotime($start_time);
 			$abs_time_interval = (abs($interval) / 3600) * 60;
@@ -332,13 +368,14 @@ public function showSlotList1(Request $request) {
 			$arr['end_time'] = $end_time_12;
 			$arr['duration'] = $abs_time_interval;
 			$arr['department'] = $department;
-			$arr['slot_date'] = $slot_date;
+			$arr['slot_date'] = date("jS F",strtotime($slot_date));
 			$arr['prior_status'] = $prior_status;
+			$arr['slot_desc'] = $slot_desc;
 			$arr['created_by']   =$created_by;
 			$arr['status']   =2;
 			$arr['auth_user_id']   = $auth_user_id;
 			$arr['auth_user_role']   = $auth_user_role;
-		
+
 		return Response::json($arr);
 	}
 

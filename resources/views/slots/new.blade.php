@@ -84,4 +84,5 @@
 	</div>
 </main>
 @include('partial.slot')
+@include('partial.realtime')
 @endsection

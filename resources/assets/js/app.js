@@ -5,7 +5,7 @@ $(document).ready(function() {
 		min: new Date(),
 		max: 2
 	});
-	
+	$('select').material_select();
 	//timepicker call
 	$('.timepicker').wickedpicker();
 	

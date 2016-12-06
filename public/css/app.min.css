@@ -8660,7 +8660,7 @@ h4.title {
 }
 
 .padding-x {
-  padding: 1rem;
+  padding: 1rem !important;
 }
 
 .small-font {

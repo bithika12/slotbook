@@ -8,10 +8,10 @@ $(document).ready(function() {
 			e.preventDefault();
 			$get_cal_from_time = converttimeformat($("#slot_from_time").val());
 			$get_cal_to_time = converttimeformat($("#slot_to_time").val());
-			$chk_bx = $('#prior_status').prop('checked');			
+			$chk_bx = $('#prior_status').prop('checked');
 			$.ajax({
 				type: "POST",
-				url: {!! json_encode(url('/slot/save')) !!}, 
+				url: {!! json_encode(url('/slot/save')) !!},
 				data: {
 					'_token': $("input[name='_token']").val(),
 					'slot_date' : $("input[name='slot_date']").val(),
@@ -22,27 +22,32 @@ $(document).ready(function() {
 					'hid_slot_id' :  $('#hid_slot_id').val(),
 					'slot_action' :  $('#slot_action').val(),
 					'no_of_joinee' : $("input[name='no_of_joinee']").val()
-				}, 
+				},
 				dataType : "json",
 				success : function(json) {
+				console.log(json);
 					if (!json.status) {
 						$(".fixed-message.error").removeClass("hidden").html("Error occured. Try at your end.");
-					} 
-					else {
-						var $toastContent = $('<span>Slot Request Submitted Successfully.</span>');
-						var socket = io.connect('http://' + window.location.hostname + ':3000');
-							socket.emit('new_slot', {
-							start_time : json.start_time,
-							end_time : json.end_time,
-							duration : json.duration,
-							department : json.department,
-							slot_date : json.slot_date,
-							prior_status : json.prior_status
-						});
-						swal("Success!", "Slot operation updated successfully!", "success");
+					} else {
+					var $toastContent = $('<span>Slot Request Submitted Successfully.</span>');
+					var socket = io.connect('http://' + window.location.hostname + ':3000');
+					socket.emit('new_slot', {
+					start_time : json.start_time,
+					end_time : json.end_time,
+					duration : json.duration,
+					department : json.department,
+					slot_date : json.slot_date,
+					prior_status : json.prior_status,
+					created_by : json.created_by,
+					auth_user_id : json.auth_user_id,
+					auth_user_role : json.auth_user_role,
+					slot_desc : json.slot_desc
+					});
+					swal("Success!", "Slot operation updated successfully!", "success");
 						setTimeout(function() {
-						window.location = {!! json_encode(url('/slot/view')) !!}
+						window.location = {!! json_encode(url('/slot/list')) !!}
 						}, 2500);
+					
 					}
 				} , error: function(xhr, status, error) {
 				alert(error);
@@ -50,13 +55,7 @@ $(document).ready(function() {
 			});
 		});
 		
-	var socket = io.connect('http://' + window.location.hostname + ':3000');
-	socket.on('new_slot', function(json) {
-		$('.ajax-response.success').html("<b>New Slot Added");
-		$("#list_slots").prepend("<li class='collection-item avatar'><i class='material-icons circle grey lighten-1'>today</i><span class='title black-text slot-details'>"
-		+ json.slot_date +"|"+ json.start_time +"-"+ json.end_time +"</span><a class='orange-text text-darken-2 mod-action' href='#!'><i class='material-icons tiny relative'>warning</i>Need Approval</a><p class='blue-grey-text text-darken-4'>Material icons are beautifully crafted, delightful, and easy to use in your web<br><br/><a class='blue accent-3 white-text mod-action modify link' href='#!'><i class='material-icons tiny relative'>edit</i>Change</a><a class='blue accent-3 white-text margin-left-0-5x mod-action trash link' href='#!'><i class='material-icons tiny relative'>delete</i> Trash</a><a class='blue accent-3 white-text margin-left-0-5x mod-action repeat link' href='#!'><i class='material-icons tiny relative'>loop</i> Repeat</a></p></li>"
-		);
-	});
+	
 	
 	/*
 	* Ajax Slot view on date-selection
@@ -118,6 +117,7 @@ $(document).ready(function() {
 	//Delete Slot Booking
 		$("a.link.cancel").click(function(e) {
 			e.preventDefault();
+			$slot_id = $(this).attr("data-slot-id");
 	      	swal({
 				  title: "Are you sure to cancel?",
 				  text: "Give a comment to cancel the slot",
@@ -143,16 +143,19 @@ $(document).ready(function() {
 							url: {!! json_encode(url('/slot/cancel')) !!}, 
 						    data: {
 							'_token': $("input[name='_token']").val(),
-							'slot_id' : $("#hid_slot_id").val(),
+							'slot_id' : $slot_id,
 							'comment' : inputValue
 			               },
 					dataType : "json",
 					success : function(json) {
-						location.reload(1);
-		              }
+						 }
+
 				  });
                }
-			swal("Nice!", "You wrote: " + inputValue, "success");
+			swal("Cancelled!", "You wrote: " + inputValue, "success");
+			setTimeout(function() {
+				location.reload(1)
+				}, 1000);
 			});
 		});
 	});
@@ -178,14 +181,11 @@ $(document).ready(function() {
 	* Realtime after Admin Approval
 	*/
 
-	/*
-	* Realtime after Admin Approval
-	*/
-
-	function need_approv(id){
-	$get_cal_from_time = converttimeformat($("#"+id+"slot_from_time").val());
-	$get_cal_to_time = converttimeformat($("#"+id+"slot_to_time").val());
 	
+function need_approv(id){
+	//$get_cal_from_time = converttimeformat($("#slot_from_time").val());
+	//$get_cal_to_time = converttimeformat($("#slot_to_time").val());
+
 	swal({
 	  title: "Are you sure to approve?",
 	  text: "Click ok to submit the slot else cancel it",
@@ -198,22 +198,17 @@ $(document).ready(function() {
 	  setTimeout(function(){
 	  	$.ajax({
 		type: "POST",
-		url: {!! json_encode(url('/slot/approve')) !!}, 
+		url: {!! json_encode(url('/slot/approve')) !!},
 		data: {
 			'_token': $("input[name='_token']").val(),
-			'slot_date' : $("input[name='slot_date']").val(),
-			'slot_from_time' : $get_cal_from_time,
-			'slot_to_time' : $get_cal_to_time,
-			'prior_status' : $('#prior_status').val(),
-			'department' : $('#department').val(),
-			'created_by' : $('#created_by').val(),
+			
 			'hid_slot_id' :id
 		}, dataType : "json",
 		success : function(json) {
-			console.log(json);
+			
 			if (!json) {
 				$(".fixed-message.error").removeClass("hidden").html("Error occured. Try at your end.");
-			} 
+			}
 			else {
 				var $toastContent = $('<span>Slot Request Approved Successfully.</span>');
 				var socket = io.connect('http://' + window.location.hostname + ':3000');
@@ -223,16 +218,15 @@ $(document).ready(function() {
 					duration : json.duration,
 					department : json.department,
 					slot_date : json.slot_date,
+					slot_desc : json.slot_desc,
 					prior_status : json.prior_status,
 					created_by : json.created_by,
 					status : json.status,
 					auth_user_id : json.auth_user_id,
 					auth_user_role : json.auth_user_role
 				});
-				setTimeout(function() {
-				}, 5000);
 				swal("Slot Approved!");
-				location.reload(1);
+				//location.reload(1);
 			}
 			} , error: function(xhr, status, error) {
 				alert(error);
@@ -242,24 +236,4 @@ $(document).ready(function() {
 	});
 	};
 
-	var socket = io.connect('http://' + window.location.hostname + ':3000');
-	socket.on('approve_slot', function(json) {
-		$('.ajax-response.success').html("<b>New Slot Added");
-		
-		$("#slot-details").append("<div class='card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin'>"
-		+(json.prior_status  == 1 ? "<i class='small material-icons red-text text-lighten-1 prior-check absolute tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on prior basis'>error</i>" : "") +
-		"<i class='medium material-icons blue-text text-lighten-1'>query_builder</i><p class='slot-time-range blue-grey-text'><span class='black-text'>"+ json.start_time +"-"+ json.end_time +"</span><br/><span class='grey-text text-darken-3'>"
-		+ json.duration +"minutes</span><br/>"+ json.department +"</p></div>");$("#list_slots").prepend("<li class='collection-item avatar'><i class='material-icons circle grey lighten-1'>today</i><span class='title black-text'>"+ json.slot_date +
-		"|"+ json.start_time +"-"+ json.end_time +"</span><i class='relative material-icons green-text text-accent-4'>done</i><p class='blue-grey-text text-darken-4'>Material icons are beautifully crafted, delightful, and easy to use in your web<br><br/><a class='blue accent-3 white-text mod-action modify link' href='#!'><i class='material-icons tiny relative'>edit</i>Change</a><a class='blue accent-3 white-text margin-left-0-5x mod-action trash link' href='#!'><i class='material-icons tiny relative'>delete</i> Trash</a><a class='blue accent-3 white-text margin-left-0-5x mod-action repeat link' href='#!'><i class='material-icons tiny relative'>loop</i> Repeat</a></p></li>"
-		);
-		 if(json.created_by==json.auth_user_id || auth_user_role==1){
-		  $("#list_slots").prepend("<li class='collection-item avatar'><i class='material-icons circle grey lighten-1'>today</i><span class='title black-text'>"
-		  	+ json.slot_date + 
-		  	"|"
-		  	+ json.start_time + 
-		  	"-"
-		  	+ json.end_time + 
-		  	"</span><i class='relative material-icons green-text text-accent-4'>done</i><p class='blue-grey-text text-darken-4'>Material icons are beautifully crafted, delightful, and easy to use in your web<br><br/><a class='blue accent-3 white-text mod-action modify link' href='#!'><i class='material-icons tiny relative'>edit</i>Change</a><a class='blue accent-3 white-text margin-left-0-5x mod-action trash link' href='#!'><i class='material-icons tiny relative'>delete</i> Trash</a><a class='blue accent-3 white-text margin-left-0-5x mod-action repeat link' href='#!'><i class='material-icons tiny relative'>loop</i> Repeat</a></p></li>"
-		  	);
-		  }
-	});</script>
+	</script>
