@@ -145,122 +145,66 @@ class SlotController extends Controller {
 	*   To show a list of slots
 	*/
 	public function showSlotList(Request $request) {
-	
-
-		$users = User::all();
-		
-		if($request->input('btn_sub')){
-
-			
-			$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
-			$slot_date_frm=$request -> input('slot_date');
-
-             if ($request->input('department') != '') {
-			 	
-			 	$department=$request->input('department');
-			 	}
-			 else{
-                 $department='';
-                 
+	     $users = User::all();
+		 if($request->input('btn_sub')){
+             $slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
+			 $slot_date_frm=$request -> input('slot_date');
+         if ($request->input('department') != '') {
+			 $department=$request->input('department');
 			 }
-             
-             /////session create//////////////
+		 else{
+              $department='';
+              }
              $session_array = array(
             'slot_date' => $slot_date_frm,
             'department' => $department
-            
-            
-        );
-             //Session::put('filterArray', $session_array);
-             /////session create//////////////
-			 /* if ($request->input('prior_status') != '' && count($request->input('prior_status')) > 0) {
-			 	$prior_status=$request->input('slot_to_time');
-			 }
-			 else{
-                 $prior_status='';
-			 }*/
-			 
-			 /*if($slot_date!='' && $start_time!='' && $end_time!=''){
-				 	$whereData = 
-				      array(
-				 		 array('slots.slot_date',$slot_date) ,
-				 		 array('slots.slot_fromtime',$start_time),
-				 		 array('slots.slot_totime',$end_time)
-				 		 );
-               }
-			 elseif($slot_date!='' && $start_time=='' && $end_time!=''){
-			 	      $whereData = array(array('slots.slot_date',$slot_date) , array('slots.slot_totime',$end_time)); 
-			 }
-			 elseif($slot_date!='' && $start_time!='' && $end_time==''){
-			 	$whereData = array(array('slots.slot_date',$slot_date) , array('slots.slot_fromtime',$start_time));
+            );
+         if (Auth::user() -> role == 1) {
+			 $slots = Slot::where('slots.slot_date',$slot_date)
+			 ->where('users.department',$department)
+			 ->join('status', 'slots.status', '=', 'status.id')
+			 ->join('users', 'slots.created_by', '=', 'users.id')
+			 ->select('slots.*', 'status.short_name')
+			 ->orderBy('slots.slot_date', 'desc')
+			 ->orderBy('slots.slot_fromtime', 'desc')
+			 -> get();
+                }
+         else if (Auth::user() -> role == 0) {
+              $slots = Slot::where('slots.slot_date',$slot_date)
+              ->where('slots.created_by',Auth::user() -> id)
+              ->where('users.department',$department)
+              ->join('status', 'slots.status', '=', 'status.id')
+			  ->join('users', 'slots.created_by', '=', 'users.id')
+			  ->select('slots.*', 'status.short_name')
+			  ->orderBy('slots.slot_date', 'desc')
+			  ->orderBy('slots.slot_fromtime', 'desc')
+			  -> get();
               }
-			 elseif($slot_date!='' && $start_time=='' && $end_time==''){
-			 	$whereData = array(array('slots.slot_date',$slot_date));
-			  }*/
-			 // echo $department;
-
-			        if (Auth::user() -> role == 1) {
-			        	//echo "adminpost";
-			         $slots = Slot::where('slots.slot_date',$slot_date)
-			          ->where('users.department',$department)
-				     ->join('status', 'slots.status', '=', 'status.id')
-				     ->join('users', 'slots.created_by', '=', 'users.id')
-					 ->select('slots.*', 'status.short_name')
-					 ->orderBy('slots.slot_date', 'desc')
-					 ->orderBy('slots.slot_fromtime', 'desc')
-					 -> get();
-                }
-                   else if (Auth::user() -> role == 0) {
-                	// echo "userrolepost".Auth::user() -> id;
-                	  $slots = Slot::where('slots.slot_date',$slot_date)
-                	  ->where('slots.created_by',Auth::user() -> id)
-                	  ->orwhere('users.department',$department)
-                	 ->join('status', 'slots.status', '=', 'status.id')
-				     ->join('users', 'slots.created_by', '=', 'users.id')
-					 ->select('slots.*', 'status.short_name')
-					  ->orderBy('slots.slot_date', 'desc')
-					  ->orderBy('slots.slot_fromtime', 'desc')
-					  -> get();
-
-                    
-
-                }
-           
-            
-            
-		
-	    }
-		 	else{
-
-		if (Auth::user() -> role == 1) {
-			     // echo "admin";
-                    $slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
-				     ->join('status', 'slots.status', '=', 'status.id')
-					 ->select('slots.*','status.short_name','users.department')
-					  ->orderBy('slots.slot_date', 'desc')
-					  ->orderBy('slots.slot_fromtime', 'desc')
-					  ->distinct()
-           -> get();
-           
-		} else if (Auth::user() -> role == 0) {
-			//echo "user";
-          $slots = Slot::where('slots.created_by', Auth::user() -> id)
-				   ->where('slots.status','!=','7')
-					 ->join('status', 'slots.status', '=', 'status.id')
-					 ->select('slots.*', 'status.short_name')
-					  ->orderBy('slots.slot_date', 'desc')
-					   ->orderBy('slots.slot_fromtime', 'desc')
-					   ->distinct()
-					  
-           -> get();
+              }
+		else{
+        if (Auth::user() -> role == 1) {
+			$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
+		    ->join('status', 'slots.status', '=', 'status.id')
+			->select('slots.*','status.short_name','users.department')
+			->orderBy('slots.slot_date', 'desc')
+			->orderBy('slots.slot_fromtime', 'desc')
+			->distinct()
+            -> get();
+            } 
+       else if (Auth::user() -> role == 0) {
+		    $slots = Slot::where('slots.created_by', Auth::user() -> id)
+			->where('slots.status','!=','7')
+			->join('status', 'slots.status', '=', 'status.id')
+			->select('slots.*', 'status.short_name')
+			->orderBy('slots.slot_date', 'desc')
+			->orderBy('slots.slot_fromtime', 'desc')
+			->distinct()
+			-> get();
           }
-           
-       
-       }
-       $slots=$slots->toArray();
-       
-       //$request->Session()->forget('filterArray');
-	return view('slots.list', compact('slots','users','session_array'));
+          $session_array='';
+          }
+      $slots=$slots->toArray();
+      return view('slots.list', compact('slots','users','session_array'));
 }
 
 

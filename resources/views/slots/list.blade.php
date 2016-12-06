@@ -22,7 +22,7 @@
 			    <select name="department">
 			      <option value="" disabled selected>Choose your option</option>
 			      @foreach($users as $user)
-			       <option @if($session_array['department']==$user->department)selected @endif value="{!! $user->department !!}">{!! $user->department !!}</option>
+			       <option @if(isset($session_array) && !empty($session_array) && $session_array['department']==$user->department)selected @endif value="{!! $user->department !!}">{!! $user->department !!}</option>
 			      @endforeach
 			    </select>
 			    <label>Select Department</label>
@@ -49,7 +49,7 @@
 			All Slots - List View
 			@endif </h4>
 		<div class="row left-align">
-		<ul class="collection" id="list_slots">
+		<ul class="collection white" id="list_slots">
 			@if(!empty($slots))
 			@foreach($slots as $slot)
 			<li class="collection-item avatar">
@@ -89,7 +89,7 @@
             <input type="hidden" name="hid_slot_id" id="hid_slot_id" value="{{$slot['id']}}">
 			@endforeach
 			@else
-			<h6 class="red-text text-accent-1 center-align">You have not created any slot yet.</h6>
+			<h6 class="red-text text-accent-2 center-align">You have not created any slot yet.</h6>
 			@endif
 
 		</ul>
