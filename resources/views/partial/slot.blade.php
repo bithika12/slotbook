@@ -178,9 +178,13 @@ $(document).ready(function() {
 	* Realtime after Admin Approval
 	*/
 
+	/*
+	* Realtime after Admin Approval
+	*/
+
 	function need_approv(id){
-	$get_cal_from_time = converttimeformat($("#slot_from_time").val());
-	$get_cal_to_time = converttimeformat($("#slot_to_time").val());
+	$get_cal_from_time = converttimeformat($("#"+id+"slot_from_time").val());
+	$get_cal_to_time = converttimeformat($("#"+id+"slot_to_time").val());
 	
 	swal({
 	  title: "Are you sure to approve?",
