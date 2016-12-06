@@ -6,12 +6,16 @@
 	<div class="row heading white col s3 z-depth-2 margin-top-4x">
 		<h5 class="row title left-align title left col s12 grey-text text-darken-1">Filter Slots</h5>
 		<hr/>
-       <form action="{{url('/slot/list')}}" method="post" name="filter_frm" id="filter_frm">
+       <form action="" method="post" name="filter_frm" id="filter_frm">
        {!! csrf_field() !!}
+       <?php
+       $lastUrl=Session::get("filterArray");
+      
+        ?>
 		<div class="row left-align margin-bottom-off">
 			<div class="input-field col s12">
 				<i class="material-icons prefix grey-text text-lighten-2">today</i>
-				<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="{{ isset($slotToUpdate) ? date('j F, Y',strtotime($slotToUpdate->slot_date)) : date('j F, Y') }}">
+				<input id="slot_date" type="date" name="slot_date" class="datepicker pointer" value="{{ isset($lastUrl['slot_date']) && !empty($lastUrl['slot_date']) ? $lastUrl['slot_date'] : date('j F, Y') }}">
 				<label for="slot_date">Select Date</label>
 			</div>
 		</div>
@@ -19,12 +23,12 @@
 		<div class="row left-align margin-bottom-off">
 			<div class="input-field col s12">
 				<i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
-				<input type="text" id="slot_from_time" value="hh" name="slot_from_time" class="timepicker"/>
+				<input type="text" id="slot_from_time" value="{{ isset($lastUrl['slot_from_frm']) && !empty($lastUrl['slot_from_frm']) ? $lastUrl['slot_from_frm'] : '' }}" name="slot_from_time" class="timepicker"/>
 				<label for="slot_from_time">Select Time From</label>
 			</div>
 			<div class="input-field col s12 margin-bottom-off">
 				<i class="material-icons prefix grey-text text-lighten-2">query_builder</i>
-				<input type="text" id="slot_to_time" name="slot_to_time" class="timepicker"/>
+				<input type="text" id="slot_to_time" value="{{ isset($lastUrl['slot_to_frm']) && !empty($lastUrl['slot_to_frm']) ? $lastUrl['slot_to_frm'] : '' }}"name="slot_to_time" class="timepicker"/>
 				<label for="slot_to_time">Select Time To</label>
 			</div>
 		</div>
