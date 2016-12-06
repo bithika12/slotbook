@@ -61,4 +61,7 @@
 </main>
 @include('partial.slot')
 @include('partial.realtime')
+@if(Auth::check())
+@include('partial.realtime_auth')
+@endif
 @endsection

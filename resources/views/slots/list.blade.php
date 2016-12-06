@@ -100,8 +100,8 @@
 		<a class="btn-floating btn-large light-blue z-depth-4" href="{{URL('slot/new')}}"> <i class="large material-icons">add</i> </a>
 	</div>
 </main>
-
-
 @include('partial.slot')
 @include('partial.realtime')
+@include('partial.realtime_auth')
+
 @endsection
