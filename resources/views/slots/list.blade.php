@@ -8,7 +8,7 @@
 		<hr/>
        <form action="" method="post" name="filter_frm" id="filter_frm">
        {!! csrf_field() !!}
-      
+
 		<div class="row left-align margin-bottom-off">
 			<div class="input-field col s12">
 				<i class="material-icons prefix grey-text text-lighten-2">today</i>
@@ -21,9 +21,13 @@
 			 <div class="input-field col s12">
 			    <select name="department">
 			      <option value="" disabled selected>Choose your option</option>
+						@if (Auth::user() -> role == 1)
 			      @foreach($users as $user)
 			       <option @if(isset($session_array) && !empty($session_array) && $session_array['department']==$user->department)selected @endif value="{!! $user->department !!}">{!! $user->department !!}</option>
 			      @endforeach
+						@else
+						<option value="{{ Auth::user() -> department }}" disabled selected>{{ Auth::user() -> department }}</option>
+						@endif
 			    </select>
 			    <label>Select Department</label>
 			  </div>
@@ -31,7 +35,7 @@
 
 		<div class="row margin-bottom-off">
 			<div class="input-field col s12 margin-top-off margin-bottom-2x">
-				<input type="checkbox" class="filled-in" id="prior_status" name="prior_status" checked="checked" />
+				<input type="checkbox" class="filled-in" id="prior_status" name="prior_status" @if(isset($session_array) && !empty($session_array) && $session_array['prior_status']==1)checked @endif />
 				<label for="prior_status">Show only prior slots ?</label>
 			</div>
 		</div>
@@ -55,20 +59,20 @@
 			<li class="collection-item avatar">
 				<i class="material-icons circle blue-grey lighten-2">today</i>
 				<span class="title black-text slot-details">{!! date("jS F", strtotime($slot["slot_date"])) !!} | {!! strtoupper(date("g : i a", strtotime($slot["slot_fromtime"]))) !!} - {!! strtoupper(date("g : i a", strtotime($slot["slot_totime"]))) !!}
-					@if($slot['status']=='2') 
+					@if($slot['status']== 2)
 					<i class="relative material-icons green-text text-accent-4">done</i> @endif </span>
 
 				<!--Only for upcoming request-->
-				@if($slot['status']=='1')
-				<a class="red-text text-accent-3 mod-action link cancel" data-slot-id="{{$slot['id']}}" href="#!"> 
+				@if($slot['status']!= 4)
+				<a class="red-text text-accent-3 mod-action link cancel" data-slot-id="{{$slot['id']}}" href="#!">
 					<i class="material-icons tiny relative">close</i> Cancel Request </a>
 				@endif
-				@if($slot['status']=='4')
-				<a class="red-text text-accent-3 mod-action"> 
+				@if($slot['status']== 4)
+				<a class="red-text text-accent-3 mod-action">
 					<i class="material-icons tiny relative">close</i> Cancelled</a>
 				@endif
-				@if(Auth::user() -> role == 1 && $slot['status']!='2' && $slot['status']!='4')
-				<a onclick="need_approv({{$slot['id']}});" class="orange-text mod-action" href="#!"> 
+				@if(Auth::user() -> role == 1 && $slot['status']!=2 && $slot['status']!=4)
+				<a onclick="need_approv({{$slot['id']}});" class="orange-text mod-action" href="#!">
 					<i class="material-icons tiny relative">warning</i> Need Approval </a>
 				@endif
 				<p class="blue-grey-text text-darken-4">
@@ -82,7 +86,7 @@
 						<span class="blue-grey lighten-5 small-font bolder">{{ !empty($slot['department']) ? $slot['department'] : '' }}</span>
 					@endif
 				</p>
-					@if($slot['prior_status']=='1')
+					@if($slot['prior_status']==1)
 					<a href="#!" class="secondary-content"> <i class="material-icons red-text tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on prior basis">error</i> </a>
 					@endif
 			</li>

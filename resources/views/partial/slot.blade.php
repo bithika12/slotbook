@@ -47,16 +47,16 @@ $(document).ready(function() {
 						setTimeout(function() {
 						window.location = {!! json_encode(url('/slot/list')) !!}
 						}, 2500);
-					
+
 					}
 				} , error: function(xhr, status, error) {
 				alert(error);
 				},
 			});
 		});
-		
-	
-	
+
+
+
 	/*
 	* Ajax Slot view on date-selection
 	*/
@@ -64,11 +64,11 @@ $(document).ready(function() {
 		$("a.slot-info").addClass("white pointer").removeClass("light-blue active");
 		$("a.slot-info .slot-box").addClass("white blue-grey-text text-lighten-3").removeClass("light-blue white-text");
 		$("a.slot-info .slot-box span").addClass("white blue-grey-text").removeClass("light-blue white-text");
-	
+
 		$(this).addClass("active").removeClass("pointer white");
 		$(this).children(".slot-box").removeClass("white blue-grey-text text-lighten-3");
 		$(this).children(".slot-box").children(".slot-box span").removeClass("white blue-grey-text text-lighten-3");
-	
+
 		$.ajax({
 			type: "GET",
 			url: {!! json_encode(url('/slot/load')) !!},
@@ -110,10 +110,10 @@ $(document).ready(function() {
 				$("#slot-details").html("<b>No slot booking history found</b>");
 			}
 		}
-	
+
 	});
 });
-	
+
 	//Delete Slot Booking
 		$("a.link.cancel").click(function(e) {
 			e.preventDefault();
@@ -132,7 +132,7 @@ $(document).ready(function() {
 				},
 				function(inputValue){
 				  if (inputValue === false) return false;
-				  
+
 				  else if (inputValue === "") {
 				    swal.showInputError("You need to write something!");
 				    return false
@@ -140,7 +140,7 @@ $(document).ready(function() {
 				  else{
 				  	$.ajax({
 							type: "POST",
-							url: {!! json_encode(url('/slot/cancel')) !!}, 
+							url: {!! json_encode(url('/slot/cancel')) !!},
 						    data: {
 							'_token': $("input[name='_token']").val(),
 							'slot_id' : $slot_id,
@@ -148,6 +148,7 @@ $(document).ready(function() {
 			               },
 					dataType : "json",
 					success : function(json) {
+						console.log(json);
 						 }
 
 				  });
@@ -159,7 +160,7 @@ $(document).ready(function() {
 			});
 		});
 	});
-	
+
 	function converttimeformat(time) {
 		var hrs = Number(time.match(/^(\d+)/)[1]);
 		var mnts = Number(time.match(/ : (\d+)/)[1]);
@@ -181,7 +182,7 @@ $(document).ready(function() {
 	* Realtime after Admin Approval
 	*/
 
-	
+
 function need_approv(id){
 	//$get_cal_from_time = converttimeformat($("#slot_from_time").val());
 	//$get_cal_to_time = converttimeformat($("#slot_to_time").val());
@@ -201,11 +202,11 @@ function need_approv(id){
 		url: {!! json_encode(url('/slot/approve')) !!},
 		data: {
 			'_token': $("input[name='_token']").val(),
-			
+
 			'hid_slot_id' :id
 		}, dataType : "json",
 		success : function(json) {
-			
+
 			if (!json) {
 				$(".fixed-message.error").removeClass("hidden").html("Error occured. Try at your end.");
 			}

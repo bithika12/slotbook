@@ -20,7 +20,7 @@ class SlotController extends Controller {
 	 *   To display Slot Creation Form
 	*/
 	public function index() {
-		
+
         $slot_action=0;
 		return view('slots.new')->with('slotAction', $slot_action);
 	}
@@ -44,7 +44,7 @@ class SlotController extends Controller {
 				$calendar_dates[$i]['status'] = FALSE;
 			}
 		}
-		 
+
 		 $today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
 		             ->where('slots.status','2')
 		             ->join('users', 'slots.created_by', 'users.id')
@@ -145,40 +145,55 @@ class SlotController extends Controller {
 	*   To show a list of slots
 	*/
 	public function showSlotList(Request $request) {
-	     $users = User::all();
-		 if($request->input('btn_sub')){
-             $slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
+		   $users = DB::table('users')->select( DB::raw('DISTINCT(department)') )->groupBy('department')->get();
+	  if($request->input('btn_sub')){
+       $slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 			 $slot_date_frm=$request -> input('slot_date');
-         if ($request->input('department') != '') {
+			 $prior_status=$request -> input('prior_status');
+      if ($request->input('department') != '') {
 			 $department=$request->input('department');
 			 }
 		 else{
               $department='';
               }
-             $session_array = array(
-            'slot_date' => $slot_date_frm,
-            'department' => $department
-            );
+							if(filter_var($prior_status, FILTER_VALIDATE_BOOLEAN)){
+								$prior_status = TRUE;
+							}
+							else{
+							 $prior_status=intval($prior_status);
+						}
+
+						if($department!=''){
+              $matchThese = ['slot_date' => $slot_date, 'department' => $department,'prior_status' => $prior_status];
+						}
+						else{
+							$matchThese = ['slot_date' => $slot_date,'prior_status' => $prior_status];
+						}
+						$session_array = array(
+					 'slot_date' => $slot_date_frm,
+					 'department' => $department,
+					 'prior_status' => $prior_status
+					 );
+
+
          if (Auth::user() -> role == 1) {
-			 $slots = Slot::where('slots.slot_date',$slot_date)
-			 ->where('users.department',$department)
-			 ->join('status', 'slots.status', '=', 'status.id')
-			 ->join('users', 'slots.created_by', '=', 'users.id')
-			 ->select('slots.*', 'status.short_name')
-			 ->orderBy('slots.slot_date', 'desc')
-			 ->orderBy('slots.slot_fromtime', 'desc')
-			 -> get();
+							 $slots = Slot::where($matchThese)
+							 ->join('status', 'slots.status', '=', 'status.id')
+							 ->join('users', 'slots.created_by', '=', 'users.id')
+							 ->select('slots.*', 'status.short_name','users.department')
+							 ->orderBy('slots.slot_date', 'desc')
+							 ->orderBy('slots.slot_fromtime', 'desc')
+							 -> get();
                 }
          else if (Auth::user() -> role == 0) {
-              $slots = Slot::where('slots.slot_date',$slot_date)
+              $slots = Slot::where($matchThese)
               ->where('slots.created_by',Auth::user() -> id)
-              ->where('users.department',$department)
               ->join('status', 'slots.status', '=', 'status.id')
-			  ->join('users', 'slots.created_by', '=', 'users.id')
-			  ->select('slots.*', 'status.short_name')
-			  ->orderBy('slots.slot_date', 'desc')
-			  ->orderBy('slots.slot_fromtime', 'desc')
-			  -> get();
+			        ->join('users', 'slots.created_by', '=', 'users.id')
+			        ->select('slots.*', 'status.short_name','users.department')
+			        ->orderBy('slots.slot_date', 'desc')
+			        ->orderBy('slots.slot_fromtime', 'desc')
+			        -> get();
               }
               }
 		else{
@@ -188,18 +203,17 @@ class SlotController extends Controller {
 			->select('slots.*','status.short_name','users.department')
 			->orderBy('slots.slot_date', 'desc')
 			->orderBy('slots.slot_fromtime', 'desc')
-			->distinct()
-            -> get();
-            } 
+      -> get();
+            }
        else if (Auth::user() -> role == 0) {
 		    $slots = Slot::where('slots.created_by', Auth::user() -> id)
 			->where('slots.status','!=','7')
 			->join('status', 'slots.status', '=', 'status.id')
-			->select('slots.*', 'status.short_name')
+			->join('users', 'slots.created_by', '=', 'users.id')
+			->select('slots.*', 'status.short_name','users.department')
 			->orderBy('slots.slot_date', 'desc')
 			->orderBy('slots.slot_fromtime', 'desc')
-			->distinct()
-			-> get();
+      -> get();
           }
           $session_array='';
           }
@@ -214,10 +228,10 @@ public function showSlotList1(Request $request) {
 	    {
 		echo $request->input('btn_sub');die;
 	}
-		
-		 
+
+
        }
-	
+
 
 	/*
 	 *   To destroy a list of slots
@@ -228,7 +242,7 @@ public function showSlotList1(Request $request) {
 			$slot = Slot::find($slot_id);
 		    $slot->status = '4';
 		    $slot->save();
-			$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 4);
+			$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 4,'comments' =>$slot_comment);
 			DB::table('slots_trans') -> insert(array($trans_data));
 		}
 			/*
@@ -265,7 +279,7 @@ public function showSlotList1(Request $request) {
 	    }
 
 	 /*
-	 *   To slot status approve update 
+	 *   To slot status approve update
 	 */
 	public function approve(Request $request) {
 
