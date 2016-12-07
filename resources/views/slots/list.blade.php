@@ -81,7 +81,7 @@
 						</a>
 					@endif 
 					<!--Only for upcoming request-->
-					@if($slot['status']!= 4)
+					@if($slot['status']!= 4 && $slot['slot_date'] >= date('Y-m-d'))
 					<a class="red-text text-accent-3 mod-action link cancel" data-slot-id="{{$slot['id']}}" href="#!"> <i class="material-icons tiny relative">close</i> Cancel Request </a>
 					@endif
 					@if($slot['status']== 4)

@@ -145,8 +145,9 @@ class SlotController extends Controller {
 	*   To show a list of slots
 	*/
 	public function showSlotList(Request $request) {
-	  	
-	  		
+	  	$currentdate = date('Y-m-d');
+	  	$currenttime = date("H:i:s");
+	  			
 	  $users = DB::table('users')->select( DB::raw('DISTINCT(department)') )->groupBy('department')->get();
 	  if($request->input('btn_sub')){
        $slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
