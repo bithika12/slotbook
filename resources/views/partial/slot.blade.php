@@ -25,9 +25,12 @@ $(document).ready(function() {
 				},
 				dataType : "json",
 				success : function(json) {
-				console.log(json);
-					if (!json.status) {
-						$(".fixed-message.error").removeClass("hidden").html("Error occured. Try at your end.");
+				//console.log(json);
+					if (json.hasOwnProperty('slot_status')) {
+						$(".fixed-message.error").removeClass("hidden").html("Slot already exists on this time.");
+					}
+					else if(!json.status){
+						$(".fixed-message.error").removeClass("hidden").html("Error occured. Try again.");
 					} else {
 					var $toastContent = $('<span>Slot Request Submitted Successfully.</span>');
 					var socket = io.connect('http://' + window.location.hostname + ':3000');
@@ -148,9 +151,8 @@ $(document).ready(function() {
 			               },
 					dataType : "json",
 					success : function(json) {
-						console.log(json);
-						 }
-
+						//console.log(json);
+						}
 				  });
                }
 			swal("Cancelled!", "You wrote: " + inputValue, "success");

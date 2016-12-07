@@ -27,7 +27,7 @@
 			 + json.start_time +
 			 " - "
 			 + json.end_time +
-			 "</span><a class='red-text text-accent-3 mod-action link cancel' href='#!'><i class='material-icons tiny relative'>close</i> Cancel Request </a><p class='blue-grey-text text-darken-4'>"
+			 "</span><a class='red-text text-accent-3 mod-action link cancel' href='#!'><i class='material-icons tiny relative'>close</i> Cancel Request </a><a class='orange-text mod-action' href='#!'><i class='material-icons tiny relative'>warning</i> Need Approval </a><p class='blue-grey-text text-darken-4'>"
 			 + json.slot_desc + "<br><br/><span class='blue-grey lighten-5 small-font bolder'>"+ json.department +"</span></p>"+(json.prior_status  == 1 ? "<a href='#!' class='secondary-content'> <i class='material-icons red-text tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on prior basis'>error</i> </a>" : "") +"</li>"
 			 );
 

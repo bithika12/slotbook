@@ -91,11 +91,13 @@ class SlotController extends Controller {
 		}) -> count();
 		if ($count_records >= 1) {
 			$arr['status'] = false;
+			$arr['slot_status'] = false;
 		} else {
 			$interval = strtotime($end_time) - strtotime($start_time);
 			$abs_time_interval = (abs($interval) / 3600) * 60;
 			if ($interval <= 0 || $abs_time_interval > 450) {
 				$arr['status'] = false;
+
 			} else {
 
 				$booking_data = array(
@@ -124,6 +126,7 @@ class SlotController extends Controller {
 				$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 1);
 				DB::table('slots_trans') -> insert(array($trans_data));
 				$arr['status'] = TRUE;
+				
 			}
 			$arr['start_time'] = $start_time_12;
 			$arr['end_time'] = $end_time_12;
