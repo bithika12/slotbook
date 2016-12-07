@@ -58,89 +58,86 @@ class SlotController extends Controller {
 	 *   To save a new slot
 	 */
 	public function saveSlot(Request $request) {
-
 		$start_time = trim($request->input('slot_from_time'));
 		$end_time = trim($request->input('slot_to_time'));
 		$slot_action=trim($request->input('slot_action'));
-
-		//12 hours format
-		$start_time_12  = date("g : i a", strtotime($start_time));
-		$end_time_12  = date("g : i a", strtotime($end_time));
-		$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
-		$prior_status = $request->input('prior_status');
-
-		$hid_slot_id=trim($request->input('hid_slot_id'));
-		$slot_action=trim($request->input('slot_action'));
-		$created_by=Auth::user() -> id;
-        if($prior_status == "true"){
-
-			$prior_status = TRUE;
-
-		}else{
-			 $prior_status=intval($prior_status);
+		if(strtotime($end_time) <= time()+300 || strtotime($start_time) <= time()+300 ){
+			$arr['slot_time'] = false;
 		}
-		$count_records = DB::table('slots as s')
-				-> where('s.slot_date', $slot_date)
-				-> where('s.status', 2)
-				-> where(function($q) use ($start_time, $end_time) {
-			$q -> where(function($query) use ($start_time, $end_time) {
-				$query -> whereBetween('s.slot_fromtime', array($start_time, $end_time)) -> orWhereBetween('s.slot_totime', array($start_time, $end_time));
-			}) -> orWhere(function($query) use ($start_time, $end_time) {
-				$query -> where('s.slot_fromtime', '<=', $start_time) -> where('s.slot_totime', '>=', $end_time);
-			});
-		}) -> count();
-		if ($count_records >= 1) {
-			$arr['status'] = false;
-			$arr['slot_status'] = false;
-		} else {
-			$interval = strtotime($end_time) - strtotime($start_time);
-			$abs_time_interval = (abs($interval) / 3600) * 60;
-			if ($interval <= 0 || $abs_time_interval > 450) {
-				$arr['status'] = false;
-
-			} else {
-
-				$booking_data = array(
-								"slot_date" => $slot_date,
-								"no_of_joinee" => trim($request -> input('no_of_joinee')),
-								"slot_fromtime" => $start_time,
-								"slot_totime" => $end_time,
-								"slot_duration" => $abs_time_interval,
-								"slot_desc" => $request -> input('description'),
-								"prior_status" => $prior_status,
-								"created_by" => Auth::user()->id
-				);
-
-				if($slot_action==0 || $slot_action==2){
-				$slot_id = DB::table('slots')->insertGetId($booking_data);
-			    }
-				elseif($slot_action==1)
-			    {
-
-
-			    	DB::table('slots')
-		            ->where('id', $hid_slot_id)
-		            ->update($booking_data);
-			    	$slot_id=$hid_slot_id;
-			    }
-				$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 1);
-				DB::table('slots_trans') -> insert(array($trans_data));
-				$arr['status'] = TRUE;
-				
+		else{
+			//12 hours format
+			$start_time_12  = date("g : i a", strtotime($start_time));
+			$end_time_12  = date("g : i a", strtotime($end_time));
+			$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
+			$prior_status = $request->input('prior_status');
+			
+			$hid_slot_id=trim($request->input('hid_slot_id'));
+			$slot_action=trim($request->input('slot_action'));
+			$created_by=Auth::user() -> id;
+	        if($prior_status == "true"){
+				$prior_status = TRUE;
+			}else{
+				 $prior_status=intval($prior_status);
 			}
-			$arr['start_time'] = $start_time_12;
-			$arr['end_time'] = $end_time_12;
-			$arr['duration'] = $abs_time_interval;
-			$arr['department'] = Auth::user()->department;
-			$arr['slot_date'] = $request -> input('slot_date');
-			$arr['prior_status'] = $prior_status;
-			$arr['auth_user_id'] = Auth::user() -> id;
-			$arr['auth_user_role'] = Auth::user() -> role;
-			$arr['slot_desc'] = $request -> input('description');
-			$arr['created_by']   =$created_by;
-
-		}
-
+			$count_records = DB::table('slots as s')
+					-> where('s.slot_date', $slot_date)
+					-> where('s.status', 2)
+					-> where(function($q) use ($start_time, $end_time) {
+				$q -> where(function($query) use ($start_time, $end_time) {
+					$query -> whereBetween('s.slot_fromtime', array($start_time, $end_time)) -> orWhereBetween('s.slot_totime', array($start_time, $end_time));
+				}) -> orWhere(function($query) use ($start_time, $end_time) {
+					$query -> where('s.slot_fromtime', '<=', $start_time) -> where('s.slot_totime', '>=', $end_time);
+				});
+			}) -> count();
+			if ($count_records >= 1) {
+				$arr['status'] = false;
+				$arr['slot_status'] = false;
+			} else {
+				$interval = strtotime($end_time) - strtotime($start_time);
+				$abs_time_interval = (abs($interval) / 3600) * 60;
+				if ($interval <= 0 || $abs_time_interval > 450) {
+					$arr['status'] = false;
+	
+				} else {
+	
+					$booking_data = array(
+									"slot_date" => $slot_date,
+									"no_of_joinee" => trim($request -> input('no_of_joinee')),
+									"slot_fromtime" => $start_time,
+									"slot_totime" => $end_time,
+									"slot_duration" => $abs_time_interval,
+									"slot_desc" => $request -> input('description'),
+									"prior_status" => $prior_status,
+									"created_by" => Auth::user()->id
+					);
+	
+					if($slot_action==0 || $slot_action==2){
+					$slot_id = DB::table('slots')->insertGetId($booking_data);
+				    }
+					elseif($slot_action==1)
+				    {
+				    	DB::table('slots')
+			            ->where('id', $hid_slot_id)
+			            ->update($booking_data);
+				    	$slot_id=$hid_slot_id;
+				    }
+					$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 1);
+					DB::table('slots_trans') -> insert(array($trans_data));
+					$arr['status'] = TRUE;
+					
+				}
+				$arr['start_time'] = $start_time_12;
+				$arr['end_time'] = $end_time_12;
+				$arr['duration'] = $abs_time_interval;
+				$arr['department'] = Auth::user()->department;
+				$arr['slot_date'] = $request -> input('slot_date');
+				$arr['prior_status'] = $prior_status;
+				$arr['auth_user_id'] = Auth::user() -> id;
+				$arr['auth_user_role'] = Auth::user() -> role;
+				$arr['slot_desc'] = $request -> input('description');
+				$arr['created_by']   =$created_by;
+				}
+			}
 		return Response::json($arr);
 	}
 
@@ -148,80 +145,90 @@ class SlotController extends Controller {
 	*   To show a list of slots
 	*/
 	public function showSlotList(Request $request) {
-		   $users = DB::table('users')->select( DB::raw('DISTINCT(department)') )->groupBy('department')->get();
+	  	
+	  		
+	  $users = DB::table('users')->select( DB::raw('DISTINCT(department)') )->groupBy('department')->get();
 	  if($request->input('btn_sub')){
        $slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 			 $slot_date_frm=$request -> input('slot_date');
 			 $prior_status=$request -> input('prior_status');
+			 $slot_status = $request->input('slot_status');
+		     
       if ($request->input('department') != '') {
 			 $department=$request->input('department');
 			 }
 		 else{
               $department='';
               }
-							if(filter_var($prior_status, FILTER_VALIDATE_BOOLEAN)){
+						if(filter_var($prior_status, FILTER_VALIDATE_BOOLEAN)){
 								$prior_status = TRUE;
-							}
-							else{
-							 $prior_status=intval($prior_status);
-						}
-
-						if($department!=''){
-              $matchThese = ['slot_date' => $slot_date, 'department' => $department,'prior_status' => $prior_status];
 						}
 						else{
+							 $prior_status=intval($prior_status);
+						}
+						if($department!='' && $slot_status!=''){
+                        $matchThese = ['slot_date' => $slot_date, 'department' => $department,'prior_status' => $prior_status,'status' => $slot_status];
+						}
+						elseif($department=='' && $slot_status==''){
 							$matchThese = ['slot_date' => $slot_date,'prior_status' => $prior_status];
 						}
-						$session_array = array(
+                        elseif($department!='' && $slot_status==''){
+							$matchThese = ['slot_date' => $slot_date,'prior_status' => $prior_status, 'department' => $department];
+						}
+						elseif($department=='' && $slot_status!=''){
+							$matchThese = ['slot_date' => $slot_date,'prior_status' => $prior_status,'status' => $slot_status];
+						}
+
+					 $fliter_slot = array(
 					 'slot_date' => $slot_date_frm,
 					 'department' => $department,
-					 'prior_status' => $prior_status
+					 'prior_status' => $prior_status,
+					 'slot_status' => $slot_status
 					 );
-
-
-         if (Auth::user() -> role == 1) {
-							 $slots = Slot::where($matchThese)
-							 ->join('status', 'slots.status', '=', 'status.id')
-							 ->join('users', 'slots.created_by', '=', 'users.id')
-							 ->select('slots.*', 'status.short_name','users.department')
-							 ->orderBy('slots.slot_date', 'desc')
-							 ->orderBy('slots.slot_fromtime', 'desc')
-							 -> get();
-                }
-         else if (Auth::user() -> role == 0) {
-              $slots = Slot::where($matchThese)
-              ->where('slots.created_by',Auth::user() -> id)
-              ->join('status', 'slots.status', '=', 'status.id')
-			        ->join('users', 'slots.created_by', '=', 'users.id')
-			        ->select('slots.*', 'status.short_name','users.department')
-			        ->orderBy('slots.slot_date', 'desc')
-			        ->orderBy('slots.slot_fromtime', 'desc')
-			        -> get();
-              }
+               Session::push('filter_slot', $fliter_slot);
+		       if (Auth::user() -> role == 1) {
+									 $slots = Slot::where($matchThese)
+									 ->join('status', 'slots.status', '=', 'status.id')
+									 ->join('users', 'slots.created_by', '=', 'users.id')
+									 ->select('slots.*', 'status.short_name','users.department')
+									 ->orderBy('slots.slot_date', 'desc')
+									 ->orderBy('slots.slot_fromtime', 'desc')
+									 -> get();
+		         }
+	         else if (Auth::user() -> role == 0) {
+	              $slots = Slot::where($matchThese)
+	              ->where('slots.created_by',Auth::user() -> id)
+	              ->join('status', 'slots.status', '=', 'status.id')
+				        ->join('users', 'slots.created_by', '=', 'users.id')
+				        ->select('slots.*', 'status.short_name','users.department')
+				        ->orderBy('slots.slot_date', 'desc')
+				        ->orderBy('slots.slot_fromtime', 'desc')
+				        -> get();
+	              }
               }
 		else{
-        if (Auth::user() -> role == 1) {
-			$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
-		    ->join('status', 'slots.status', '=', 'status.id')
-			->select('slots.*','status.short_name','users.department')
-			->orderBy('slots.slot_date', 'desc')
-			->orderBy('slots.slot_fromtime', 'desc')
-      -> get();
-            }
-       else if (Auth::user() -> role == 0) {
-		    $slots = Slot::where('slots.created_by', Auth::user() -> id)
-			->where('slots.status','!=','7')
-			->join('status', 'slots.status', '=', 'status.id')
-			->join('users', 'slots.created_by', '=', 'users.id')
-			->select('slots.*', 'status.short_name','users.department')
-			->orderBy('slots.slot_date', 'desc')
-			->orderBy('slots.slot_fromtime', 'desc')
-      -> get();
-          }
-          $session_array='';
+	        if (Auth::user() -> role == 1) {
+				$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
+			    ->join('status', 'slots.status', '=', 'status.id')
+				->select('slots.*','status.short_name','users.department')
+				->orderBy('slots.slot_date', 'desc')
+				->orderBy('slots.slot_fromtime', 'desc')
+	      -> get();
+	            }
+	       else if (Auth::user() -> role == 0) {
+			    $slots = Slot::where('slots.created_by', Auth::user() -> id)
+				->where('slots.status','!=','7')
+				->join('status', 'slots.status', '=', 'status.id')
+				->join('users', 'slots.created_by', '=', 'users.id')
+				->select('slots.*', 'status.short_name','users.department')
+				->orderBy('slots.slot_date', 'desc')
+				->orderBy('slots.slot_fromtime', 'desc')
+	      -> get();
+	          }
+	          $fliter_slot='';
           }
       $slots=$slots->toArray();
-      return view('slots.list', compact('slots','users','session_array'));
+      return view('slots.list', compact('slots','users','fliter_slot'));
 }
 
 

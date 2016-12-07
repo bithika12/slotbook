@@ -1,11 +1,11 @@
 <script type="text/javascript">
-
 /*
 * Ajax slot request submit
 */
 $(document).ready(function() {
 		$("#request_btn").click(function(e) {
 			e.preventDefault();
+			$(".fixed-message.error").addClass("hidden");
 			$get_cal_from_time = converttimeformat($("#slot_from_time").val());
 			$get_cal_to_time = converttimeformat($("#slot_to_time").val());
 			$chk_bx = $('#prior_status').prop('checked');
@@ -26,7 +26,11 @@ $(document).ready(function() {
 				dataType : "json",
 				success : function(json) {
 				//console.log(json);
-					if (json.hasOwnProperty('slot_status')) {
+					$(".fixed-message.error").empty();
+					if (json.hasOwnProperty('slot_time')) {
+						$(".fixed-message.error").removeClass("hidden").html("Slot time must be ahead of current time.");
+					}
+					else if (json.hasOwnProperty('slot_status')) {
 						$(".fixed-message.error").removeClass("hidden").html("Slot already exists on this time.");
 					}
 					else if(!json.status){
@@ -57,8 +61,6 @@ $(document).ready(function() {
 				},
 			});
 		});
-
-
 
 	/*
 	* Ajax Slot view on date-selection
