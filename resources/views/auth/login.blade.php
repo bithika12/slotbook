@@ -23,6 +23,7 @@
             </div>
             <button class="waves-effect full-width waves-light btn green accent-4 margin-bottom-x">
                 GET STARTED</button>
+                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
             </form>
         </div>
     </div>
