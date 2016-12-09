@@ -1,47 +1,29 @@
 @extends('layouts.app')
-
-<!-- Main Content -->
+@section('title') Send Password Reset Link @stop
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<main class="container login-auth margin-bottom-4x">
+    <div class="row center-align">
+        <h3 class="title">Reset Password</h3>
+        @if (session('status'))
+            <div class="alert alert-success">
+                    {{ session('status') }}
+            </div>
+        @endif
+        <div class="margin-top-2x white z-depth-1 col s12 m5 card-space clear auto float left-align">
+           <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
+                {{CSRF_FIELD()}}
+                <div class="row margin-bottom-off">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix grey-text text-lighten-2">perm_identity</i>
+                    <input id="email" type="text" name="email" value="{{old('email')}}">
+                    <label for="email">Enter Email Address</label>
                 </div>
             </div>
+            <button class="waves-effect full-width waves-light btn green accent-4 margin-top-2x margin-bottom-x">
+                SEND PASSWORD RESET LINK</button>
+            </form>
         </div>
     </div>
-</div>
+</main>
 @endsection
