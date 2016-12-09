@@ -50,23 +50,21 @@
 				</div>
 			</div>
 
-			<button type="submit" value="filter_btn" name="btn_sub" id="btn_sub" class="col s12 waves-effect waves-light btn margin-bottom-x margin-top-x green accent-4">
+			<button type="submit" value="filter_btn" name="btn_sub" id="btn_sub" class="col s12 waves-effect waves-light btn margin-top-x light-blue ">
 				Filter
 			</button>
 			<a href="{{URL('/slot/list')}}" class="col s12 waves-effect waves-light btn margin-bottom-x margin-top-x red accent-2">
 				Reset
 			</a>
 		</form>
-		
 	</div>
-
 	<div class="col s8 offset-s1">
 		<h4 class="row left-align left col s12 margin-top-off"> @if (Auth::user() -> role == 0)
 		My Slots - List View
 		@else
 		All Slots - List View
 		@endif </h4>
-		<div class="row left-align">
+		<div class="row left-align" id="totlist">
 			<ul class="collection white" id="list_slots">
 				@if(!empty($slots))
 				@foreach($slots as $slot)
@@ -111,16 +109,18 @@
 				@else
 				<h6 class="blank-slot-info red-text text-accent-2 center-align">You have not created any slot yet.</h6>
 				@endif
-
 			</ul>
 		</div>
 	</div>
 
 	<div class="fixed-action-btn horizontal slot-add">
-		<a class="btn-floating btn-large light-blue z-depth-4" href="{{URL('slot/new')}}"> <i class="large material-icons">add</i> </a>
+		<a class="btn-floating btn-large light-blue z-depth-4" href="{{URL('slot/new')}}"> 
+			<i class="large material-icons">add</i> 
+		</a>
 	</div>
 </main>
 @include('partial.slot')
+@include('partial.list')
 @include('partial.realtime')
 @include('partial.realtime_auth')
 

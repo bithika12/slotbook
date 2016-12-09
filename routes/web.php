@@ -38,8 +38,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('/slot/approve', 'SlotController@approve');
 	Route::post('/slot/cancel', 'SlotController@cancel');
 	
-   Route::post('/slot/list', 'SlotController@showSlotList');
-   Route::post('/slot/list1', 'SlotController@showSlotList1');
+    Route::post('/slot/list', 'SlotController@showSlotList');
+	Route::get('/slot/list/fetch', 'SlotController@fetchListSlot');
+	//Route:get('/slot/list/fetch', 'SlotController@fetchListSlot');
 });
 
 Route::get('/slot/load', 'SlotController@load');

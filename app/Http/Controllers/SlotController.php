@@ -194,6 +194,7 @@ class SlotController extends Controller {
 									 ->select('slots.*', 'status.short_name','users.department')
 									 ->orderBy('slots.slot_date', 'desc')
 									 ->orderBy('slots.slot_fromtime', 'desc')
+									 ->limit(5)
 									 -> get();
 		         }
 	         else if (Auth::user() -> role == 0) {
@@ -204,16 +205,19 @@ class SlotController extends Controller {
 				        ->select('slots.*', 'status.short_name','users.department')
 				        ->orderBy('slots.slot_date', 'desc')
 				        ->orderBy('slots.slot_fromtime', 'desc')
+						->limit(5)
 				        -> get();
 	              }
               }
 		else{
 	        if (Auth::user() -> role == 1) {
+
 				$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 			    ->join('status', 'slots.status', '=', 'status.id')
 				->select('slots.*','status.short_name','users.department')
 				->orderBy('slots.slot_date', 'desc')
 				->orderBy('slots.slot_fromtime', 'desc')
+				->limit(5)
 	      -> get();
 	            }
 	       else if (Auth::user() -> role == 0) {
@@ -224,6 +228,7 @@ class SlotController extends Controller {
 				->select('slots.*', 'status.short_name','users.department')
 				->orderBy('slots.slot_date', 'desc')
 				->orderBy('slots.slot_fromtime', 'desc')
+				->limit(5)
 	      -> get();
 	          }
 	          $fliter_slot='';
@@ -346,6 +351,28 @@ public function showSlotList1(Request $request) {
 			$arr['auth_user_role']   = $auth_user_role;
 
 		return Response::json($arr);
+	}
+
+	/*
+	* Ajax scroll fetch slot list
+	*/
+
+	public function fetchListSlot(Request $request){
+		$limitCount = 5;
+		$limitStart = $request->input('limitStart');
+		if(isset($limitStart ) || !empty($limitStart)) {
+		$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
+		         ->where('slots.status','!=','7')
+			    ->join('status', 'slots.status', '=', 'status.id')
+				->select('slots.*','status.short_name','users.department')
+				->orderBy('slots.slot_date', 'desc')
+				->orderBy('slots.slot_fromtime', 'desc')
+				//->limit($limitCount,$limitStart)
+				->skip($limitStart)->take($limitCount)
+	      -> get();
+		 return Response::json($slots);
+		}
+
 	}
 
 }
