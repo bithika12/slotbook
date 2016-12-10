@@ -42,7 +42,7 @@
 				<div class="row">
 					<div class="input-field col s12">
 						<i class="material-icons prefix grey-text text-lighten-2">rate_review</i>
-						<textarea id="description" name="description" class="materialize-textarea" length="50">{{ isset($slotToUpdate) ? $slotToUpdate->slot_desc : '' }}</textarea>
+						<textarea id="description" name="description" class="materialize-textarea" maxlength="50" placeholder="50 characters allowed.." length="50">{{ isset($slotToUpdate) ? $slotToUpdate->slot_desc : '' }}</textarea>
 						<label for="description">Give A Description</label>
 					</div>
 
@@ -61,7 +61,7 @@
 						checked
 						@endif
 						name="prior_status">
-						<label for="prior_status" class="red-text text-darken-1"> Important? Mark for attention (Admin Approval Required). </label>
+						<label for="prior_status" class="red-text text-darken-1"> Mark it as important </label>
 					</div>
 				</div>
                 <input type="hidden" name="hid_slot_id" id="hid_slot_id" value="

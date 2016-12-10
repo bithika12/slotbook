@@ -46,7 +46,7 @@
 			<div class="row margin-bottom-off no-padding">
 				<div class="input-field col s12 margin-top-off margin-bottom-2x no-padding">
 					<input type="checkbox" class="filled-in" id="prior_status" name="prior_status" @if(isset($fliter_slot) && !empty($fliter_slot) && $fliter_slot['prior_status']==1)checked @endif />
-					<label for="prior_status">Show only prior slots ?</label>
+					<label for="prior_status">Show only priority slots</label>
 				</div>
 			</div>
 
@@ -101,7 +101,7 @@
 						@endif
 					</p>
 					@if($slot['prior_status']==1)
-					<a href="#!" class="secondary-content"> <i class="material-icons red-text tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on prior basis">error</i> </a>
+					<a href="#!" class="secondary-content"> <i class="material-icons red-text tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on priority basis">error</i> </a>
 					@endif
 				</li>
 				<input type="hidden" name="hid_slot_id" id="hid_slot_id" value="{{$slot['id']}}">

@@ -40,7 +40,9 @@
 				@if(!empty($today_slots))
 				@foreach($today_slots as $slot)
 				<div class="card-panel col s12 m3 offset-m1 border-blue white no-box-shadow slot-box left-origin">
+				     @if($slot['prior_status']==1)
 					<i class="small material-icons red-text text-lighten-1 prior-check absolute tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on prior basis"> error </i>
+					@endif
 					<i class="medium material-icons light-blue-text">query_builder</i>
 					<p class="slot-time-range blue-grey-text">
 						<span class="black-text">{{$slot['slot_fromtime']}} - {{$slot['slot_totime']}}</span>

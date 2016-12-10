@@ -48,6 +48,7 @@ class SlotController extends Controller {
 		 $today_slots = Slot::where('slots.slot_date', date("Y-m-d"))
 		             ->where('slots.status','2')
 		             ->join('users', 'slots.created_by', 'users.id')
+					 ->orderBy('slots.slot_fromtime', 'asc')
 				     ->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
           -> get();
           $today_slots=$today_slots->toArray();
@@ -287,6 +288,7 @@ public function showSlotList1(Request $request) {
 	        $today_slots = Slot::where('slots.slot_date', $slot_date)
 			             ->where('slots.status','2')
 			             ->join('users', 'slots.created_by', 'users.id')
+						 ->orderBy('slots.slot_fromtime', 'asc')
 					     ->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
 	           -> get();
 	        $today_slots=$today_slots->toArray();
@@ -361,16 +363,34 @@ public function showSlotList1(Request $request) {
 		$limitCount = 5;
 		$limitStart = $request->input('limitStart');
 		if(isset($limitStart ) || !empty($limitStart)) {
+	      if (Auth::user() -> role == 1) {		
 		$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 		         ->where('slots.status','!=','7')
 			    ->join('status', 'slots.status', '=', 'status.id')
-				->select('slots.*','status.short_name','users.department')
+				->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),DB::raw('DATE_FORMAT(`slots`.`slot_date`, "%j %S %F") as slot_date'),
+'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
+				//->select('slots.*','status.short_name','users.department')
 				->orderBy('slots.slot_date', 'desc')
 				->orderBy('slots.slot_fromtime', 'desc')
 				//->limit($limitCount,$limitStart)
 				->skip($limitStart)->take($limitCount)
 	      -> get();
-		 return Response::json($slots);
+		 
+		}
+		     else if (Auth::user() -> role == 0) {
+			    $slots = Slot::where('slots.created_by', Auth::user() -> id)
+				->where('slots.status','!=','7')
+				->join('status', 'slots.status', '=', 'status.id')
+				->join('users', 'slots.created_by', '=', 'users.id')
+				->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),DB::raw('DATE_FORMAT(`slots`.`slot_date`, "%d-%m-%Y") as slot_date'),
+'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
+				//->select('slots.*', 'status.short_name','users.department')
+				->orderBy('slots.slot_date', 'desc')
+				->orderBy('slots.slot_fromtime', 'desc')
+				->skip($limitStart)->take($limitCount)
+	      -> get();
+	          }
+			  return Response::json($slots);
 		}
 
 	}

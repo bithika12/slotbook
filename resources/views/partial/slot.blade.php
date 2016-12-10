@@ -85,6 +85,7 @@ $(document).ready(function() {
 			$('.preloader').removeClass("hidden");
 		},
 		success : function(json) {
+			//console.log(json);
 			setTimeout(function() {$(".preloader").addClass("hidden");}, 500);
 			var getParse = JSON.parse(json);
 			var ar=getParse[0];
@@ -96,9 +97,9 @@ $(document).ready(function() {
 				var duration=getParse[i]['slot_duration'];
 				var prior_status=getParse[i]['prior_status'];
 				var department=getParse[i]['department'];
+				
 				$("#slot-details").append("<div class='card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin'>"
-				+
-				(prior_status  == 1 ? "<i class='small material-icons red-text text-lighten-1 prior-check absolute tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on prior basis'>error</i>" : "") +
+				+(prior_status  == 1 ? "<i class='small material-icons red-text text-lighten-1 prior-check absolute tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on priority basis'>error</i>" : "") +
 				"<i class='medium material-icons blue-text text-lighten-1'>query_builder</i><p class='slot-time-range blue-grey-text'><span class='black-text'>"
 				+ slot_fromtime +
 				" - "
@@ -193,7 +194,7 @@ function need_approv(id){
 
 	swal({
 	  title: "Are you sure to approve?",
-	  text: "Click ok to submit the slot else cancel it",
+	  text: "Click OK to book the slot",
 	  type: "info",
 	  showCancelButton: true,
 	  closeOnConfirm: false,
@@ -240,5 +241,4 @@ function need_approv(id){
 	  }, 2000);
 	});
 	};
-
-	</script>
+</script>
