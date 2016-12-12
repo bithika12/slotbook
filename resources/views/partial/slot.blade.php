@@ -119,51 +119,7 @@ $(document).ready(function() {
 
 	});
 });
-
-	//Delete Slot Booking
-		$("a.link.cancel").click(function(e) {
-			e.preventDefault();
-			$slot_id = $(this).attr("data-slot-id");
-	      	swal({
-				  title: "Are you sure to cancel?",
-				  text: "Give a comment to cancel the slot",
-				  type: "input",
-				  showCancelButton: true,
-				  closeOnConfirm: false,
-				  confirmButtonColor: "#DD6B55",
-				  cancelButtonText: "Get Back",
-				  confirmButtonText: "Cancel Slot !",
-				  animation: "slide-from-top",
-				  inputPlaceholder: "Write something"
-				},
-				function(inputValue){
-				  if (inputValue === false) return false;
-
-				  else if (inputValue === "") {
-				    swal.showInputError("You need to write something!");
-				    return false
-				  }
-				  else{
-				  	$.ajax({
-							type: "POST",
-							url: {!! json_encode(url('/slot/cancel')) !!},
-						    data: {
-							'_token': $("input[name='_token']").val(),
-							'slot_id' : $slot_id,
-							'comment' : inputValue
-			               },
-					dataType : "json",
-					success : function(json) {
-						//console.log(json);
-						}
-				  });
-               }
-			swal("Cancelled!", "You wrote: " + inputValue, "success");
-			setTimeout(function() {
-				location.reload(1)
-				}, 1000);
-			});
-		});
+	
 	});
 
 	function converttimeformat(time) {
@@ -241,4 +197,47 @@ function need_approv(id){
 	  }, 2000);
 	});
 	};
+	///cencel slot////////
+	function slot_cancel(id){
+			
+	      	swal({
+				  title: "Are you sure to cancel?",
+				  text: "Give a comment to cancel the slot",
+				  type: "input",
+				  showCancelButton: true,
+				  closeOnConfirm: false,
+				  confirmButtonColor: "#DD6B55",
+				  cancelButtonText: "Get Back",
+				  confirmButtonText: "Cancel Slot !",
+				  animation: "slide-from-top",
+				  inputPlaceholder: "Write something"
+				},
+				function(inputValue){
+				  if (inputValue === false) return false;
+
+				  else if (inputValue === "") {
+				    swal.showInputError("You need to write something!");
+				    return false
+				  }
+				  else{
+				  	$.ajax({
+							type: "POST",
+							url: {!! json_encode(url('/slot/cancel')) !!},
+						    data: {
+							'_token': $("input[name='_token']").val(),
+							'slot_id' : id,
+							'comment' : inputValue
+			               },
+					dataType : "json",
+					success : function(json) {
+						//console.log(json);
+						}
+				  });
+               }
+			swal("Cancelled!", "You wrote: " + inputValue, "success");
+			setTimeout(function() {
+				location.reload(1)
+				}, 1000);
+			});
+		}
 </script>

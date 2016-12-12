@@ -367,8 +367,8 @@ public function showSlotList1(Request $request) {
 		$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 		         ->where('slots.status','!=','7')
 			    ->join('status', 'slots.status', '=', 'status.id')
-				->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),DB::raw('DATE_FORMAT(`slots`.`slot_date`, "%j %S %F") as slot_date'),
-'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
+				->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),DB::raw('DATE_FORMAT(`slots`.`slot_date`, "%D %M") as slot_date'),
+'slots.slot_duration','slots.prior_status','slots.status','slots.slot_desc','slots.id','users.department','slots.created_by')
 				//->select('slots.*','status.short_name','users.department')
 				->orderBy('slots.slot_date', 'desc')
 				->orderBy('slots.slot_fromtime', 'desc')
@@ -382,8 +382,8 @@ public function showSlotList1(Request $request) {
 				->where('slots.status','!=','7')
 				->join('status', 'slots.status', '=', 'status.id')
 				->join('users', 'slots.created_by', '=', 'users.id')
-				->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),DB::raw('DATE_FORMAT(`slots`.`slot_date`, "%d-%m-%Y") as slot_date'),
-'slots.slot_duration','slots.prior_status','slots.status','slots.id','users.department')
+				->select(DB::raw('DATE_FORMAT(`slots`.`slot_fromtime`, "%h : %i %p") as slot_fromtime'),DB::raw('DATE_FORMAT(`slots`.`slot_totime`, "%h : %i %p") as slot_totime'),DB::raw('DATE_FORMAT(`slots`.`slot_date`, "%D %M") as slot_date'),
+'slots.slot_duration','slots.prior_status','slots.status','slots.slot_desc','slots.id','users.department','slots.created_by')
 				//->select('slots.*', 'status.short_name','users.department')
 				->orderBy('slots.slot_date', 'desc')
 				->orderBy('slots.slot_fromtime', 'desc')

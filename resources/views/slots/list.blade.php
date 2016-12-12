@@ -80,7 +80,7 @@
 					@endif 
 					<!--Only for upcoming request-->
 					@if($slot['status']!= 4 && $slot['slot_date'] >= date('Y-m-d'))
-					<a class="red-text text-accent-3 mod-action link cancel" data-slot-id="{{$slot['id']}}" href="#!"> <i class="material-icons tiny relative">close</i> Cancel Request </a>
+					<a class="red-text text-accent-3 mod-action link cancel" onclick="slot_cancel({{$slot['id']}});" data-slot-id="{{$slot['id']}}" href="#!"> <i class="material-icons tiny relative">close</i> Cancel Request </a>
 					@endif
 					@if($slot['status']== 4)
 					<a class="red-text text-accent-3 mod-action"> <i class="material-icons tiny relative">close</i> Cancelled</a>
@@ -107,7 +107,7 @@
 				<input type="hidden" name="hid_slot_id" id="hid_slot_id" value="{{$slot['id']}}">
 				@endforeach
 				@else
-				<h6 class="blank-slot-info red-text text-accent-2 center-align">You have not created any slot yet.</h6>
+				<h6 class="blank-slot-info red-text text-accent-2 center-align">No Results Found</h6>
 				@endif
 			</ul>
 		</div>
