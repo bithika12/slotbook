@@ -13,7 +13,7 @@ use Response;
 use Session;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Contracts\Pagination\Paginator;
 class SlotController extends Controller {
 
 	/*
@@ -216,10 +216,11 @@ class SlotController extends Controller {
 				$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 			    ->join('status', 'slots.status', '=', 'status.id')
 				->select('slots.*','status.short_name','users.department')
-				->orderBy('slots.slot_date', 'desc')
-				->orderBy('slots.slot_fromtime', 'desc')
-				->limit(5)
-	      -> get();
+				//->orderBy('slots.slot_date', 'desc')
+				//->orderBy('slots.slot_fromtime', 'desc')
+				//->limit(5)
+	      ->paginate(5);
+	      
 	            }
 	       else if (Auth::user() -> role == 0) {
 			    $slots = Slot::where('slots.created_by', Auth::user() -> id)
@@ -229,13 +230,16 @@ class SlotController extends Controller {
 				->select('slots.*', 'status.short_name','users.department')
 				->orderBy('slots.slot_date', 'desc')
 				->orderBy('slots.slot_fromtime', 'desc')
-				->limit(5)
+				//->limit(5)
 	      -> get();
 	          }
 	          $fliter_slot='';
           }
+
+		  //$slots=Slot::paginate(5);
+      //return view('slots.list2',compact('slots'))->with('i', ($request->input('page', 1) - 1) * 5);
       $slots=$slots->toArray();
-      return view('slots.list', compact('slots','users','fliter_slot'));
+      return view('slots.list', compact('slots','users','fliter_slot'))->with('i', ($request->input('page', 1) - 1) * 5);;
 }
 
 

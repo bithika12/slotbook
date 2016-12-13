@@ -120,7 +120,7 @@
 	</div>
 </main>
 @include('partial.slot')
-@include('partial.list')
+<!--@include('partial.list')-->
 @include('partial.realtime')
 @include('partial.realtime_auth')
 

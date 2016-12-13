@@ -32,7 +32,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
                 $.each(data, function(index, json) {
-                    var id=base64.encode(encodeURI(json.slot_id));
+                   
                     if(json.created_by == {!! json_encode(Auth::user()->id)!!}){
 
 		  $("#list_slots").prepend("<li class='collection-item avatar'><i class='material-icons circle grey lighten-1'>today</i><span class='title black-text'>"
@@ -44,7 +44,7 @@ $(document).ready(function() {
             +(json.status  == 2 ?   
 		  	"<i class='relative material-icons green-text text-accent-4'>done</i>" : "")+(json.status  != 4 && json.slot_date  >= date?
 "<a class='red-text text-accent-3 mod-action link cancel' href='#!' onclick='slot_cancel("+ json.slot_id + ");'><i class='material-icons tiny relative'>close</i> Cancel Request </a>":"")+(json.status  == 4?
-"<a class='red-text text-accent-3 mod-action'> <i class='material-icons tiny relative'>close</i> Cancelled</a>": "")+"<p class='blue-grey-text text-darken-4'>"+ json.slot_desc +"<br><br/><a class='light-blue white-text mod-action modify link' href='"+ {!! json_encode('/slot/edit','+ Base64.encode(encodeURI(json.slot_id)) +')!!}+ "'> <i class='material-icons tiny relative'>edit</i>Modify </a><a class='light-blue white-text margin-left-0-5x mod-action link repeat' href=''> <i class='material-icons tiny relative'>loop</i> Repeat </a></p>"+(json.prior_status  == 1 ? "<a href='#!' class='secondary-content'> <i class='material-icons red-text tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on priority basis'>error</i></a>" : "") +"</li>"
+"<a class='red-text text-accent-3 mod-action'> <i class='material-icons tiny relative'>close</i> Cancelled</a>": "")+"<p class='blue-grey-text text-darken-4'>"+ json.slot_desc +"<br><br/><a class='light-blue white-text mod-action modify link' href='a.php'> <i class='material-icons tiny relative'>edit</i>Modify </a><a class='light-blue white-text margin-left-0-5x mod-action link repeat' href=''> <i class='material-icons tiny relative'>loop</i> Repeat </a></p>"+(json.prior_status  == 1 ? "<a href='#!' class='secondary-content'> <i class='material-icons red-text tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on priority basis'>error</i></a>" : "") +"</li>"
 		  	);
 
 		  }
@@ -67,7 +67,7 @@ $(document).ready(function() {
 		  }
 		  else
 		  {
-		  	$("#list_slots").prepend("<h6 class='red-text text-accent-1 center-align'>You have not created any slot yet.</h6>");
+		  	$("#list_slots").prepend("<h6 class='red-text text-accent-1 center-align'>No Results Found.</h6>");
 		  }
 
                 });
