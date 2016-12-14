@@ -19,7 +19,7 @@
 
 			<div class="row left-align margin-bottom-off">
 				<div class="input-field col s12">
-					<select name="department" @if (!Auth::user()->role) disabled @endif> 
+					<select name="department" @if (!Auth::user()->role) disabled @endif>
 						<option value="" disabled selected>Choose your option</option>
 							@if (Auth::user() -> role == 1)
 								@foreach($users as $user)
@@ -73,11 +73,11 @@
 					<span class="title black-text slot-details">
 						{!! date("jS F", strtotime($slot["slot_date"])) !!} | {!! strtoupper(date("g : i a", strtotime($slot["slot_fromtime"]))) !!} - {!! strtoupper(date("g : i a", strtotime($slot["slot_totime"]))) !!}
 					</span>
-					@if($slot['status']== 2) 
+					@if($slot['status']== 2)
 						<a class="mod-action link done relative">
 							<i class="relative material-icons green-text text-accent-4">done</i>
 						</a>
-					@endif 
+					@endif
 					<!--Only for upcoming request-->
 					@if($slot['status']!= 4 && $slot['slot_date'] >= date('Y-m-d'))
 					<a class="red-text text-accent-3 mod-action link cancel" onclick="slot_cancel({{$slot['id']}});" data-slot-id="{{$slot['id']}}" href="#!"> <i class="material-icons tiny relative">close</i> Cancel Request </a>
@@ -114,13 +114,13 @@
 	</div>
 
 	<div class="fixed-action-btn horizontal slot-add">
-		<a class="btn-floating btn-large light-blue z-depth-4" href="{{URL('slot/new')}}"> 
-			<i class="large material-icons">add</i> 
+		<a class="btn-floating btn-large light-blue z-depth-4" href="{{URL('slot/new')}}">
+			<i class="large material-icons">add</i>
 		</a>
 	</div>
 </main>
 @include('partial.slot')
-<!--@include('partial.list')-->
+@include('partial.list')
 @include('partial.realtime')
 @include('partial.realtime_auth')
 

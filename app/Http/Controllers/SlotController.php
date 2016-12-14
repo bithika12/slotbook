@@ -71,7 +71,7 @@ class SlotController extends Controller {
 			$end_time_12  = date("g : i a", strtotime($end_time));
 			$slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 			$prior_status = $request->input('prior_status');
-			
+
 			$hid_slot_id=trim($request->input('hid_slot_id'));
 			$slot_action=trim($request->input('slot_action'));
 			$created_by=Auth::user() -> id;
@@ -98,9 +98,9 @@ class SlotController extends Controller {
 				$abs_time_interval = (abs($interval) / 3600) * 60;
 				if ($interval <= 0 || $abs_time_interval > 450) {
 					$arr['status'] = false;
-	
+
 				} else {
-	
+
 					$booking_data = array(
 									"slot_date" => $slot_date,
 									"no_of_joinee" => trim($request -> input('no_of_joinee')),
@@ -111,7 +111,7 @@ class SlotController extends Controller {
 									"prior_status" => $prior_status,
 									"created_by" => Auth::user()->id
 					);
-	
+
 					if($slot_action==0 || $slot_action==2){
 					$slot_id = DB::table('slots')->insertGetId($booking_data);
 				    }
@@ -125,7 +125,7 @@ class SlotController extends Controller {
 					$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 1);
 					DB::table('slots_trans') -> insert(array($trans_data));
 					$arr['status'] = TRUE;
-					
+
 				}
 				$arr['start_time'] = $start_time_12;
 				$arr['end_time'] = $end_time_12;
@@ -148,14 +148,14 @@ class SlotController extends Controller {
 	public function showSlotList(Request $request) {
 	  	$currentdate = date('Y-m-d');
 	  	$currenttime = date("H:i:s");
-	  			
+
 	  $users = DB::table('users')->select( DB::raw('DISTINCT(department)') )->groupBy('department')->get();
 	  if($request->input('btn_sub')){
        $slot_date = date('Y-m-d', strtotime(trim($request -> input('slot_date'))));
 			 $slot_date_frm=$request -> input('slot_date');
 			 $prior_status=$request -> input('prior_status');
 			 $slot_status = $request->input('slot_status');
-		     
+
       if ($request->input('department') != '') {
 			 $department=$request->input('department');
 			 }
@@ -216,11 +216,11 @@ class SlotController extends Controller {
 				$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 			    ->join('status', 'slots.status', '=', 'status.id')
 				->select('slots.*','status.short_name','users.department')
-				//->orderBy('slots.slot_date', 'desc')
-				//->orderBy('slots.slot_fromtime', 'desc')
-				//->limit(5)
-	      ->paginate(5);
-	      
+				->orderBy('slots.slot_date', 'desc')
+				->orderBy('slots.slot_fromtime', 'desc')
+				->limit(5)
+	      ->get();
+
 	            }
 	       else if (Auth::user() -> role == 0) {
 			    $slots = Slot::where('slots.created_by', Auth::user() -> id)
@@ -230,7 +230,7 @@ class SlotController extends Controller {
 				->select('slots.*', 'status.short_name','users.department')
 				->orderBy('slots.slot_date', 'desc')
 				->orderBy('slots.slot_fromtime', 'desc')
-				//->limit(5)
+				->limit(5)
 	      -> get();
 	          }
 	          $fliter_slot='';
@@ -239,7 +239,9 @@ class SlotController extends Controller {
 		  //$slots=Slot::paginate(5);
       //return view('slots.list2',compact('slots'))->with('i', ($request->input('page', 1) - 1) * 5);
       $slots=$slots->toArray();
-      return view('slots.list', compact('slots','users','fliter_slot'))->with('i', ($request->input('page', 1) - 1) * 5);;
+			return view('slots.list', compact('slots','users','fliter_slot'));
+
+    //  return view('slots.list', compact('slots','users','fliter_slot'))->with('i', ($request->input('page', 1) - 1) * 5);;
 }
 
 
@@ -367,7 +369,7 @@ public function showSlotList1(Request $request) {
 		$limitCount = 5;
 		$limitStart = $request->input('limitStart');
 		if(isset($limitStart ) || !empty($limitStart)) {
-	      if (Auth::user() -> role == 1) {		
+	      if (Auth::user() -> role == 1) {
 		$slots = Slot::join('users', 'slots.created_by', '=', 'users.id')
 		         ->where('slots.status','!=','7')
 			    ->join('status', 'slots.status', '=', 'status.id')
@@ -379,7 +381,7 @@ public function showSlotList1(Request $request) {
 				//->limit($limitCount,$limitStart)
 				->skip($limitStart)->take($limitCount)
 	      -> get();
-		 
+
 		}
 		     else if (Auth::user() -> role == 0) {
 			    $slots = Slot::where('slots.created_by', Auth::user() -> id)

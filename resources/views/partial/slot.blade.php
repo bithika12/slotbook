@@ -97,7 +97,7 @@ $(document).ready(function() {
 				var duration=getParse[i]['slot_duration'];
 				var prior_status=getParse[i]['prior_status'];
 				var department=getParse[i]['department'];
-				
+
 				$("#slot-details").append("<div class='card-panel col s12 m3 offset-m1 border-blue white  no-box-shadow slot-box left-origin'>"
 				+(prior_status  == 1 ? "<i class='small material-icons red-text text-lighten-1 prior-check absolute tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on priority basis'>error</i>" : "") +
 				"<i class='medium material-icons blue-text text-lighten-1'>query_builder</i><p class='slot-time-range blue-grey-text'><span class='black-text'>"
@@ -119,7 +119,7 @@ $(document).ready(function() {
 
 	});
 });
-	
+
 	});
 
 	function converttimeformat(time) {
@@ -199,7 +199,7 @@ function need_approv(id){
 	};
 	///cencel slot////////
 	function slot_cancel(id){
-			
+
 	      	swal({
 				  title: "Are you sure to cancel?",
 				  text: "Give a comment to cancel the slot",
