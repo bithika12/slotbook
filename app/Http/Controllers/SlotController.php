@@ -14,6 +14,7 @@ use Session;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Contracts\Pagination\Paginator;
+
 class SlotController extends Controller {
 
 	/*
@@ -235,26 +236,10 @@ class SlotController extends Controller {
 	          }
 	          $fliter_slot='';
           }
-
-		  //$slots=Slot::paginate(5);
-      //return view('slots.list2',compact('slots'))->with('i', ($request->input('page', 1) - 1) * 5);
-      $slots=$slots->toArray();
+            $slots=$slots->toArray();
 			return view('slots.list', compact('slots','users','fliter_slot'));
 
-    //  return view('slots.list', compact('slots','users','fliter_slot'))->with('i', ($request->input('page', 1) - 1) * 5);;
 }
-
-
-
-public function showSlotList1(Request $request) {
-	    if($request->input('btn_sub'))
-	    {
-		echo $request->input('btn_sub');die;
-	}
-
-
-       }
-
 
 	/*
 	 *   To destroy a list of slots
