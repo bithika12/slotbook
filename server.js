@@ -21,7 +21,9 @@ socket.on('new_slot', function(data) {
       created_by : data.created_by,
       auth_user_id : data.auth_user_id,
       auth_user_role : data.auth_user_role,
-      slot_desc : data.slot_desc
+      slot_desc : data.slot_desc,
+      slot_id : data.slot_id,
+      encodeslot_id : data.encodeslot_id
     });
   });
 

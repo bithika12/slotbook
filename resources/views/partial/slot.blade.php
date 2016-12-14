@@ -25,7 +25,7 @@ $(document).ready(function() {
 				},
 				dataType : "json",
 				success : function(json) {
-				//console.log(json);
+				console.log(json);
 					$(".fixed-message.error").empty();
 					if (json.hasOwnProperty('slot_time')) {
 						$(".fixed-message.error").removeClass("hidden").html("Slot time must be ahead of current time.");
@@ -48,12 +48,14 @@ $(document).ready(function() {
 					created_by : json.created_by,
 					auth_user_id : json.auth_user_id,
 					auth_user_role : json.auth_user_role,
-					slot_desc : json.slot_desc
+					slot_desc : json.slot_desc,
+					slot_id : json.slot_id,
+					encodeslot_id : json.encodeslot_id
 					});
-					swal("Success!", "Slot operation updated successfully!", "success");
-						setTimeout(function() {
+					//swal("Success!", "Slot operation updated successfully!", "success");
+						/*setTimeout(function() {
 						window.location = {!! json_encode(url('/slot/list')) !!}
-						}, 2500);
+						}, 2500);*/
 
 					}
 				} , error: function(xhr, status, error) {

@@ -31,7 +31,9 @@ $(document).ready(function() {
             },
             success: function(data) {
                 console.log(data);
+                if(data!=''){
                 $.each(data, function(index, json) {
+                
                   var Base64 = {
 
 
@@ -212,6 +214,7 @@ $(document).ready(function() {
 		  }
 
                 });
+            }
                setTimeout(function() {$(".preloader").addClass("hidden");},2000);
             }
         });

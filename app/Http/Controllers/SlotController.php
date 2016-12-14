@@ -128,16 +128,20 @@ class SlotController extends Controller {
 					$arr['status'] = TRUE;
 
 				}
+				$json_date=date("jS F", strtotime($request -> input('slot_date')));
+				$slotencode_id=base64_encode(urlencode($slot_id));
 				$arr['start_time'] = $start_time_12;
 				$arr['end_time'] = $end_time_12;
 				$arr['duration'] = $abs_time_interval;
 				$arr['department'] = Auth::user()->department;
-				$arr['slot_date'] = $request -> input('slot_date');
+				$arr['slot_date'] = $json_date;
 				$arr['prior_status'] = $prior_status;
 				$arr['auth_user_id'] = Auth::user() -> id;
 				$arr['auth_user_role'] = Auth::user() -> role;
 				$arr['slot_desc'] = $request -> input('description');
 				$arr['created_by']   =$created_by;
+				$arr['encodeslot_id']   =$slotencode_id;
+				$arr['slot_id']   =$slot_id;
 				}
 			}
 		return Response::json($arr);
