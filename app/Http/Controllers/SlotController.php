@@ -130,6 +130,7 @@ class SlotController extends Controller {
 				}
 				$json_date=date("jS F", strtotime($request -> input('slot_date')));
 				$slotencode_id=base64_encode(urlencode($slot_id));
+
 				$arr['start_time'] = $start_time_12;
 				$arr['end_time'] = $end_time_12;
 				$arr['duration'] = $abs_time_interval;
@@ -256,6 +257,7 @@ class SlotController extends Controller {
 		    $slot->save();
 			$trans_data = array("slot_id" => $slot_id, "created_by" => Auth::user() -> id, "status" => 4,'comments' =>$slot_comment);
 			DB::table('slots_trans') -> insert(array($trans_data));
+			
 		}
 			/*
 			 *   To edit a slot
@@ -335,17 +337,22 @@ class SlotController extends Controller {
 
 				$arr['status'] = TRUE;
 			}
-			$arr['start_time'] = $start_time_12;
-			$arr['end_time'] = $end_time_12;
-			$arr['duration'] = $abs_time_interval;
-			$arr['department'] = $department;
-			$arr['slot_date'] = date("jS F",strtotime($slot_date));
-			$arr['prior_status'] = $prior_status;
-			$arr['slot_desc'] = $slot_desc;
-			$arr['created_by']   =$created_by;
-			$arr['status']   =2;
+			
+			$slotencode_id=base64_encode(urlencode($slot_id));
+
+			$arr['start_time']     = $start_time_12;
+			$arr['end_time']       = $end_time_12;
+			$arr['duration']       = $abs_time_interval;
+			$arr['department']     = $department;
+			$arr['slot_date']      = date("jS F",strtotime($slot_date));
+			$arr['prior_status']   = $prior_status;
+			$arr['slot_desc']      = $slot_desc;
+			$arr['created_by']     =$created_by;
+			$arr['status']         =2;
 			$arr['auth_user_id']   = $auth_user_id;
-			$arr['auth_user_role']   = $auth_user_role;
+			$arr['auth_user_role'] = $auth_user_role;
+			$arr['encodeslot_id']  =$slotencode_id;
+			$arr['slot_id']        =$hid_slot_id;
 
 		return Response::json($arr);
 	}

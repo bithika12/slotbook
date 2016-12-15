@@ -68,7 +68,7 @@
 			<ul class="collection white" id="list_slots">
 				@if(!empty($slots))
 				@foreach($slots as $slot)
-				<li class="collection-item avatar">
+				<li class="collection-item avatar" id="hid_li_id{{$slot['id']}}">
 					<i class="material-icons circle blue-grey lighten-2">today</i>
 					<span class="title black-text slot-details">
 						{!! date("jS F", strtotime($slot["slot_date"])) !!} | {!! strtoupper(date("g : i a", strtotime($slot["slot_fromtime"]))) !!} - {!! strtoupper(date("g : i a", strtotime($slot["slot_totime"]))) !!}
@@ -104,7 +104,7 @@
 					<a href="#!" class="secondary-content"> <i class="material-icons red-text tooltipped" data-position="top" data-delay="50" data-tooltip="This slot is reserved on priority basis">error</i> </a>
 					@endif
 				</li>
-				<input type="hidden" name="hid_slot_id" id="hid_slot_id" value="{{$slot['id']}}">
+				<input type="hidden" name="hid_slot_id" id="hid_slot_id{{$slot['id']}}" value="{{$slot['id']}}">
 				@endforeach
 				@else
 				<h6 class="blank-slot-info red-text text-accent-2 center-align">No Results Found</h6>

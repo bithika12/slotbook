@@ -169,6 +169,7 @@ function need_approv(id){
 			'hid_slot_id' :id
 		}, dataType : "json",
 		success : function(json) {
+			
 
 			if (!json) {
 				$(".fixed-message.error").removeClass("hidden").html("Error occured. Try at your end.");
@@ -187,7 +188,9 @@ function need_approv(id){
 					created_by : json.created_by,
 					status : json.status,
 					auth_user_id : json.auth_user_id,
-					auth_user_role : json.auth_user_role
+					auth_user_role : json.auth_user_role,
+					slot_id : json.slot_id,
+					encodeslot_id : json.encodeslot_id
 				});
 				swal("Slot Approved!");
 				//location.reload(1);

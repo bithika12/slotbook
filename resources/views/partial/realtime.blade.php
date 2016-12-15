@@ -8,5 +8,5 @@
 		+(json.prior_status  == 1 ? "<i class='small material-icons red-text text-lighten-1 prior-check absolute tooltipped' data-position='top' data-delay='50' data-tooltip='This slot is reserved on priority basis'>error</i>" : "") +
 		"<i class='medium material-icons blue-text text-lighten-1'>query_builder</i><p class='slot-time-range blue-grey-text'><span class='black-text'>"+ json.start_time +"-"+ json.end_time +"</span><br/><span class='grey-text text-darken-3'>"
 		+ json.duration +"minutes</span><br/>"+ json.department +"</p></div>");
-         location.reload();
+         //location.reload();
 			});</script>

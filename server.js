@@ -35,11 +35,14 @@ socket.on('approve_slot', function(data) {
       duration: data.duration,
       slot_date : data.slot_date,
       slot_desc : data.slot_desc,
-    prior_status : data.prior_status,
-    created_by : data.created_by,
-    status : data.status,
-    auth_user_id : data.auth_user_id,
-    auth_user_role : data.auth_user_role
+      prior_status : data.prior_status,
+      created_by : data.created_by,
+      status : data.status,
+      auth_user_id : data.auth_user_id,
+      auth_user_role : data.auth_user_role,
+      slot_id : data.slot_id,
+      encodeslot_id : data.encodeslot_id
+
     });
   });
 });
