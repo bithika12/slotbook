@@ -338,7 +338,7 @@ class SlotController extends Controller {
 				$arr['status'] = TRUE;
 			}
 			
-			$slotencode_id=base64_encode(urlencode($slot_id));
+			$slotencode_id=base64_encode(urlencode($hid_slot_id));
 
 			$arr['start_time']     = $start_time_12;
 			$arr['end_time']       = $end_time_12;
